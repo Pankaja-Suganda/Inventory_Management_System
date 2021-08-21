@@ -8,6 +8,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
 from django.http import HttpResponse
 from django import template
+from authentication.decorator import allowed_users
 
 @login_required(login_url="/login/")
 def index(request):
@@ -19,6 +20,7 @@ def index(request):
     return HttpResponse(html_template.render(context, request))
 
 @login_required(login_url="/login/")
+@allowed_users(allowed_roles=['manager']) #decorator for testing
 def pages(request):
     context = {}
     # All resource paths end in .html.
