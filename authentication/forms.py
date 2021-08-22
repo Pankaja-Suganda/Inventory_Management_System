@@ -52,7 +52,21 @@ class SignUpForm(UserCreationForm):
                 "class": "form-control"
             }
         ))
-
+    firstname = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "First Name",                
+                "class": "form-control"
+            }
+        ))
+    lastname = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "Last Name",                
+                "class": "form-control"
+            }
+        ))
+        
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('username', 'email', 'password1', 'password2', 'firstname', 'lastname')
