@@ -30,7 +30,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app'  # Enable the inner app 
+    'app',
+    'authentication'
+     # Enable the inner app 
 ]
 
 MIDDLEWARE = [
@@ -49,6 +51,7 @@ LOGIN_REDIRECT_URL = "home"   # Route defined in app/urls.py
 LOGOUT_REDIRECT_URL = "home"  # Route defined in app/urls.py
 TEMPLATE_DIR = os.path.join(CORE_DIR, "core/templates")  # ROOT dir for templates
 PAGES = os.path.join(CORE_DIR, "core/templates/pages")
+
 
 TEMPLATES = [
     {
@@ -124,3 +127,5 @@ STATICFILES_DIRS = (
 )
 #############################################################
 #############################################################
+
+AUTH_USER_MODEL = 'authentication.BaseUser'
