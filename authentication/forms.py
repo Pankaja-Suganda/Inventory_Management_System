@@ -25,6 +25,8 @@ class LoginForm(forms.Form):
 
 class SignUpForm(UserCreationForm):
     username = forms.CharField(
+        label='Enter Username',
+        help_text='Required',
         widget=forms.TextInput(
             attrs={
                 "placeholder" : "Username",                
@@ -32,6 +34,8 @@ class SignUpForm(UserCreationForm):
             }
         ))
     email = forms.EmailField(
+        label='Enter Email Address',
+        help_text='Required',
         widget=forms.EmailInput(
             attrs={
                 "placeholder" : "Email",                
@@ -39,6 +43,8 @@ class SignUpForm(UserCreationForm):
             }
         ))
     password1 = forms.CharField(
+        label='Enter Password',
+        help_text='Required',
         widget=forms.PasswordInput(
             attrs={
                 "placeholder" : "Password",                
@@ -46,27 +52,35 @@ class SignUpForm(UserCreationForm):
             }
         ))
     password2 = forms.CharField(
+        label='Enter Password Again',
+        help_text='Required',
         widget=forms.PasswordInput(
             attrs={
-                "placeholder" : "Password check",                
+                "placeholder" : "Repeat Password",                
                 "class": "form-control"
             }
         ))
-    firstname = forms.CharField(
+    first_name = forms.CharField(
+        label='Enter First Name',
+        help_text='Required',
         widget=forms.TextInput(
             attrs={
                 "placeholder" : "First Name",                
                 "class": "form-control"
             }
         ))
-    lastname = forms.CharField(
+    last_name = forms.CharField(
+        label='Enter Last Name',
+        help_text='Required',
         widget=forms.TextInput(
             attrs={
                 "placeholder" : "Last Name",                
                 "class": "form-control"
             }
         ))
-        
+
+
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2', 'firstname', 'lastname')
+        fields = ('username', 'email', 'password1', 
+                  'password2', 'first_name', 'last_name')

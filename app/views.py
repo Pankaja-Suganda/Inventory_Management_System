@@ -20,7 +20,7 @@ def index(request):
     return HttpResponse(html_template.render(context, request))
 
 @login_required(login_url="/login/")
-@allowed_users(allowed_roles=['manager']) #decorator for testing
+# @allowed_users(allowed_roles=['manager']) #decorator for testing
 def pages(request):
     context = {}
     # All resource paths end in .html.
