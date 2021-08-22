@@ -21,7 +21,7 @@ class CustomAccountManager(BaseUserManager):
         
 
         if not password:
-            raise ValueError(_("You Must Provide Pasword"))
+            raise ValueError("You Must Provide Pasword")
 
         user = self.model(user_name = user_name)
 
@@ -30,7 +30,7 @@ class CustomAccountManager(BaseUserManager):
         #     user.groups.add(group)
         user.is_staff = True
         user.is_active = True
-        user.is_superuser = True 
+        user.is_superuser = False 
         user.set_password(password)
         user.save(using=self._db)
 
@@ -63,7 +63,7 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
     role = models.CharField(max_length=10, choices=JOB_ROLES, default='staff')
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
-
+    created = models.DateTimeField(auto_now=True)
     objects = CustomAccountManager()
 
     USERNAME_FIELD = 'user_name'

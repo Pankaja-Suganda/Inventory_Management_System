@@ -45,11 +45,11 @@
                                 <div class="form-group">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            {{form.username.label}} :
+                                            {{form.user_name.label}} :
                                             <div class="input-group">
-                                                {{ form.username }}
+                                                {{ form.user_name }}
                                             </div>
-                                            <span class="text-error">{{ form.username.errors }}</span>
+                                            <span class="text-error">{{ form.user_name.errors }}</span>
                                         </div>
                                         <div class="form-group col-md-6">
                                             {{form.email.label}} : 
@@ -97,18 +97,18 @@
                                 <div class="form-group">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            {{form.address1.label}} :
+                                            {{form.Address_1.label}} :
                                             <div class="input-group">
-                                                {{ form.address1 }}
+                                                {{ form.Address_1 }}
                                             </div>
-                                            <span class="text-error">{{ form.address1.errors }}</span>
+                                            <span class="text-error">{{ form.Address_1.errors }}</span>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            {{form.address2.label}} :
+                                            {{form.Address_2.label}} :
                                             <div class="input-group ">
-                                                {{ form.address2 }}
+                                                {{ form.Address_2 }}
                                             </div>
-                                            <span class="text-error">{{ form.address2.errors }}</span> 
+                                            <span class="text-error">{{ form.Address_2.errors }}</span> 
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -128,14 +128,33 @@
                                         </div>
                                     </div>
                                     <hr/>
-                                    <h5 class="pb-1 text-muted"> Designation</h5>    
+                                        
                                     <div class="form-row">
-                                        {{form.role.label}} :
+                                        <div class="form-group col-md-6">
+                                            <h5 class="pb-1 text-muted"> Designation</h5>   
+                                            {{form.role.label}} :
                                             <div class="input-group ">
                                                 {{ form.role }}
                                             </div>
                                             <span class="text-error">{{ form.role.errors }}</span>    
-                                       
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <h5 class="pb-1 text-muted"> Permissions</h5>   
+                                            <div class="form-row pb-2">
+                                                <div class="col-md-5">
+                                                    <div class="input-group ">
+                                                        {{form.is_staff.label}} : {{ form.is_staff }}
+                                                    </div>
+                                                    <span class="text-error">{{ form.is_staff.errors }}</span>
+                                                </div>
+                                                <div class=" col-md-5">
+                                                    <div class="input-group ">
+                                                        {{form.is_active.label}} : {{ form.is_active }}
+                                                    </div>
+                                                    <span class="text-error">{{ form.is_active.errors }}</span>
+                                                </div> 
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 

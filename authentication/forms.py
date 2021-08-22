@@ -25,7 +25,7 @@ class LoginForm(forms.Form):
         ))
 
 class SignUpForm(UserCreationForm):
-    username = forms.CharField(
+    user_name = forms.CharField(
         label='Enter Username',
         help_text='Required',
         widget=forms.TextInput(
@@ -79,9 +79,79 @@ class SignUpForm(UserCreationForm):
                 "class": "form-control"
             }
         ))
+    Address_1 = forms.CharField(
+        label='Enter Address 1',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "Address 1",                
+                "class": "form-control"
+            }
+        ))
+    Address_2 = forms.CharField(
+        label='Enter Address 2',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "Address 2",                
+                "class": "form-control"
+            }
+        ))
+    mobile_number = forms.CharField(
+        label='Enter Mobile Number',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "Mobile No",                
+                "class": "form-control"
+            }
+        ))
+    city = forms.CharField(
+        label='Enter City',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "City",                
+                "class": "form-control"
+            }
+        ))
 
+    JOB_ROLES = [
+    ('manager','MANAGER'),
+    ('executive','EXECUTIVE'),
+    ('staff','STAFF')
+    ]
+    role = forms.ChoiceField(choices=JOB_ROLES,
+        label='Select Designation',
+        help_text='Required',
+        widget=forms.Select(
+            attrs={
+                "placeholder" : "Role",                
+                "class": "form-control"
+            }
+        ))
+    is_staff = forms.BooleanField(
+        label='is Stafff ',
+        help_text='Required',
+        widget=forms.CheckboxInput(
+            attrs={
+                "placeholder" : "is Staff",                
+                "class": "form-control"
+            }
+        ))
+    is_active = forms.BooleanField(
+        label='is activated',
+        help_text='Required',
+        widget=forms.CheckboxInput(
+            attrs={
+                "placeholder" : "Account Activate",                
+                "class": "form-control"
+            }
+        ))
 
     class Meta:
         model = BaseUser
-        fields = ('username', 'email', 'password1', 
-                  'password2', 'first_name', 'last_name')
+        fields = ('user_name', 'email', 'password1', 
+                  'password2', 'first_name', 'last_name',
+                  'mobile_number', 'Address_1', 'Address_2', 'city','role',
+                  'is_staff', 'is_active')
