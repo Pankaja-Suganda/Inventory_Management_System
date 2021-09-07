@@ -7,7 +7,8 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+
 from django.contrib.auth.models import User
 from django.forms.utils import ErrorList
 from django.http import HttpResponse
@@ -39,6 +40,7 @@ def register_user(request):
 
     msg     = None
     success = False
+    context = {}
 
     if request.method == "POST":
         form = SignUpForm(request.POST)
@@ -58,4 +60,12 @@ def register_user(request):
     else:
         form = SignUpForm()
 
-    return render(request, "accounts/register.html", {"form": form, "msg" : msg, "success" : success })
+    context['segment'] = 'register'
+    context['form'] = form
+    context['msg'] = msg
+    context['success'] = success
+    return render(request, "accounts/register.html", context )
+
+def logout_user(request):
+    logout(request)
+    return redirect('/')

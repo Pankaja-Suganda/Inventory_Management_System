@@ -87,6 +87,14 @@
                     <li class="nav-item pcoded-menu-caption">
                         <label>App Controls</label>
                     </li>
+                    <!-- Adding New User -->
+                    {% if user.is_superuser %}
+                        <li data-username="form elements advance componant validation masking wizard picker select" 
+                            class="nav-item {% if 'register' in segment %} active {% endif %}">
+                            <a href="/register.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">User Registration</span></a>
+                        </li>
+                    {% endif %} 
+                    <!-- Logout -->
                     <li data-username="form elements advance componant validation masking wizard picker select" 
                         class="nav-item {% if 'settings' in segment %} active {% endif %}">
                         <a href="/settings.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">settings</span></a>

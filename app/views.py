@@ -9,6 +9,7 @@ from django.template import loader
 from django.http import HttpResponse
 from django import template
 from authentication.decorator import allowed_users
+from authentication.models import BaseUser
 
 @login_required(login_url="/login/")
 def index(request):
@@ -23,6 +24,7 @@ def index(request):
 # @allowed_users(allowed_roles=['manager']) #decorator for testing
 def pages(request):
     context = {}
+    context['c_user'] = request.user
     # All resource paths end in .html.
     # Pick out the html file name from the url. And load that template.
     try:
