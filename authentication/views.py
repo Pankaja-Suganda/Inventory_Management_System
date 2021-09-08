@@ -52,8 +52,6 @@ def register_user(request):
 
             msg     = 'User created - please <a href="/login">login</a>.'
             success = True
-            
-            #return redirect("/login/")
 
         else:
             msg = 'Form is not valid'    
