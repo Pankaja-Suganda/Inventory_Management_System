@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django import template
 from authentication.decorator import allowed_users
 from authentication.models import BaseUser
+from authentication.forms import SignUpForm
 
 @login_required(login_url="/login/")
 def index(request):
@@ -25,13 +26,15 @@ def index(request):
 def pages(request):
     context = {}
     context['c_user'] = request.user
+    context['users'] = BaseUser.objects.all()
     # All resource paths end in .html.
     # Pick out the html file name from the url. And load that template.
     try:
         
         load_template      = request.path.split('/')[-1]
         context['segment'] = load_template.replace('.html','')
-        
+        if context['segment'] == 'settings':
+            context['form'] = SignUpForm()
         html_template = loader.get_template( load_template )
         return HttpResponse(html_template.render(context, request))
         

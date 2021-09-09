@@ -35,46 +35,229 @@
 
                           <img src="{{ user.profile_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
                       </div>
-                      <div class="text-center text-capitalize">Destination</div>
-                      <h3 class="text-center text-primary te">User Name</h3>
+                      <div class="text-center text-capitalize">{{ user.role }}</div>
+                      <h3 class="text-center text-primary ">{{ user.first_name }} {{ user.last_name }}</h3>
+                      
                       <div class="list-group list-group-flush account-settings-links">
-                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">General Info</a>
+                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">About</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-update">Update Info</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change password</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-permissions">change Permissions</a>
+                        {% if user.is_superuser %}
+                          <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-permissions">User Permissions</a>
+                        {% endif %}
                       </div>
                     </div>
                     <div class="col-md-9">
-                      <div class="tab-content">
+                      <div class="tab-content bg-light">
                         <div class="tab-pane fade active show" id="account-general">
-                          <hr class="border-light m-0">
+                          <h3 class="text-title"> About You</h3>
                           <div class="card-body">
-                            <div>name : {{ user.id }}</div>
-                            <div>email : {{ user.email }}</div>
-                            <div>address : {{ user.Address }}</div>
-                            <div>address 2 : {{ user.Address_2 }}</div>
-                            <div>city : {{ user.city }}</div>
+                            <h4 class="card-title fw-bold"> Personal Info</h4>
+                            <hr class="border-primary m-0">
+                            <br>
+                            <div class="row"> 
+                              <div class="col-4">
+                                <div class="fs-2 text-muted"> First Name : </div>
+                                <h5 class="body-text">{{ user.first_name }}</h5>
+                              </div>
+                              <div class="col-4">
+                                <div class="fs-2 text-muted"> Last Name : </div>
+                                <h5 class="card-title">{{ user.last_name }}</h5>                                
+                              </div>
+                              <div class="col-4">
+                                <div class="fs-2 text-muted"> Gender : </div>
+                                {% if user.gender == 0 %}
+                                  <h5 class="card-title">Male</h5>
+                                {% else %}
+                                  {% if user.gender == 1 %}
+                                    <h5 class="card-title">Female</h5>
+                                  {% else %}
+                                    <h5 class="card-title">Not Specified</h5>
+                                  {% endif%} 
+                                {% endif %}
+                              </div>
+                            </div>
+                            <br>
+                            <h4 class="card-title fw-bold"> Contact Info</h4>
+                            <hr class="border-primary m-0">
+                            <br>
+                            <div class="row">
+                              <div class="col-4">
+                                <div class="fs-2 text-muted"> Mobile Number : </div>
+                                <h5 class="card-title">{{ user.mobile_number }}</h5>                                
+                              </div>
+                              <div class="col-6">
+                                <div class="fs-2 text-muted"> Email Address : </div>
+                                <h5 class="card-title">{{ user.email }}</h5>                                
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-4">
+                                <div class="fs-2 text-muted"> Address 1 : </div>
+                                <h5 class="card-title">{{ user.Address_1 }}</h5>                                
+                              </div>
+                              <div class="col-4">
+                                <div class="fs-2 text-muted"> Address 2 : </div>
+                                <h5 class="card-title">{{ user.Address_2 }}</h5>                                
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-4">
+                                <div class="fs-2 text-muted"> City : </div>
+                                <h5 class="card-title">{{ user.city }}</h5>                                
+                              </div>
+                            </div>
+                            <br>
+                            <h4 class="card-title fw-bold"> Other Info</h4>
+                            <hr class="border-primary m-0">
+                            <br>
+                            <div class="row">
+                              <div class="col-4">
+                                <div class="fs-2 text-muted"> Account Created On : </div>
+                                <h5 class="card-title">{{ user.created }}</h5>                                
+                              </div>
+                              <div class="col-4">
+                                <div class="fs-2 text-muted"> Last Login : </div>
+                                <h5 class="card-title">{{ user.last_login }}</h5>                                
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-4">
+                                <div class="fs-2 text-muted"> Is Staff : </div>
+                                {% if user.is_staff %}
+                                  <h5 class="card-title text-success">Yes</h5>   
+                                {% else %}                   
+                                  <h5 class="card-title text-danger">No</h5> 
+                                {% endif %}   
+                              </div>
+                              <div class="col-4">
+                                <div class="fs-2 text-muted"> Is Active : </div>
+                                {% if user.is_active %}
+                                  <h5 class="card-title text-success">Yes</h5>   
+                                {% else %}                   
+                                  <h5 class="card-title text-danger">No</h5> 
+                                {% endif %}                               
+                              </div>
+                              {% if user.is_superuser %}
+                                <div class="col-4">
+                                  <div class="fs-2 text-muted"> Is Admin : </div>
+                                  <h5 class="card-title text-success">Yes</h5>                             
+                                </div>
+                              {% endif %}   
+                            </div>
                           </div>
             
                         </div>
                         <div class="tab-pane fade" id="account-update">
+                          <h3 class="pb-1">Update your User Account</h3>
                           <div class="card-body pb-2">
-            
-                            <div class="form-group">
-                              <label class="form-label">Current password</label>
-                              <input type="password" class="form-control">
-                            </div>
-            
-                            <div class="form-group">
-                              <label class="form-label">New password</label>
-                              <input type="password" class="form-control">
-                            </div>
-            
-                            <div class="form-group">
-                              <label class="form-label">Repeat new password</label>
-                              <input type="password" class="form-control">
-                            </div>
-            
+                              <h5 class=" card-title">Personal Info</h5>
+                              <span class=" text-muted alert">
+                                  {% if msg %}
+                                      {{ msg | safe }}
+                                  {% endif %} 
+                              </span>
+                              <form role="form" method="post" action="">
+                                  {% csrf_token %}        
+                                  <div class="form-group">
+                                      <div class="form-row">
+                                          <div class="form-group col-md-6">
+                                              {{form.user_name.label}} :
+                                              <div class="input-group">
+                                                  {{ form.user_name }}
+                                              </div>
+                                              <span class="text-error">{{ form.user_name.errors }}</span>
+                                          </div>
+                                          <div class="form-group col-md-6">
+                                              {{form.email.label}} : 
+                                              <div class="input-group ">
+                                                 <span class="input-group-text" id="">@</span> {{ form.email }}
+                                              </div>
+                                              <span class="text-error ">{{ form.email.errors }}</span> 
+                                          </div>
+                                      </div>
+                                      <div class="form-row">
+                                          <div class="form-group col-md-6">
+                                              {{form.first_name.label}} : 
+                                              <div class="input-group">
+                                                  {{ form.first_name }}
+                                              </div>
+                                              <span class="text-error">{{ form.first_name.errors }}</span>
+                                          </div>
+                                          <div class="form-group col-md-6">
+                                              {{form.last_name.label}} :
+                                              <div class="input-group ">
+                                                  {{ form.last_name }}
+                                              </div>
+                                              <span class="text-error">{{ form.last_name.errors }}</span> 
+                                          </div>
+                                      </div>
+                                      <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            {{form.first_name.label}} : 
+                                            <div class="input-group">
+                                                {{ form.first_name }}
+                                            </div>
+                                            <span class="text-error">{{ form.first_name.errors }}</span>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            {{form.last_name.label}} :
+                                            <div class="input-group ">
+                                                {{ form.last_name }}
+                                            </div>
+                                            <span class="text-error">{{ form.last_name.errors }}</span> 
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <hr/>
+                                  <h5 class="pb-1 card-title"> Contact Info</h5>
+                                  <div class="form-group">
+                                      <div class="form-row">
+                                          <div class="form-group col-md-6">
+                                              {{form.Address_1.label}} :
+                                              <div class="input-group">
+                                                  {{ form.Address_1 }}
+                                              </div>
+                                              <span class="text-error">{{ form.Address_1.errors }}</span>
+                                          </div>
+                                          <div class="form-group col-md-6">
+                                              {{form.Address_2.label}} :
+                                              <div class="input-group ">
+                                                  {{ form.Address_2 }}
+                                              </div>
+                                              <span class="text-error">{{ form.Address_2.errors }}</span> 
+                                          </div>
+                                      </div>
+                                      <div class="form-row">
+                                          <div class="form-group col-md-6">
+                                              {{form.city.label}} :
+                                              <div class="input-group">
+                                                  {{ form.city }}
+                                              </div>
+                                              <span class="text-error">{{ form.city.errors }}</span>
+                                          </div>
+                                          <div class="form-group col-md-6">
+                                              {{form.mobile_number.label}} :
+                                              <div class="input-group ">
+                                                  {{ form.mobile_number }}
+                                              </div>
+                                              <span class="text-error">{{ form.mobile_number.errors }}</span>    
+                                          </div>
+                                      </div>
+                                      <hr/>
+                                          
+                                      <div class="form-row">
+                                          <div class="form-group col-md-6">
+                                              <h5 class="pb-1 text-title"> Designation</h5>   
+                                              {{form.role.label}} :
+                                              <div class="input-group ">
+                                                  {{ form.role }}
+                                              </div>
+                                              <span class="text-error">{{ form.role.errors }}</span>    
+                                          </div>
+                                      </div>
+                                  </div>
+                              </form>
                           </div>
                         </div>
                         <div class="tab-pane fade" id="account-change-password">
@@ -99,49 +282,15 @@
                         </div>
                         <div class="tab-pane fade" id="account-permissions">
                           <div class="card-body pb-2">
-            
-                            <div class="form-group">
-                              <label class="form-label">Bio</label>
-                              <textarea class="form-control" rows="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nunc arcu, dignissim sit amet sollicitudin iaculis, vehicula id urna. Sed luctus urna nunc. Donec fermentum, magna sit amet rutrum pretium, turpis dolor molestie diam, ut lacinia diam risus eleifend sapien. Curabitur ac nibh nulla. Maecenas nec augue placerat, viverra tellus non, pulvinar risus.</textarea>
-                            </div>
-                            <div class="form-group">
-                              <label class="form-label">Birthday</label>
-                              <input type="text" class="form-control" value="May 3, 1995">
-                            </div>
-                            <div class="form-group">
-                              <label class="form-label">Country</label>
-                              <select class="custom-select">
-                                <option>USA</option>
-                                <option selected="">Canada</option>
-                                <option>UK</option>
-                                <option>Germany</option>
-                                <option>France</option>
-                              </select>
-                            </div>
-                          </div>
-                          <hr class="border-light m-0">
-                          <div class="card-body pb-2">
-            
-                            <h6 class="mb-4">Contacts</h6>
-                            <div class="form-group">
-                              <label class="form-label">Phone</label>
-                              <input type="text" class="form-control" value="+0 (123) 456 7891">
-                            </div>
-                            <div class="form-group">
-                              <label class="form-label">Website</label>
-                              <input type="text" class="form-control" value="">
-                            </div>
-            
+                              {% for user_ in users %}
+                                {{user_.user_name}}
+                              {% endfor %}
+                            
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-            
-                <div class="text-right mt-3">
-                  <button type="button" class="btn btn-primary">Save changes</button>&nbsp;
-                  <button type="button" class="btn btn-default">Cancel</button>
                 </div>
             
               </div>

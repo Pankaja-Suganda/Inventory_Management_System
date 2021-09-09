@@ -16,6 +16,12 @@ JOB_ROLES = [
     ('staff','STAFF')
 ]
 
+GENDER_CHOICES = (
+    (0, 'Male'),
+    (1, 'Female')
+)
+
+
 class CustomAccountManager(BaseUserManager):
     def create_user(self, user_name, password):
         
@@ -55,7 +61,8 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('email address', blank=True)
     user_name = models.CharField('user name', max_length=150, unique=True)
     first_name = models.CharField('first name', max_length=150, blank=True)
-    last_name = models.CharField('last name', max_length=150, blank=True)
+    last_name = models.CharField('last name', max_length=150, default='male')
+    gender = models.IntegerField(choices=GENDER_CHOICES, default=0)
     profile_img = models.ImageField(null=True, blank=True, upload_to='core/static/assets/images/user', default='core/static/assets/images/user/default.png')
     mobile_number = models.CharField(max_length=10, blank=True)
     Address_1 = models.CharField('address 1', max_length=250, blank=True)
