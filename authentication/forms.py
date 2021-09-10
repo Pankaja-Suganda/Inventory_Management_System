@@ -4,7 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from .models import BaseUser
 
@@ -40,6 +40,20 @@ class SignUpForm(UserCreationForm):
         widget=forms.EmailInput(
             attrs={
                 "placeholder" : "Email",                
+                "class": "form-control"
+            }
+        ))
+
+    GENDER_CHOICES = (
+        (0, 'Male'),
+        (1, 'Female')
+    )
+    gender = forms.ChoiceField(choices=GENDER_CHOICES,
+        label='Select Gender',
+        help_text='Required',
+        widget=forms.Select(
+            attrs={
+                "placeholder" : "Gender",                
                 "class": "form-control"
             }
         ))
@@ -79,6 +93,22 @@ class SignUpForm(UserCreationForm):
                 "class": "form-control"
             }
         ))
+
+    GENDER_CHOICES = (
+        (0, 'Male'),
+        (1, 'Female')
+    )
+
+    gender = forms.ChoiceField(choices=GENDER_CHOICES,
+        label='Select Gender',
+        help_text='Required',
+        widget=forms.Select(
+            attrs={
+                "placeholder" : "Gender",                
+                "class": "form-control"
+            }
+        ))
+
     Address_1 = forms.CharField(
         label='Enter Address 1',
         help_text='Required',
@@ -151,7 +181,146 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = BaseUser
-        fields = ('user_name', 'email', 'password1', 
-                  'password2', 'first_name', 'last_name',
+        fields = ('user_name', 'email', 'password1', 'gender',
+                  'password2', 'first_name', 'last_name', 'gender',
                   'mobile_number', 'Address_1', 'Address_2', 'city','role',
                   'is_staff', 'is_active')
+
+class ProfileUpdate(forms.ModelForm):
+    user_name = forms.CharField(
+        label='Enter Username',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "Username",                
+                "class": "form-control"
+            }
+        ))
+    email = forms.EmailField(
+        label='Enter Email Address',
+        help_text='Required',
+        widget=forms.EmailInput(
+            attrs={
+                "placeholder" : "Email",                
+                "class": "form-control"
+            }
+        ))
+    first_name = forms.CharField(
+        label='Enter First Name',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "First Name",                
+                "class": "form-control"
+            }
+        ))
+    last_name = forms.CharField(
+        label='Enter Last Name',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "Last Name",                
+                "class": "form-control"
+            }
+        ))
+
+    GENDER_CHOICES = (
+        (0, 'Male'),
+        (1, 'Female')
+    )
+    gender = forms.ChoiceField(choices=GENDER_CHOICES,
+        label='Select Gender',
+        help_text='Required',
+        widget=forms.Select(
+            attrs={
+                "placeholder" : "Gender",                
+                "class": "form-control"
+            }
+        ))
+
+    Address_1 = forms.CharField(
+        label='Enter Address 1',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "Address 1",                
+                "class": "form-control"
+            }
+        ))
+    Address_2 = forms.CharField(
+        label='Enter Address 2',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "Address 2",                
+                "class": "form-control"
+            }
+        ))
+    mobile_number = forms.CharField(
+        label='Enter Mobile Number',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "Mobile No",                
+                "class": "form-control"
+            }
+        ))
+    city = forms.CharField(
+        label='Enter City',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "City",                
+                "class": "form-control"
+            }
+        ))
+
+    profile_img = forms.ImageField(
+        label='Select Profile Image',
+        help_text='Required',
+        error_messages = {'invalid': "Image files only"},
+        widget=forms.FileInput(
+            attrs={             
+                "class": "align-middle"
+            }
+        ))
+
+    class Meta:
+        model = BaseUser
+        fields = ('user_name', 'email', 'first_name', 'last_name', 'gender',
+                  'mobile_number', 'Address_1', 'Address_2', 'city', 'profile_img')
+
+class UserPasswordUpdate(forms.ModelForm):
+    
+    old_password  = forms.CharField(
+        label='Enter Old Password',
+        help_text='Required',
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder" : "Old Password",                
+                "class": "form-control"
+            }
+        ))
+
+    password1 = forms.CharField(
+        label='Enter Password',
+        help_text='Required',
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder" : "Password",                
+                "class": "form-control"
+            }
+        ))
+    password2 = forms.CharField(
+        label='Enter Password Again',
+        help_text='Required',
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder" : "Repeat Password",                
+                "class": "form-control"
+            }
+        ))
+
+    class Meta:
+        model = BaseUser
+        fields = ['old_password', 'password1', 'password2']

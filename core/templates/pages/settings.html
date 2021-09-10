@@ -33,7 +33,7 @@
                     <div class="col-md-3 pt-0">
                       <div class="card-body media align-items-center">
 
-                          <img src="{{ user.profile_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
+                          <img id= 'img-profile' src="{{ user.profile_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
                       </div>
                       <div class="text-center text-capitalize">{{ user.role }}</div>
                       <h3 class="text-center text-primary ">{{ user.first_name }} {{ user.last_name }}</h3>
@@ -151,13 +151,13 @@
                         <div class="tab-pane fade" id="account-update">
                           <h3 class="pb-1">Update your User Account</h3>
                           <div class="card-body pb-2">
-                              <h5 class=" card-title">Personal Info</h5>
-                              <span class=" text-muted alert">
+                              <h4 class=" card-title">Personal Info</h4>
+                              <span class=" text-muted alert-danger">
                                   {% if msg %}
                                       {{ msg | safe }}
                                   {% endif %} 
                               </span>
-                              <form role="form" method="post" action="">
+                              <form role="form" method="post" action="update" enctype="multipart/form-data">
                                   {% csrf_token %}        
                                   <div class="form-group">
                                       <div class="form-row">
@@ -194,23 +194,31 @@
                                       </div>
                                       <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            {{form.first_name.label}} : 
+                                            {{form.gender.label}} : 
                                             <div class="input-group">
-                                                {{ form.first_name }}
+                                                {{ form.gender }}
                                             </div>
-                                            <span class="text-error">{{ form.first_name.errors }}</span>
+                                            <span class="text-error">{{ form.gender.errors }}</span>
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            {{form.last_name.label}} :
-                                            <div class="input-group ">
-                                                {{ form.last_name }}
+                                        <div class="form-group col-md-6 ">
+                                            {{form.profile_img.label}} :
+                                            <div class="input-group "> 
+                                                {{ form.profile_img }}
                                             </div>
-                                            <span class="text-error">{{ form.last_name.errors }}</span> 
+                                            <span class="text-error">{{ form.profile_img.errors }}</span> 
                                         </div>
+                                        <script>
+                                          var id_profile_img = document.getElementById('id_profile_img');
+                                          id_profile_img.onchange = function(event){
+                                            var img = document.getElementById('img-profile');
+                                            img.src = URL.createObjectURL(event.target.files[0]);
+                                          };
+                                          
+                                        </script>
                                     </div>
                                   </div>
                                   <hr/>
-                                  <h5 class="pb-1 card-title"> Contact Info</h5>
+                                  <h4 class="pb-1 card-title"> Contact Info</h4>
                                   <div class="form-group">
                                       <div class="form-row">
                                           <div class="form-group col-md-6">
@@ -244,48 +252,60 @@
                                               <span class="text-error">{{ form.mobile_number.errors }}</span>    
                                           </div>
                                       </div>
-                                      <hr/>
-                                          
-                                      <div class="form-row">
-                                          <div class="form-group col-md-6">
-                                              <h5 class="pb-1 text-title"> Designation</h5>   
-                                              {{form.role.label}} :
-                                              <div class="input-group ">
-                                                  {{ form.role }}
-                                              </div>
-                                              <span class="text-error">{{ form.role.errors }}</span>    
-                                          </div>
-                                      </div>
                                   </div>
+                                  <button type="submit"  class="btn-lg float-right btn-primary">Update</button>
+
                               </form>
                           </div>
                         </div>
                         <div class="tab-pane fade" id="account-change-password">
-                          <div class="card-body pb-2">
-            
-                            <div class="form-group">
-                              <label class="form-label">Current password</label>
-                              <input type="password" class="form-control">
+                            <h3 class="text-title"> Reset Your Password</h3>
+                            <br>
+                            <div class="row">
+                              <div class="form-group col-6">
+                                <form role="form" method="post" action="reset_pass" enctype="multipart/form-data">
+                                  {% csrf_token %} 
+                                  <div class="form-row ">
+                                    {{form_reset.old_password.label}} :
+                                    <div class="input-group">
+                                      {{ form_reset.old_password }}
+                                    </div>
+                                    {% if form_reset.old_password.errors %}
+                                      <span class="text-error alert">{{ form_reset.old_password.errors }}</span>
+                                    {% endif %}
+                                  </div>
+                                  <div class="form-row">
+                                    {{form_reset.password1.label}} :
+                                    <div class="input-group">
+                                      {{ form_reset.password1 }}
+                                    </div>
+                                    {% if form_reset.password1.errors %}  
+                                      <span class="text-error alert">{{ form_reset.password1.errors }}</span>
+                                    {% endif %}
+                                  </div>
+                                  <div class="form-row">
+                                    {{form_reset.password2.label}} :
+                                    <div class="input-group">
+                                      {{ form_reset.password2 }}
+                                    </div>
+                                    {% if form_reset.password2.errors %} 
+                                      <span class="text-error alert">{{ form_reset.password2.errors }}</span>
+                                    {% endif %}
+                                  </div>
+                                  <br>
+                                  <button type="submit"  class="btn-lg float-right btn-primary">Reset Password</button>
+                                </form>
+                              </div>
+                              <div class="col-md-6">
+                                <img class="img-responsive d-block mx-auto" width='300px' src='/static/assets/images/password-reset.png'>
+                              </div>
                             </div>
-            
-                            <div class="form-group">
-                              <label class="form-label">New password</label>
-                              <input type="password" class="form-control">
-                            </div>
-            
-                            <div class="form-group">
-                              <label class="form-label">Repeat new password</label>
-                              <input type="password" class="form-control">
-                            </div>
-            
-                          </div>
                         </div>
                         <div class="tab-pane fade" id="account-permissions">
                           <div class="card-body pb-2">
                               {% for user_ in users %}
                                 {{user_.user_name}}
                               {% endfor %}
-                            
                           </div>
                         </div>
                       </div>

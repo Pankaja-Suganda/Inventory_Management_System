@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from django import template
 from authentication.decorator import allowed_users
 from authentication.models import BaseUser
-from authentication.forms import SignUpForm
+from authentication.forms import ProfileUpdate, UserPasswordUpdate
 
 @login_required(login_url="/login/")
 def index(request):
@@ -34,7 +34,9 @@ def pages(request):
         load_template      = request.path.split('/')[-1]
         context['segment'] = load_template.replace('.html','')
         if context['segment'] == 'settings':
-            context['form'] = SignUpForm()
+            context['form'] = ProfileUpdate(instance=request.user)
+            context['form_reset'] = UserPasswordUpdate()
+            
         html_template = loader.get_template( load_template )
         return HttpResponse(html_template.render(context, request))
         
