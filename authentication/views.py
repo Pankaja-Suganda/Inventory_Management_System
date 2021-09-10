@@ -93,19 +93,28 @@ def UpdateAccount(request):
 
 @login_required(login_url="/login/")
 def ResetPassword(request):
+    success = False
+
     if request.method == 'POST':
         form = UserPasswordUpdate(instance=request.user, data=request.POST)
         if form.is_valid():
-            form.save()
-            update_session_auth_hash(request, request.user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
-            print('Your password was successfully updated')
-            return redirect('settings.html')
+            user = form.save()
+            user.check_password(form.cleaned_data['password1'])
+            state = form.check_password(user)
+            
+            if state:
+                user.set_password(form.cleaned_data['password1'])
+                user.save()
+                update_session_auth_hash(request, request.user)  # Important!
+                messages.success(request, 'Your password was successfully updated!')
+                success = True
         else:
-            print('Your password is incorrect')
             messages.error(request, 'Please correct the error below.')
     else:
         form = UserPasswordUpdate(instance=request.user)
+
     return render(request, 'settings.html', {
-        'form_reset': form
+        'form_reset': form,
+        'success' : success,
+        'form': ProfileUpdate(instance=request.user)
     })

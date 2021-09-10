@@ -7,6 +7,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from .models import BaseUser
+from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.password_validation import validate_password
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -320,6 +322,30 @@ class UserPasswordUpdate(forms.ModelForm):
                 "class": "form-control"
             }
         ))
+
+    def check_password(self, user):
+        state = False
+        if not user.check_password(self.cleaned_data['old_password']):
+            self.add_error('old_password', 'User current Authentication is failed - check it out')
+        else:
+            password1 = self.cleaned_data['password1']
+            password2 = self.cleaned_data['password2']
+
+            try:
+                validate_password(password1, user)
+            except forms.ValidationError as error:
+                self.add_error('password1', error)
+                
+            if not self.has_error('password1'):
+                if password1 and password2:
+                    if password1 != password2:
+                        self.add_error('password2', 'Both password and password repeat must be the same - check it out')
+                    else:
+                        state = True
+            
+        return state
+
+        
 
     class Meta:
         model = BaseUser

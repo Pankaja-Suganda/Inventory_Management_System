@@ -265,22 +265,22 @@
                               <div class="form-group col-6">
                                 <form role="form" method="post" action="reset_pass" enctype="multipart/form-data">
                                   {% csrf_token %} 
-                                  <div class="form-row ">
+                                  <div class="form-row pb-3 ">
                                     {{form_reset.old_password.label}} :
                                     <div class="input-group">
                                       {{ form_reset.old_password }}
                                     </div>
                                     {% if form_reset.old_password.errors %}
-                                      <span class="text-error alert">{{ form_reset.old_password.errors }}</span>
+                                      <div role="alert" class="alert alert-danger ">{{ form_reset.old_password.errors }}</div>
                                     {% endif %}
                                   </div>
-                                  <div class="form-row">
+                                  <div class="form-row pb-3">
                                     {{form_reset.password1.label}} :
                                     <div class="input-group">
                                       {{ form_reset.password1 }}
                                     </div>
                                     {% if form_reset.password1.errors %}  
-                                      <span class="text-error alert">{{ form_reset.password1.errors }}</span>
+                                      <div role="alert" class="alert alert-danger">{{ form_reset.password1.errors }}</div>
                                     {% endif %}
                                   </div>
                                   <div class="form-row">
@@ -289,7 +289,10 @@
                                       {{ form_reset.password2 }}
                                     </div>
                                     {% if form_reset.password2.errors %} 
-                                      <span class="text-error alert">{{ form_reset.password2.errors }}</span>
+                                      <div role="alert" class="alert alert-danger">{{ form_reset.password2.errors }}</div>
+                                    {% endif %}
+                                    {% if success %} 
+                                      <div role="alert" class="alert alert-success">Your password was successfully updated!</div>
                                     {% endif %}
                                   </div>
                                   <br>
