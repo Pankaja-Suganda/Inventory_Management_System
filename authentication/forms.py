@@ -181,9 +181,14 @@ class SignUpForm(UserCreationForm):
             }
         ))
 
+    profile_img = forms.ImageField(
+        label='Select Profile Image',
+        help_text='Required',
+        error_messages = {'invalid': "Image files only"})
+
     class Meta:
         model = BaseUser
-        fields = ('user_name', 'email', 'password1', 'gender',
+        fields = ('user_name', 'email', 'password1', 'gender', 'profile_img',
                   'password2', 'first_name', 'last_name', 'gender',
                   'mobile_number', 'Address_1', 'Address_2', 'city','role',
                   'is_staff', 'is_active')
@@ -280,12 +285,7 @@ class ProfileUpdate(forms.ModelForm):
     profile_img = forms.ImageField(
         label='Select Profile Image',
         help_text='Required',
-        error_messages = {'invalid': "Image files only"},
-        widget=forms.FileInput(
-            attrs={             
-                "class": "align-middle"
-            }
-        ))
+        error_messages = {'invalid': "Image files only"})
 
     class Meta:
         model = BaseUser
