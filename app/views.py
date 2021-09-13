@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from django import template
 from authentication.decorator import allowed_users
 from authentication.models import BaseUser
-from authentication.forms import ProfileUpdate, UserPasswordUpdate
+from authentication.forms import ProfileUpdate, UserPasswordUpdate, UserUpdatePer
 
 @login_required(login_url="/login/")
 def index(request):
@@ -25,17 +25,21 @@ def index(request):
 # @allowed_users(allowed_roles=['manager']) #decorator for testing
 def pages(request):
     context = {}
-    context['c_user'] = request.user
+    context['user'] = request.user
     context['users'] = BaseUser.objects.all()
     # All resource paths end in .html.
     # Pick out the html file name from the url. And load that template.
+
     try:
         
         load_template      = request.path.split('/')[-1]
         context['segment'] = load_template.replace('.html','')
+
         if context['segment'] == 'settings':
             context['form'] = ProfileUpdate(instance=request.user)
             context['form_reset'] = UserPasswordUpdate()
+            context['select'] = 'account-general'
+            context['form_per'] = UserUpdatePer()
             
         html_template = loader.get_template( load_template )
         return HttpResponse(html_template.render(context, request))

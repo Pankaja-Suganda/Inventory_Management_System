@@ -19,16 +19,21 @@
                             <h3 class="text-center text-light text-bold py-2">Profile Image</h3>
                             <img class="img-responsive d-block mx-auto float-bottom py-5" width='200px' src='/static/assets/images/password-reset.png'>
                         </div>
+
                         <div class="col-md-8 py-3 border">
                             <h4 class="pb-1">Please fill with your details</h4>
                             <hr/>
                             <h5 class=" text-muted">Personal Details</h5>
-                            <span class=" text-muted">
+
+                            {% if form.errors %}
+                                <div role="alert" class="alert alert-danger"><strong>Error! </strong>{{ msg }}</div>
+                            {% else %}
                                 {% if msg %}
-                                    {{ msg | safe }}
-                                {% endif %} 
-                            </span>
-                            <form role="form" method="post" action="">
+                                    <div role="alert" class="alert alert-success"><strong>Success! </strong>{{ msg }}</div>
+                                {% endif %}
+                            {% endif %}
+
+                            <form role="form" method="post" action="" enctype="multipart/form-data">
                                 {% csrf_token %}        
                                 <div class="form-group">
                                     <div class="form-row">
@@ -37,14 +42,18 @@
                                             <div class="input-group">
                                                 {{ form.user_name }}
                                             </div>
-                                            <span class="text-error">{{ form.user_name.errors }}</span>
+                                            {% if form.user_name.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.user_name.errors }}</div>
+                                            {% endif %}
                                         </div>
                                         <div class="form-group col-md-6">
                                             {{form.email.label}} : 
                                             <div class="input-group ">
                                                <span class="input-group-text" id="">@</span> {{ form.email }}
                                             </div>
-                                            <span class="text-error ">{{ form.email.errors }}</span> 
+                                            {% if form.email.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.email.errors }}</div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -53,14 +62,18 @@
                                             <div class="input-group">
                                                 {{ form.first_name }}
                                             </div>
-                                            <span class="text-error">{{ form.first_name.errors }}</span>
+                                            {% if form.first_name.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.first_name.errors }}</div>
+                                            {% endif %}
                                         </div>
                                         <div class="form-group col-md-6">
                                             {{form.last_name.label}} :
                                             <div class="input-group ">
                                                 {{ form.last_name }}
                                             </div>
-                                            <span class="text-error">{{ form.last_name.errors }}</span> 
+                                            {% if form.last_name.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.last_name.errors }}</div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -69,14 +82,18 @@
                                             <div class="input-group">
                                                 {{ form.gender }}
                                             </div>
-                                            <span class="text-error">{{ form.gender.errors }}</span>
+                                            {% if form.gender.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.gender.errors }}</div>
+                                            {% endif %}
                                         </div>
                                         <div class="form-group col-md-6">
                                             {{form.profile_img.label}} : 
                                             <div class="input-group">
                                                 {{ form.profile_img }}
                                             </div>
-                                            <span class="text-error">{{ form.profile_img.errors }}</span>
+                                            {% if form.profile_img.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.profile_img.errors }}</div>
+                                            {% endif %}
                                         </div>
                                         <script>
                                             var id_profile_img = document.getElementById('id_profile_img');
@@ -93,14 +110,18 @@
                                             <div class="input-group">
                                                 {{ form.password1 }}
                                             </div>
-                                            <span class="text-error">{{ form.password1.errors }}</span>
+                                            {% if form.password1.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.password1.errors }}</div>
+                                            {% endif %}
                                         </div>
                                         <div class="form-group col-md-6">
                                             {{form.password2.label}} :
                                             <div class="input-group">
                                                 {{ form.password2 }}
                                             </div>
-                                            <span class="text-error">{{ form.password2.errors }}</span>    
+                                            {% if form.password2.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.password2.errors }}</div>
+                                            {% endif %}  
                                         </div>
                                     </div>
                                 </div>
@@ -113,14 +134,18 @@
                                             <div class="input-group">
                                                 {{ form.Address_1 }}
                                             </div>
-                                            <span class="text-error">{{ form.Address_1.errors }}</span>
+                                            {% if form.Address_1.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.Address_1.errors }}</div>
+                                            {% endif %}  
                                         </div>
                                         <div class="form-group col-md-6">
                                             {{form.Address_2.label}} :
                                             <div class="input-group ">
                                                 {{ form.Address_2 }}
                                             </div>
-                                            <span class="text-error">{{ form.Address_2.errors }}</span> 
+                                            {% if form.Address_2.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.Address_2.errors }}</div>
+                                            {% endif %} 
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -129,14 +154,18 @@
                                             <div class="input-group">
                                                 {{ form.city }}
                                             </div>
-                                            <span class="text-error">{{ form.city.errors }}</span>
+                                            {% if form.city.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.city.errors }}</div>
+                                            {% endif %} 
                                         </div>
                                         <div class="form-group col-md-6">
                                             {{form.mobile_number.label}} :
                                             <div class="input-group ">
                                                 {{ form.mobile_number }}
                                             </div>
-                                            <span class="text-error">{{ form.mobile_number.errors }}</span>    
+                                            {% if form.mobile_number.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.mobile_number.errors }}</div>
+                                            {% endif %}  
                                         </div>
                                     </div>
                                     <hr/>
@@ -148,32 +177,40 @@
                                             <div class="input-group ">
                                                 {{ form.role }}
                                             </div>
-                                            <span class="text-error">{{ form.role.errors }}</span>    
+                                            {% if form.role.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.role.errors }}</div>
+                                            {% endif %}     
                                         </div>
                                         <div class="form-group col-md-6">
                                             <h5 class="pb-1 text-muted"> Permissions</h5>   
                                             <div class="form-row pb-2">
                                                 <div class="col-md-5">
-                                                    <div class="input-group ">
-                                                        {{form.is_staff.label}} : {{ form.is_staff }}
+                                                    <div class="form-check ">
+                                                        {{ form.is_staff }}
+                                                        <label class="form-check-label" for="id_is_staff">{{form.is_staff.label}}</label>
+                                                        
                                                     </div>
-                                                    <span class="text-error">{{ form.is_staff.errors }}</span>
+                                                    {% if form.is_staff.errors %}
+                                                        <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.is_staff.errors }}</div>
+                                                    {% endif %}  
                                                 </div>
                                                 <div class=" col-md-5">
-                                                    <div class="input-group ">
-                                                        {{form.is_active.label}} : {{ form.is_active }}
+                                                    <div class="form-check ">
+                                                        {{ form.is_active }}
+                                                        <label class="form-check-label" for="id_is_active">{{form.is_active.label}}</label>
+                                                        
                                                     </div>
-                                                    <span class="text-error">{{ form.is_active.errors }}</span>
-                                                </div> 
+                                                    {% if form.is_active.errors %}
+                                                        <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.is_active.errors }}</div>
+                                                    {% endif %}  
+                                                </div>  
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <p class="mb-0 text-muted">Already have an account? <a href="{% url 'login' %}" >Login</a></p>
-
                                 <button type="submit" name="register" class=" btn-lg float-right btn-primary">Register</button>
                             </form>
+                            
                         </div>
                     </div>
                 </div>

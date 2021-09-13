@@ -6,6 +6,7 @@ Copyright (c) 2019 - present AppSeed.us
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
+from django.forms import fields
 from .models import BaseUser
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.password_validation import validate_password
@@ -129,10 +130,10 @@ class SignUpForm(UserCreationForm):
                 "class": "form-control"
             }
         ))
-    mobile_number = forms.CharField(
+    mobile_number = forms.IntegerField(
         label='Enter Mobile Number',
         help_text='Required',
-        widget=forms.TextInput(
+        widget=forms.NumberInput(
             attrs={
                 "placeholder" : "Mobile No",                
                 "class": "form-control"
@@ -168,7 +169,7 @@ class SignUpForm(UserCreationForm):
         widget=forms.CheckboxInput(
             attrs={
                 "placeholder" : "is Staff",                
-                "class": "form-control"
+                "class": "form-control form-check-input",
             }
         ))
     is_active = forms.BooleanField(
@@ -177,7 +178,7 @@ class SignUpForm(UserCreationForm):
         widget=forms.CheckboxInput(
             attrs={
                 "placeholder" : "Account Activate",                
-                "class": "form-control"
+                "class": "form-control form-check-input",
             }
         ))
 
@@ -350,3 +351,27 @@ class UserPasswordUpdate(forms.ModelForm):
     class Meta:
         model = BaseUser
         fields = ['old_password', 'password1', 'password2']
+
+class UserUpdatePer(forms.ModelForm):
+
+    is_active = forms.BooleanField(
+        label='Change User Activation',
+        widget=forms.CheckboxInput(
+            attrs={
+                "placeholder" : "Account Activate",                
+                "class": "form-control form-check-input"
+            }
+        ))
+
+    is_staff = forms.BooleanField(
+        label = 'is the user currently on staff ?',
+        widget = forms.CheckboxInput(
+            attrs={
+                "placeholder" : "Active Staff",                
+                "class": "form-control form-check-input"
+            }
+        ))
+
+    class Meta:
+        model = BaseUser
+        fields = ['is_staff', 'is_active']

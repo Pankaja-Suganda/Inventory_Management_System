@@ -32,24 +32,23 @@
                   <div class="row no-gutters row-bordered row-border-light">
                     <div class="col-md-3 pt-0">
                       <div class="card-body media align-items-center">
-
                           <img id= 'img-profile' src="{{ user.profile_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
                       </div>
                       <div class="text-center text-capitalize">{{ user.role }}</div>
                       <h3 class="text-center text-primary ">{{ user.first_name }} {{ user.last_name }}</h3>
                       
                       <div class="list-group list-group-flush account-settings-links">
-                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">About</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-update">Update Info</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change password</a>
+                        <a class="list-group-item list-group-item-action {% if 'account-general' in select %} active {% endif %} " data-toggle="list" href="#account-general">About</a>
+                        <a class="list-group-item list-group-item-action {% if 'account-update' in select %} active {% endif %}" data-toggle="list" href="#account-update">Update Info</a>
+                        <a class="list-group-item list-group-item-action {% if 'account-change-password' in select %} active {% endif %}" data-toggle="list" href="#account-change-password">Change password</a>
                         {% if user.is_superuser %}
-                          <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-permissions">User Permissions</a>
+                          <a class="list-group-item list-group-item-action {% if 'account-permissions' in select %} active {% endif %}" data-toggle="list" href="#account-permissions">User Permissions</a>
                         {% endif %}
                       </div>
                     </div>
                     <div class="col-md-9">
                       <div class="tab-content bg-light">
-                        <div class="tab-pane fade active show" id="account-general">
+                        <div class="tab-pane fade {% if 'account-general' in select %} active show{% endif %} " id="account-general">
                           <h3 class="text-title"> About You</h3>
                           <div class="card-body">
                             <h4 class="card-title fw-bold"> Personal Info</h4>
@@ -148,15 +147,17 @@
                           </div>
             
                         </div>
-                        <div class="tab-pane fade" id="account-update">
+                        <div class="tab-pane fade {% if 'account-update' in select %} active show{% endif %}" id="account-update">
                           <h3 class="pb-1">Update your User Account</h3>
                           <div class="card-body pb-2">
                               <h4 class=" card-title">Personal Info</h4>
-                              <span class=" text-muted alert-danger">
-                                  {% if msg %}
-                                      {{ msg | safe }}
-                                  {% endif %} 
-                              </span>
+                              
+                                {% if update_success %}
+                                  <div class="alert alert-success">
+                                     <bold>Update Success</bold> You have successfully Updated your profile!
+                                  </div>
+                                {% endif %} 
+
                               <form role="form" method="post" action="update" enctype="multipart/form-data">
                                   {% csrf_token %}        
                                   <div class="form-group">
@@ -166,14 +167,18 @@
                                               <div class="input-group">
                                                   {{ form.user_name }}
                                               </div>
-                                              <span class="text-error">{{ form.user_name.errors }}</span>
+                                              {% if form.user_name.errors %}
+                                                <span role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.user_name.errors }}</span>
+                                              {% endif %}
                                           </div>
                                           <div class="form-group col-md-6">
                                               {{form.email.label}} : 
                                               <div class="input-group ">
                                                  <span class="input-group-text" id="">@</span> {{ form.email }}
                                               </div>
-                                              <span class="text-error ">{{ form.email.errors }}</span> 
+                                              {% if form.email.errors %}
+                                                <span role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.email.errors }}</span> 
+                                              {% endif %}
                                           </div>
                                       </div>
                                       <div class="form-row">
@@ -182,14 +187,18 @@
                                               <div class="input-group">
                                                   {{ form.first_name }}
                                               </div>
-                                              <span class="text-error">{{ form.first_name.errors }}</span>
+                                              {% if form.first_name.errors %}
+                                                <span role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.first_name.errors }}</span> 
+                                              {% endif %}
                                           </div>
                                           <div class="form-group col-md-6">
                                               {{form.last_name.label}} :
                                               <div class="input-group ">
                                                   {{ form.last_name }}
                                               </div>
-                                              <span class="text-error">{{ form.last_name.errors }}</span> 
+                                              {% if form.last_name.errors %}
+                                                <span role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.last_name.errors }}</span> 
+                                              {% endif %} 
                                           </div>
                                       </div>
                                       <div class="form-row">
@@ -198,14 +207,18 @@
                                             <div class="input-group">
                                                 {{ form.gender }}
                                             </div>
-                                            <span class="text-error">{{ form.gender.errors }}</span>
+                                            {% if form.gender.errors %}
+                                              <span role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.gender.errors }}</span> 
+                                            {% endif %} 
                                         </div>
                                         <div class="form-group col-md-6 ">
                                             {{form.profile_img.label}} :
                                             <div class="input-group "> 
                                                 {{ form.profile_img }}
                                             </div>
-                                            <span class="text-error">{{ form.profile_img.errors }}</span> 
+                                            {% if form.profile_img.errors %}
+                                              <span role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.profile_img.errors }}</span> 
+                                            {% endif %}
                                         </div>
                                         <script>
                                           var id_profile_img = document.getElementById('id_profile_img');
@@ -225,14 +238,18 @@
                                               <div class="input-group">
                                                   {{ form.Address_1 }}
                                               </div>
-                                              <span class="text-error">{{ form.Address_1.errors }}</span>
+                                              {% if form.Address_1.errors %}
+                                                <span role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.Address_1.errors }}</span> 
+                                              {% endif %}
                                           </div>
                                           <div class="form-group col-md-6">
                                               {{form.Address_2.label}} :
                                               <div class="input-group ">
                                                   {{ form.Address_2 }}
                                               </div>
-                                              <span class="text-error">{{ form.Address_2.errors }}</span> 
+                                              {% if form.Address_2.errors %}
+                                                <span role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.Address_2.errors }}</span> 
+                                              {% endif %}
                                           </div>
                                       </div>
                                       <div class="form-row">
@@ -241,19 +258,23 @@
                                               <div class="input-group">
                                                   {{ form.city }}
                                               </div>
-                                              <span class="text-error">{{ form.city.errors }}</span>
+                                              {% if form.city.errors %}
+                                                <span role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.city.errors }}</span> 
+                                              {% endif %}
                                           </div>
                                           <div class="form-group col-md-6">
                                               {{form.mobile_number.label}} :
                                               <div class="input-group ">
                                                   {{ form.mobile_number }}
                                               </div>
-                                              <span class="text-error">{{ form.mobile_number.errors }}</span>    
+                                              {% if form.mobile_number.errors %}
+                                                <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.mobile_number.errors }}</div> 
+                                              {% endif %} 
                                           </div>
                                       </div>
                                   </div>
-                                  <button class="btn-lg float-right btn-primary" data-toggle="modal" data-target="#model_info_update_pass">Update</button>
-
+                                  <a class="btn-lg float-right btn-primary text-light" data-toggle="modal" data-target="#model_info_update_pass">Update</a>
+                                  <br>
                                   <!-- User Profile Update Modal -->
                                   <div class="modal fade" id="model_info_update_pass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -268,7 +289,7 @@
                                             You want really need to update your Profile informations?
                                           </div>
                                         <div class="modal-footer">
-                                          <button type="submit" class="btn btn-primary">Confirm Update</button>
+                                          <button href="{% url 'update'%}"  class="btn btn-primary">Confirm Update</button>
                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                         </div>
                                       </div>
@@ -277,7 +298,7 @@
                               </form>
                           </div>
                         </div>
-                        <div class="tab-pane fade" id="account-change-password">
+                        <div class="tab-pane fade {% if 'account-change-password' in select %} active show{% endif %}" id="account-change-password">
                             <h3 class="text-title"> Reset Your Password</h3>
                             <br>
                             <div class="row">
@@ -315,7 +336,7 @@
                                     {% endif %}
                                   </div>
                                   <br>
-                                  <button  class="btn-lg float-right btn-primary" data-toggle="modal" data-target="#model_reset_pass">Reset Password</button>
+                                  <a  class="btn-lg float-right btn-primary text-light" data-toggle="modal" data-target="#model_reset_pass">Reset Password</a>
                                   
                                   <!-- Reset Password Modal -->
                                   <div class="modal fade" id="model_reset_pass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -344,7 +365,7 @@
                               </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="account-permissions">
+                        <div class="tab-pane fade {% if 'account-permissions' in select %} active show{% endif %}" id="account-permissions">
                           <h3 class="text-title"> Manage the User Peermissions</h3>
                           <div class="card-body pb-1">
                             <div class="container">
@@ -508,15 +529,26 @@
                                                       </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                      {{ user_.first_name }} {{ user_.last_name }}
+                                                      <div class="text">You are about to delete one track url, this procedure is irreversible.</div>
+                                                      <br>
+                                                      <h5 class="modal-message"><strong>User Id        : {{ user_.id }}</strong></h5>
+                                                      <h5 class="modal-message"><strong>User Name      : {{ user_.user_name }}</strong></h5>
+                                                      <h5 class="modal-message"><strong>User Full Name : {{ user_.first_name }} {{ user_.last_name }}</strong></h5>
+                                                      <br>
+                                                      <div class='modal-message'>Do you want to proceed the delete opretion?</div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                      <button type="button" class="btn btn-danger">Delete</button>
-                                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                      <form role="form" method="post" action="deleteUser">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="id" value="{{ user_.id }}">
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                      </form>
                                                     </div>
                                                   </div>
                                                 </div>
                                               </div>
+
                                               <!-- Update Modal -->
                                               <div class="modal fade" id="model_update_{{ user_.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
@@ -528,11 +560,35 @@
                                                       </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                      {{ user_.first_name }} {{ user_.last_name }}
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                      <button type="button" class="btn btn-primary">Update Permission</button>
-                                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                      <form role="form" method="post" action="SetUserPermissions">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="id" value="{{ user_.id }}">
+                                                        <div class="row">
+                                                          <div class="col">
+
+                                                            <div class="form-group">
+                                                              <div class="form-check">
+                                                                {{ form_per.is_staff }}
+                                                              </div>
+                                                              <br>
+                                                              <label class="form-check-label text-center">{{ form_per.is_staff.label }}</label>
+                                                            </div>
+                                                          </div>
+                                                          <div class="col">
+                                                            <div class="form-group">
+                                                              <div class="form-check">
+                                                                {{ form_per.is_active }}
+                                                              </div>
+                                                              <br>
+                                                              <label class="form-check-label text-center">{{ form_per.is_active.label }}</label>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <button type="submit"  class="btn btn-primary">Update Permission</button>
+                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                      </form>
                                                     </div>
                                                   </div>
                                                 </div>
