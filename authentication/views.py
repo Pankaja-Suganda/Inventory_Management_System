@@ -19,7 +19,6 @@ from .models import BaseUser
 
 def login_view(request):
     form = LoginForm(request.POST or None)
-
     msg = None
 
     if request.method == "POST":
@@ -37,6 +36,7 @@ def login_view(request):
             msg = 'Error validating the form'    
 
     return render(request, "accounts/login.html", {"form": form, "msg" : msg})
+
 
 @login_required(login_url="/login/")
 def register_user(request):
@@ -131,18 +131,17 @@ def ResetPassword(request):
 def SetUserPermissions(request):
     context = {}
     pk = request.POST.get("id")
-    is_active = request.POST.get("is_active")
-    is_staff = request.POST.get("is_staff")
-    print('pk : ', pk, is_active, is_staff)
+    _is_active = bool(request.POST.get("is_active"))
+    _is_staff = bool(request.POST.get("is_staff"))
+
     context['select'] = 'account-permissions'
     if request.method == 'POST':
-        user = BaseUser.objects.filter(id=pk)
-        form = UserUpdatePer(instance=request.user, data=request.POST)
+        user = BaseUser.objects.filter(id=pk).update(
+        is_staff = _is_staff,
+        is_active = _is_active)
 
-        if form.is_valid():
-            form.save()
-
-    context['form_per'] = form
+    context['form_per'] = UserUpdatePer()
+    context['select'] = 'account-permissions' 
     
     return redirect('settings.html', context)
 

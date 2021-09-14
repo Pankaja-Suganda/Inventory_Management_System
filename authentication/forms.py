@@ -375,3 +375,9 @@ class UserUpdatePer(forms.ModelForm):
     class Meta:
         model = BaseUser
         fields = ['is_staff', 'is_active']
+    
+    def __init__(self, *args, **kwargs):
+        super(UserUpdatePer, self).__init__(*args, **kwargs)
+        self.fields['is_staff'].required = False
+        self.fields['is_active'].required = False
+

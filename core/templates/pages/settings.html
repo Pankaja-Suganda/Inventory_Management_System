@@ -369,7 +369,6 @@
                           <h3 class="text-title"> Manage the User Peermissions</h3>
                           <div class="card-body pb-1">
                             <div class="container">
-                              
                               <div class="table-responsive">
                                 <div class="table-wrapper">
                                   
@@ -560,21 +559,46 @@
                                                       </button>
                                                     </div>
                                                     <div class="modal-body">
+                                                      <h6>Current User Permissions</h6>
+
+                                                      <div class="row">
+                                                        <div class="col">
+                                                          <div class="form-group">
+                                                            <div class="fs-2 text-muted"> Is Staff : </div>
+                                                            {% if user_.is_staff %}
+                                                              <h5 class="card-title text-success aligned-justify-content-center">Yes</h5> The User is in Staff
+                                                            {% else %}                   
+                                                              <h5 class="card-title text-danger">No</h5> The User is not in Staff
+                                                            {% endif %} 
+                                                          </div> 
+                                                        </div>
+                                                        <div class="col">
+                                                          <div class="form-group">
+                                                            <div class="fs-2 text-muted"> Is Active : </div>
+                                                            {% if user_.is_active %}
+                                                              <h5 class="card-title text-success">Yes</h5> The Account is Activated
+                                                            {% else %}                   
+                                                              <h5 class="card-title text-danger">No</h5> The Account is not Activated
+                                                            {% endif %} 
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <hr>
                                                       <form role="form" method="post" action="SetUserPermissions">
                                                         {% csrf_token %}
                                                         <input type="hidden" name="id" value="{{ user_.id }}">
+                                                        <h6>Change User Permissions</h6>
                                                         <div class="row">
-                                                          <div class="col">
-
+                                                          <div class="col-6">
                                                             <div class="form-group">
-                                                              <div class="form-check">
-                                                                {{ form_per.is_staff }}
-                                                              </div>
-                                                              <br>
-                                                              <label class="form-check-label text-center">{{ form_per.is_staff.label }}</label>
+                                                                <div class="form-check">
+                                                                  {{ form_per.is_staff }}
+                                                                </div>
+                                                                <br>
+                                                                <label class="form-check-label text-center">{{ form_per.is_staff.label }}</label>
                                                             </div>
                                                           </div>
-                                                          <div class="col">
+                                                          <div class="col-6">
                                                             <div class="form-group">
                                                               <div class="form-check">
                                                                 {{ form_per.is_active }}
