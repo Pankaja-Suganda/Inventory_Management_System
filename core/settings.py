@@ -18,8 +18,8 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-# load production server from .env
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')]
+# # load production server from .env
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1'),'192.168.8.103']
 
 # Application definition
 
@@ -32,7 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'phonenumber_field',
     'app',
-    'authentication'
+    'authentication',
+    'customer'
      # Enable the inner app 
 ]
 
