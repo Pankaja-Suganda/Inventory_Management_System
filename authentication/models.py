@@ -79,6 +79,7 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
 
     class meta:
         proxy = True
+        
     def __str__(self):
         return self.user_name
 
