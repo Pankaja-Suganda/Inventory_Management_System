@@ -1,0 +1,262 @@
+                          <h3 class="text-title"> Manage the User Peermissions</h3>
+                          <div class="card-body pb-1">
+                            <div class="container">
+                              <div class="table-responsive">
+                                <div class="table-wrapper">
+                                  
+                                <style>
+                                  .table-responsive {
+                                      margin: 30px 0;
+                                  }
+                                  .table-wrapper {
+                                      min-width: 1000px;
+                                      background: #fff;
+                                      padding: 20px 25px;
+                                      border-radius: 3px;
+                                      box-shadow: 0 1px 1px rgba(0,0,0,.05);
+                                  }
+                                  .table-title {
+                                      padding-bottom: 15px;
+                                      background: #299be4;
+                                      color: #fff;
+                                      padding: 16px 30px;
+                                      margin: -20px -25px 10px;
+                                      border-radius: 3px 3px 0 0;
+                                  }
+                                  .table-title h2 {
+                                      margin: 5px 0 0;
+                                      font-size: 24px;
+                                  }
+                                  .table-title .btn {
+                                      color: #566787;
+                                      float: right;
+                                      font-size: 13px;
+                                      background: #fff;
+                                      border: none;
+                                      min-width: 50px;
+                                      border-radius: 2px;
+                                      border: none;
+                                      outline: none !important;
+                                      margin-left: 10px;
+                                  }
+                                  .table-title .btn:hover, .table-title .btn:focus {
+                                      color: #566787;
+                                      background: #f2f2f2;
+                                  }
+                                  .table-title .btn i {
+                                      float: left;
+                                      font-size: 21px;
+                                      margin-right: 5px;
+                                  }
+                                  .table-title .btn span {
+                                      float: left;
+                                      margin-top: 2px;
+                                  }
+                                  table.table tr th, table.table tr td {
+                                      border-color: #e9e9e9;
+                                      padding: 12px 15px;
+                                      vertical-align: middle;
+                                  }
+                                  table.table tr th:first-child {
+                                      width: 60px;
+                                  }
+                                  table.table tr th:last-child {
+                                      width: 100px;
+                                  }
+                                  table.table-striped tbody tr:nth-of-type(odd) {
+                                      background-color: #fcfcfc;
+                                  }
+                                  table.table-striped.table-hover tbody tr:hover {
+                                      background: #f5f5f5;
+                                  }
+                                  table.table th i {
+                                      font-size: 13px;
+                                      margin: 0 5px;
+                                      cursor: pointer;
+                                  }	
+                                  table.table td:last-child i {
+                                      opacity: 0.9;
+                                      font-size: 22px;
+                                      margin: 0 5px;
+                                  }
+                                  table.table td a {
+                                      font-weight: bold;
+                                      color: #566787;
+                                      display: inline-block;
+                                      text-decoration: none;
+                                  }
+                                  table.table td a:hover {
+                                      color: #2196F3;
+                                  }
+                                  table.table td a.settings {
+                                      color: #2196F3;
+                                  }
+                                  table.table td a.delete {
+                                      color: #F44336;
+                                  }
+                                  table.table td i {
+                                      font-size: 19px;
+                                  }
+                                  table.table .avatar {
+                                      border-radius: 50%;
+                                      vertical-align: middle;
+                                      margin-right: 10px;
+                                      width:50px;
+                                  }
+                                  .status {
+
+                                      font-size: 30px;
+                                      margin: 2px 2px 0 0;
+                                      display: inline-block;
+                                      vertical-align: middle;
+                                      line-height: 10px;
+                                  }
+                                </style>
+                                <table class="table table-striped table-hover">
+                                  <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>						
+                                        <th>Date Created</th>
+                                        <th>Role</th>
+                                        <th>Staff</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    <tbody>
+                                    {% for user_ in users %}
+                                      {% if not user_.id == user.id %}
+                                        <tr>
+                                          <td>{{ user_.id }}</td>
+                                          <td><a href="#"><img src="{{ user_.profile_img.url }}" class="avatar" alt=""> {{ user_.first_name }} {{ user_.last_name }}</a></td>
+                                          <td>{{ user_.created }}</td>                        
+                                          <td>{{ user_.role}}</td>
+                                          <td>
+                                            {% if user_.is_staff %}
+                                              <span class="status text-success">&bull;</span> Yes
+                                            {% else %}
+                                              <span class="status text-danger">&bull;</span> No
+                                            {% endif %}
+                                            </td>
+                                          <td>
+                                          {% if user_.is_active %}
+                                            <span class="status text-success">&bull;</span> Active
+                                          {% else %}
+                                            <span class="status text-danger">&bull;</span> Inactive
+                                          {% endif %}
+                                          </td>
+                                          <td>
+                                              <a href="#" class="settings" title="Settings" data-toggle="modal" data-target="#model_update_{{ user_.id }}"><i class="material-icons">&#xE8B8;</i></a>
+                                              <a href="#" class="delete" title="Delete" data-toggle="modal" data-target="#model_delete_{{ user_.id }}"><i class="material-icons">&#xE5C9;</i></a>
+
+                                              <!-- Delete Modal -->
+                                              <div class="modal fade" id="model_delete_{{ user_.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="exampleModalLabel">User Deletion Confirmation</h5>
+                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                      </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <div class="text">You are about to delete one track url, this procedure is irreversible.</div>
+                                                      <br>
+                                                      <h5 class="modal-message"><strong>User Id        : {{ user_.id }}</strong></h5>
+                                                      <h5 class="modal-message"><strong>User Name      : {{ user_.user_name }}</strong></h5>
+                                                      <h5 class="modal-message"><strong>User Full Name : {{ user_.first_name }} {{ user_.last_name }}</strong></h5>
+                                                      <br>
+                                                      <div class='modal-message'>Do you want to proceed the delete opretion?</div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <form role="form" method="post" action="deleteUser">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="id" value="{{ user_.id }}">
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                      </form>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+
+                                              <!-- Update Modal -->
+                                              <div class="modal fade" id="model_update_{{ user_.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="exampleModalLabel">User Permission Updating</h5>
+                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                      </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <h6>Current User Permissions</h6>
+
+                                                      <div class="row">
+                                                        <div class="col">
+                                                          <div class="form-group">
+                                                            <div class="fs-2 text-muted"> Is Staff : </div>
+                                                            {% if user_.is_staff %}
+                                                              <h5 class="card-title text-success aligned-justify-content-center">Yes</h5> The User is in Staff
+                                                            {% else %}                   
+                                                              <h5 class="card-title text-danger">No</h5> The User is not in Staff
+                                                            {% endif %} 
+                                                          </div> 
+                                                        </div>
+                                                        <div class="col">
+                                                          <div class="form-group">
+                                                            <div class="fs-2 text-muted"> Is Active : </div>
+                                                            {% if user_.is_active %}
+                                                              <h5 class="card-title text-success">Yes</h5> The Account is Activated
+                                                            {% else %}                   
+                                                              <h5 class="card-title text-danger">No</h5> The Account is not Activated
+                                                            {% endif %} 
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <hr>
+                                                      <form role="form" method="post" action="SetUserPermissions">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="id" value="{{ user_.id }}">
+                                                        <h6>Change User Permissions</h6>
+                                                        <div class="row">
+                                                          <div class="col-6">
+                                                            <div class="form-group">
+                                                                <div class="form-check">
+                                                                  {{ form_per.is_staff }}
+                                                                </div>
+                                                                <br>
+                                                                <label class="form-check-label text-center">{{ form_per.is_staff.label }}</label>
+                                                            </div>
+                                                          </div>
+                                                          <div class="col-6">
+                                                            <div class="form-group">
+                                                              <div class="form-check">
+                                                                {{ form_per.is_active }}
+                                                              </div>
+                                                              <br>
+                                                              <label class="form-check-label text-center">{{ form_per.is_active.label }}</label>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <button type="submit"  class="btn btn-primary">Update Permission</button>
+                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                      </form>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                          </td>
+                                        </tr>
+                                      {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </thead>
+                                </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>

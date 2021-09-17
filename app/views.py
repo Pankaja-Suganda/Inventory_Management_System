@@ -8,12 +8,21 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
 from django.http import HttpResponse
 from django import template
+# from authentication application
 from authentication.decorator import allowed_users
 from authentication.models import BaseUser
 from authentication.forms import ProfileUpdate, UserPasswordUpdate, UserUpdatePer
+
+# from customer Application
 from customer.filters import CustomerFilter
 from customer.models import Customer
 from customer.form import CustomerRegister
+
+# from Supplier Application
+from supplier.filters import SupplierFilter
+from supplier.models import Supplier
+from supplier.forms import SupplierRegister
+
 
 @login_required(login_url="/login/")
 def index(request):
@@ -58,6 +67,21 @@ def pages(request):
                 context['filter'] = cus_filter
                 context['customer_reg'] = CustomerRegister()
             
+        # for Supplier section
+        elif context['segment'] == 'suppliers':
+            if request.POST:
+                # if request is POST
+                context['suppliers'] = Supplier.objects.all()
+                context['filter'] = SupplierFilter()
+                context['supplier_reg'] = SupplierRegister()
+            else:
+                # if request is POST
+                customers = Supplier.objects.all()
+                cus_filter = SupplierFilter(request.GET, queryset=customers)
+                context['suppliers'] = cus_filter.qs
+                context['filter'] = cus_filter
+                context['supplier_reg'] = SupplierRegister()
+
         html_template = loader.get_template( load_template )
         return HttpResponse(html_template.render(context, request))
         

@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'django_filters',
     'app',
     'authentication',
-    'customer'
+    'customer',
+    'supplier'
      # Enable the inner app 
 ]
 

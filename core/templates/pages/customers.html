@@ -289,14 +289,9 @@
                             }
                         </style>
 
-                        {% comment %} <form role="form" method="post" class="form-horizontal">     Customer registration
-                            {% csrf_token %}
-                            {{ customer_reg.as_table }}
-                        </form> {% endcomment %}
-
                         <div class = "row">
                             <div class="col-12">
-                                <div class="container-xl">
+                                {% comment %} <div class="container-xl"> {% endcomment %}
                                 <div class="card yearly-sales animated fadeInUp">
                                     <div class="table-responsive ">
                                         <div class="table-wrapper">
@@ -372,25 +367,30 @@
                                                 </ul>
                                             </div>
 
-                                            <!-- new customer modal -->
-                                            <div class="modal fade" id="new_customer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog-lg" role="document">
-                                                  <div class="modal-content">
-                                                    <div class="modal-header">
-                                                      <h5 class="modal-title" id="exampleModalLabel">New Customer Registration</h5>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                      <div class='modal-message'>Do you want to proceed the delete opretion?</div>
-                                                    </div>
-                                                    <div class="modal-footer">
 
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
                                         </div>
                                     </div>  
-                                </div>   
+                                </div> 
+                                <!-- new customer modal -->
+                                <div class="modal fade" id="new_customer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">New Customer Registration</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class='modal-message'>Do you want to proceed the delete opretion?</div>
+                                                <form role="form" method="post" class="form-horizontal">     Customer registration
+                                                    {% csrf_token %}
+                                                    {{ customer_reg.as_table }}
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>  
                             </div>
                         </div>
                     </div>
