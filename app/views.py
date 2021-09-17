@@ -11,6 +11,9 @@ from django import template
 from authentication.decorator import allowed_users
 from authentication.models import BaseUser
 from authentication.forms import ProfileUpdate, UserPasswordUpdate, UserUpdatePer
+from customer.filters import CustomerFilter
+from customer.models import Customer
+from customer.form import CustomerRegister
 
 @login_required(login_url="/login/")
 def index(request):
@@ -35,11 +38,25 @@ def pages(request):
         load_template      = request.path.split('/')[-1]
         context['segment'] = load_template.replace('.html','')
 
+        # for settings section
         if context['segment'] == 'settings':
             context['form'] = ProfileUpdate(instance=request.user)
             context['form_reset'] = UserPasswordUpdate()
             context['select'] = 'account-general'
             context['form_per'] = UserUpdatePer()
+        
+        # for customer section
+        elif context['segment'] == 'customers':
+            if request.POST:
+                context['customers'] = Customer.objects.all()
+                context['filter'] = CustomerFilter()
+                context['customer_reg'] = CustomerRegister()
+            else:
+                customers = Customer.objects.all()
+                cus_filter = CustomerFilter(request.GET, queryset=customers)
+                context['customers'] = cus_filter.qs
+                context['filter'] = cus_filter
+                context['customer_reg'] = CustomerRegister()
             
         html_template = loader.get_template( load_template )
         return HttpResponse(html_template.render(context, request))

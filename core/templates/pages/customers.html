@@ -288,6 +288,12 @@
                                 font-size: 95%;
                             }
                         </style>
+
+                        {% comment %} <form role="form" method="post" class="form-horizontal">     Customer registration
+                            {% csrf_token %}
+                            {{ customer_reg.as_table }}
+                        </form> {% endcomment %}
+
                         <div class = "row">
                             <div class="col-12">
                                 <div class="container-xl">
@@ -296,40 +302,58 @@
                                         <div class="table-wrapper">
                                             <div class="table-title">
                                                 <div class="row">
-                                                    <div class="col-sm-8"><h2>Customer <b>Details</b></h2></div>
+                                                    <div class="col-sm-8"><h2>Customer <b>Details</b></h2>
+                                                        <form role="form" method="post" class="form-horizontal">
+                                                            {% csrf_token %}
+                                                            {{ filter.form.as_table }}
+                                                        </form>
+                                                    </div>
                                                     <div class="col-sm-4">
                                                         <div class="search-box">
                                                             <i class="material-icons">&#xE8B6;</i>
                                                             <input type="text" class="form-control" placeholder="Search&hellip;">
                                                         </div>
+                                                        <button class="btn bg-success"  title="New Customer" data-toggle="modal" data-target="#new_customer">New Customer<i class="material-icons">&#xE8B6;</i></button>
                                                     </div>
                                                 </div>
                                             </div>
+
+
+
                                             <table class="table table-striped table-hover ">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Name <i class="fa fa-sort"></i></th>
-                                                        <th>Address</th>
-                                                        <th>City <i class="fa fa-sort"></i></th>
-                                                        <th>Pin Code</th>
-                                                        <th>Country <i class="fa fa-sort"></i></th>
+                                                        <th>Company Name <i class="fa fa-sort"></i></th>
+                                                        <th>Contact</th>
+                                                        <th>Status <i class="fa fa-sort"></i></th>
+                                                        <th>Orders Count <i class="fa fa-sort"></i></th>
+                                                        <th>Last Order <i class="fa fa-sort"></i></th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>Thomas Hardy</td>
-                                                        <td>89 Chiaroscuro Rd.</td>
-                                                        <td>Portland</td>
-                                                        <td>97219</td>
-                                                        <td>USA</td>
-                                                        <td>
-                                                            <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                                            <a href="#" class="settings" title="settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                                                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                                                        </td>
+                                                        {% for customer in customers %}
+                                                            <td>{{ customer.id }}</td>
+                                                            <td>{{ customer.company }}</td>
+                                                            <td>{{ customer.mobile_number }}</td>
+                                                            {% if customer.status == 0 %}
+                                                                <td class="card-title text-success">Active</td> 
+                                                            {% elif customer.status == 1 %}                  
+                                                                <td class="card-title text-warning">Expired</td> 
+                                                            {% else %}
+                                                                <td class="card-title text-danger">Suspended</td> 
+                                                            {% endif %}
+
+                                                            <td>{{ customer.orders_count }}</td>
+                                                            <td>{{ customer.last_order_date }}</td>
+                                                            <td>
+                                                                <a id="view_{{ customer.id }}" href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                                                                <a id="settings_{{ customer.id }}" href="#" class="settings" title="settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                                                <a id="delete_{{ customer.id }}" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                                                            </td>
+                                                        {% endfor %}
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -345,6 +369,23 @@
                                                     <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
                                                 </ul>
                                             </div>
+
+                                            <!-- new customer modal -->
+                                            <div class="modal fade" id="new_customer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog-lg" role="document">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="exampleModalLabel">New Customer Registration</h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <div class='modal-message'>Do you want to proceed the delete opretion?</div>
+                                                    </div>
+                                                    <div class="modal-footer">
+
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
                                         </div>
                                     </div>  
                                 </div>   
