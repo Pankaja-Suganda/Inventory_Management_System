@@ -333,8 +333,9 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        {% for customer in customers %}
+                                                    
+                                                    {% for customer in customers %}
+                                                        <tr>
                                                             <td>{{ customer.id }}</td>
                                                             <td>{{ customer.company }}</td>
                                                             <td>{{ customer.mobile_number }}</td>
@@ -353,8 +354,9 @@
                                                                 <a id="settings_{{ customer.id }}" href="#" class="settings" title="settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
                                                                 <a id="delete_{{ customer.id }}" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
                                                             </td>
-                                                        {% endfor %}
-                                                    </tr>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    
                                                 </tbody>
                                             </table>
                                             <div class="clearfix">
