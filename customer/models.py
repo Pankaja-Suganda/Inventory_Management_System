@@ -3,12 +3,12 @@ import shortuuid
 
 # Create your models here.
 class Customer(models.Model):
+    
     STATUS_CHOICES = (
         (0, 'Active'),
         (1, 'Expired'),
         (2, 'Suspended')
     )
-
 
     id = models.CharField(max_length=7, primary_key=True, blank=False)
     company = models.CharField('company', max_length=150, blank=True)
