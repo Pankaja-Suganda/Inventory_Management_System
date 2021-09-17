@@ -27,12 +27,12 @@
         <!-- [ breadcrumb ] end -->
         <div class="main-body">
             <!-- Page content -->
-            <div class="container light-style flex-grow-1 container-p-y animated fadeInUp">
+            <div class="container light-style flex-grow-1 container-p-y">
                 <div class="card overflow-hidden">
                   <div class="row no-gutters row-bordered row-border-light">
                     <div class="col-md-3 pt-0">
                       <div class="card-body media align-items-center">
-                          <img id= 'img-profile' src="{{ user.profile_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive ">
+                          <img id= 'img-profile' src="{{ user.profile_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
                       </div>
                       <div class="text-center text-capitalize">{{ user.role }}</div>
                       <h3 class="text-center text-primary ">{{ user.first_name }} {{ user.last_name }}</h3>
@@ -480,7 +480,7 @@
                                       line-height: 10px;
                                   }
                                 </style>
-                                <table class=" table table-striped table-hover ">
+                                <table class="table table-striped table-hover">
                                   <thead>
                                     <tr>
                                         <th>#</th>
@@ -638,7 +638,6 @@
         </div>
     </div>
 </div>
-
 
 {% endblock content %}
 
