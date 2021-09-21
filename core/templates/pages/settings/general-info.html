@@ -1,101 +1,101 @@
 <h3 class="text-title">About You</h3>
 <div class="card-body">
     <!-- Personal Infomations-->
-    <h4 class="card-title fw-bold">Personal Info</h4>
+    <h4 class="card-title fs-4">Personal Info</h4>
     <hr class="border-primary m-0" />
     <br />
 
     <div class="row">
         <div class="col-4">
-            <div class="fs-2 text-muted">First Name :</div>
-            <h5 class="body-text">{{ user.first_name }}</h5>
+            <div class="fs-6 text-muted">First Name :</div>
+            <h5 class="fs-5 p-t-5 body-text">{{ user.first_name }}</h5>
         </div>
         <div class="col-4">
-            <div class="fs-2 text-muted">Last Name :</div>
-            <h5 class="card-title">{{ user.last_name }}</h5>
+            <div class="fs-6 text-muted">Last Name :</div>
+            <h5 class="fs-5 p-t-5 card-title">{{ user.last_name }}</h5>
         </div>
         <div class="col-4">
-            <div class="fs-2 text-muted">Gender :</div>
+            <div class="fs-6 text-muted">Gender :</div>
             {% if user.gender == 0 %}
-                <h5 class="card-title">Male</h5>
+                <h5 class="fs-5 p-t-5 card-title">Male</h5>
             {% else %} {% if user.gender == 1 %}
-                <h5 class="card-title">Female</h5>
+                <h5 class="fs-5 p-t-5 card-title">Female</h5>
             {% else %}
-                <h5 class="card-title">Not Specified</h5>
+                <h5 class="fs-5 p-t-5 card-title">Not Specified</h5>
             {% endif%} {% endif %}
         </div>
     </div>
 
     <!-- Contact Infomations-->
     <br>
-    <h4 class="card-title fw-bold">Contact Info</h4>
+    <h4 class="card-title fs-4">Contact Info</h4>
     <hr class="border-primary m-0">
     <br>
 
     <div class="row">
         <div class="col-4">
-            <div class="fs-2 text-muted">Mobile Number :</div>
-            <h5 class="card-title">{{ user.mobile_number }}</h5>
+            <div class="fs-6 text-muted">Mobile Number :</div>
+            <h5 class="fs-5 p-t-5 card-title">{{ user.mobile_number }}</h5>
         </div>
         <div class="col-6">
-            <div class="fs-2 text-muted">Email Address :</div>
-            <h5 class="card-title">{{ user.email }}</h5>
+            <div class="fs-6 text-muted">Email Address :</div>
+            <h5 class="fs-5 p-t-5 card-title">{{ user.email }}</h5>
         </div>
     </div>
     <div class="row">
         <div class="col-4">
-            <div class="fs-2 text-muted">Address 1 :</div>
-            <h5 class="card-title">{{ user.Address_1 }}</h5>
+            <div class="fs-6 text-muted">Address 1 :</div>
+            <h5 class="fs-5 p-t-5 card-title">{{ user.Address_1 }}</h5>
         </div>
         <div class="col-4">
-            <div class="fs-2 text-muted">Address 2 :</div>
-            <h5 class="card-title">{{ user.Address_2 }}</h5>
+            <div class="fs-6 text-muted">Address 2 :</div>
+            <h5 class="fs-5 p-t-5 card-title">{{ user.Address_2 }}</h5>
         </div>
     </div>
     <div class="row">
         <div class="col-4">
-            <div class="fs-2 text-muted">City :</div>
-            <h5 class="card-title">{{ user.city }}</h5>
+            <div class="fs-6 text-muted">City :</div>
+            <h5 class="fs-5 p-t-5 card-title">{{ user.city }}</h5>
         </div>
     </div>
 
     <!-- Other Infomations-->
     <br />
-    <h4 class="card-title fw-bold">Other Info</h4>
+    <h4 class="card-title fs-4">Other Info</h4>
     <hr class="border-primary m-0" />
     <br />
 
     <div class="row">
         <div class="col-4">
-            <div class="fs-2 text-muted">Account Created On :</div>
-            <h5 class="card-title">{{ user.created }}</h5>
+            <div class="fs-6 text-muted">Account Created On :</div>
+            <h5 class="fs-5 p-t-5 card-title">{{ user.created }}</h5>
         </div>
         <div class="col-4">
-            <div class="fs-2 text-muted">Last Login :</div>
-            <h5 class="card-title">{{ user.last_login }}</h5>
+            <div class="fs-6 text-muted">Last Login :</div>
+            <h5 class="fs-5 p-t-5 card-title">{{ user.last_login }}</h5>
         </div>
     </div>
     <div class="row">
         <div class="col-4">
-            <div class="fs-2 text-muted">Is Staff :</div>
+            <div class="fs-6 text-muted">Is Staff :</div>
             {% if user.is_staff %}
-                <h5 class="card-title text-success">Yes</h5>
+                <h5 class=" p-t-5 card-title text-success">Yes</h5>
             {% else %}
-                <h5 class="card-title text-danger">No</h5>
+                <h5 class=" p-t-5 card-title text-danger">No</h5>
             {% endif %}
         </div>
         <div class="col-4">
-            <div class="fs-2 text-muted">Is Active :</div>
+            <div class="fs-6 text-muted">Is Active :</div>
             {% if user.is_active %}
-                <h5 class="card-title text-success">Yes</h5>
+                <h5 class=" p-t-5 card-title text-success">Yes</h5>
             {% else %}
-                <h5 class="card-title text-danger">No</h5>
+                <h5 class=" p-t-5 card-title text-danger">No</h5>
             {% endif %}
         </div>
         {% if user.is_superuser %}
             <div class="col-4">
-                <div class="fs-2 text-muted">Is Admin :</div>
-                <h5 class="card-title text-success">Yes</h5>
+                <div class="fs-6 text-muted">Is Admin :</div>
+                <h5 class="p-t-5 card-title text-success">Yes</h5>
             </div>
         {% endif %}
     </div>

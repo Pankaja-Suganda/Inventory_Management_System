@@ -1,22 +1,22 @@
                           <h3 class="text-title"> Manage the User Peermissions</h3>
-                          <div class="card-body pb-1">
+                          <div class="card-body">
                             <div class="container">
                               <div class="table-responsive">
                                 <div class="table-wrapper">
                                   
                                 <style>
                                   .table-responsive {
-                                      margin: 30px 0;
+                                      {% comment %} margin: 30px 0; {% endcomment %}
                                   }
                                   .table-wrapper {
                                       min-width: 1000px;
                                       background: #fff;
-                                      padding: 20px 25px;
+                                      {% comment %} padding: 20px 25px; {% endcomment %}
                                       border-radius: 3px;
                                       box-shadow: 0 1px 1px rgba(0,0,0,.05);
                                   }
                                   .table-title {
-                                      padding-bottom: 15px;
+                                      paddiqng-bottom: 15px;
                                       background: #299be4;
                                       color: #fff;
                                       padding: 16px 30px;
@@ -160,7 +160,7 @@
                                                       </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                      <div class="text">You are about to delete one track url, this procedure is irreversible.</div>
+                                                      <div class="text">You are about to delete, this procedure is irreversible.</div>
                                                       <br>
                                                       <h5 class="modal-message"><strong>User Id        : {{ user_.id }}</strong></h5>
                                                       <h5 class="modal-message"><strong>User Name      : {{ user_.user_name }}</strong></h5>

@@ -1,24 +1,23 @@
 <h3 class="pb-1">Update your User Account</h3>
 <div class="card-body pb-2">
-  <h4 class="card-title">Personal Info</h4>
+<h4 class="card-title">Personal Info</h4>
 
-  {% if update_success %}
+{% if update_success %}
   <div class="alert alert-success">
     <bold>Update Success</bold> You have successfully Updated your profile!
   </div>
-  {% endif %}
+{% endif %}
 
-  <form role="form" method="post" action="update" enctype="multipart/form-data">
+  <form role="form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group">
-      <div class="form-row">
+      <div class="row">
         <div class="form-group col-md-6">
           {{form.user_name.label}} :
           <div class="input-group">{{ form.user_name }}</div>
           {% if form.user_name.errors %}
           <span role="alert" class="alert alert-danger"
-            ><strong>Error!</strong>{{ form.user_name.errors }}</span
-          >
+            ><strong>Error!</strong>{{ form.user_name.errors }}</span>
           {% endif %}
         </div>
         <div class="form-group col-md-6">
@@ -33,7 +32,7 @@
           {% endif %}
         </div>
       </div>
-      <div class="form-row">
+      <div class="row">
         <div class="form-group col-md-6">
           {{form.first_name.label}} :
           <div class="input-group">{{ form.first_name }}</div>
@@ -53,7 +52,7 @@
           {% endif %}
         </div>
       </div>
-      <div class="form-row">
+      <div class="row">
         <div class="form-group col-md-6">
           {{form.gender.label}} :
           <div class="input-group">{{ form.gender }}</div>
@@ -64,7 +63,7 @@
           {% endif %}
         </div>
         <div class="form-group col-md-6">
-          {{form.profile_img.label}} :
+          {% comment %} {{form.profile_img.label}} : {% endcomment %}
           <div class="input-group">{{ form.profile_img }}</div>
           {% if form.profile_img.errors %}
           <span role="alert" class="alert alert-danger"
@@ -81,10 +80,10 @@
         </script>
       </div>
     </div>
-    <hr />
+    <hr>
     <h4 class="pb-1 card-title">Contact Info</h4>
     <div class="form-group">
-      <div class="form-row">
+      <div class="row">
         <div class="form-group col-md-6">
           {{form.Address_1.label}} :
           <div class="input-group">{{ form.Address_1 }}</div>
@@ -104,7 +103,7 @@
           {% endif %}
         </div>
       </div>
-      <div class="form-row">
+      <div class="row">
         <div class="form-group col-md-6">
           {{form.city.label}} :
           <div class="input-group">{{ form.city }}</div>
@@ -125,54 +124,24 @@
         </div>
       </div>
     </div>
-    <a
-      class="btn-lg float-right btn-primary text-light"
-      data-toggle="modal"
-      data-target="#model_info_update_pass"
-      >Update</a
-    >
-    <br />
-    <!-- User Profile Update Modal -->
-    <div
-      class="modal fade"
-      id="model_info_update_pass"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              User Profile Update Confirmation
-            </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            You want really need to update your Profile informations?
-          </div>
-          <div class="modal-footer">
-            <button href="{% url 'update'%}" class="btn btn-primary">
-              Confirm Update
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Cancel
-            </button>
-          </div>
+  </form>
+  <button class="btn btn-primary text-light float-right" title="Update General Info" data-toggle="modal" data-target="#model_info_update_pass" >Update</button>
+  <br>
+  <!-- User Profile Update Modal -->
+  <div class="modal hide fade" id="model_info_update_pass" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">User Profile Update Confirmation</h5>
+        </div>
+        <div class="modal-body">
+          <div class='modal-message'> You want really need to update your Profile informations ?</div>
+        </div>
+        <div class="modal-footer">
+          <button href="{% url 'update'%}" class="btn btn-primary">  Confirm Update </button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" > Cancel </button>
         </div>
       </div>
     </div>
-  </form>
+  </div> 
 </div>
