@@ -59,7 +59,7 @@ def pages(request):
             if request.POST:
                 context['customers'] = Customer.objects.all()
                 context['filter'] = CustomerFilter()
-                context['customer_reg'] = CustomerRegister()
+                context['customer_reg'] = CustomerRegister(id="C00004")
             else:
                 customers = Customer.objects.all()
                 cus_filter = CustomerFilter(request.GET, queryset=customers)

@@ -379,14 +379,151 @@
                                                 <h5 class="modal-title" id="exampleModalLabel">New Customer Registration</h5>
                                             </div>
                                             <div class="modal-body">
-                                                <div class='modal-message'>Do you want to proceed the delete opretion?</div>
-                                                <form role="form" method="post" class="form-horizontal">     Customer registration
+                                                <form role="form" method="post" enctype="multipart/form-data">     
                                                     {% csrf_token %}
-                                                    {{ customer_reg.as_table }}
+                                                    <h5 class=" card-title">General Details</h5>
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-6">
+
+                                                                {{customer_reg.id.label}} :
+                                                                <div class="input-group">{{ customer_reg.id }}</div>
+
+                                                                {% if customer_reg.id.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.id.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+
+                                                                {{customer_reg.company.label}} :
+                                                                <div class="input-group"> {{ customer_reg.company }}</div>
+
+                                                                {% if customer_reg.company.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.company.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-md-6 py-0">
+                                                                {{customer_reg.first_name.label}} :
+                                                                <div class="input-group">{{ customer_reg.first_name }}</div>
+
+                                                                {% if customer_reg.first_name.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.first_name.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="form-group col-md-6 py-0">
+
+                                                                {{customer_reg.last_name.label}} :
+                                                                <div class="input-group"> {{ customer_reg.last_name }}</div>
+
+                                                                {% if customer_reg.last_name.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.last_name.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-md-6 py-0">
+                                                                {{customer_reg.status.label}} :
+                                                                <div class="input-group">{{ customer_reg.status }}</div>
+
+                                                                {% if customer_reg.status.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.status.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <h5 class="card-title">Contact Details</h5>
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-6 py-0">
+                                                                {{customer_reg.email.label}} :
+                                                                <div class="input-group">{{ customer_reg.email }}</div>
+
+                                                                {% if customer_reg.email.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.email.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="form-group col-md-6 py-0">
+                                                                {{customer_reg.mobile_number.label}} :
+                                                                <div class="input-group">{{ customer_reg.mobile_number }}</div>
+
+                                                                {% if customer_reg.mobile_number.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.mobile_number.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-md-6 py-0">
+                                                                <h5 class="card-title">Postal Address</h5>
+
+                                                                {{customer_reg.Postal_Address_1.label}} :
+                                                                <div class="input-group">{{ customer_reg.Postal_Address_1 }}</div>
+
+                                                                {% if customer_reg.Postal_Address_1.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.Postal_Address_1.errors }}</span>
+                                                                {% endif %}
+
+                                                                {{customer_reg.Postal_Address_2.label}} :
+                                                                <div class="input-group">{{ customer_reg.Postal_Address_2 }}</div>
+
+                                                                {% if customer_reg.Postal_Address_2.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.Postal_Address_2.errors }}</span>
+                                                                {% endif %}   
+
+                                                                 {{customer_reg.Postal_city.label}} :
+                                                                <div class="input-group">{{ customer_reg.Postal_city }}</div>
+
+                                                                {% if customer_reg.Postal_city.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.Postal_city.errors }}</span>
+                                                                {% endif %}                                                               
+
+                                                            </div>
+                                                            <div class="form-group col-md-6 py-0">
+                                                                <h5 class="card-title">Billing Address</h5>
+                                                                {{customer_reg.billing_Address_1.label}} :
+                                                                <div class="input-group">{{ customer_reg.billing_Address_1 }}</div>
+
+                                                                {% if customer_reg.billing_Address_1.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.billing_Address_1.errors }}</span>
+                                                                {% endif %}
+
+                                                                {{customer_reg.billing_Address_2.label}} :
+                                                                <div class="input-group">{{ customer_reg.billing_Address_2 }}</div>
+
+                                                                {% if customer_reg.billing_Address_2.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.billing_Address_2.errors }}</span>
+                                                                {% endif %}
+
+                                                                {{customer_reg.billing_city.label}} :
+                                                                <div class="input-group">{{ customer_reg.billing_city }}</div>
+
+                                                                {% if customer_reg.billing_city.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.billing_city.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='modal-message float-left'>Add all details about a customer</div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">Add Customer</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                    </div>
                                                 </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>
                                     </div>
