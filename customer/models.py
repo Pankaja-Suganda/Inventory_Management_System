@@ -33,7 +33,7 @@ class Customer(models.Model):
     last_order_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.id
+        return "self.id"
 
     def get_last_name(self):
         return self.last_name
@@ -41,9 +41,15 @@ class Customer(models.Model):
     def get_first_name(self):
         return self.first_name
     
-    @property
+    def class_name(self):
+        return self.__name__
+
+    @staticmethod
     def customer_id(self):
         id = shortuuid.ShortUUID(alphabet="0123456789")
         return 'C'+ str( id.random(length=6))
+    
+    class Meta:
+        __name__ = 'Customer'
 
     # def save(self)

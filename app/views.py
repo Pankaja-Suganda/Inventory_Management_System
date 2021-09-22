@@ -6,8 +6,10 @@ Copyright (c) 2019 - present AppSeed.us
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from django import template
+from django.core.serializers import deserialize
+
 # from authentication application
 from authentication.decorator import allowed_users
 from authentication.models import BaseUser
@@ -23,6 +25,26 @@ from supplier.filters import SupplierFilter
 from supplier.models import Supplier
 from supplier.forms import SupplierRegister
 
+#  for packing the model pass one view to another
+def context_packer(model, name, id):
+    context = {
+            "model" : model.__name__, 
+            "id" : id,
+            "name": name
+        }
+    return context
+
+# for remaking the model from passed data from previous view
+def context_maker(context_in):
+    context = {}
+    for value in context_in.values():
+        if value['model'] == Customer.__name__:
+            context[value['name']] = Customer.objects.get(id=value['id'])
+        elif value['model'] == Supplier.__name__:
+            context[value['name']] = Supplier.objects.get(id=value['id'])
+
+    return context
+
 
 @login_required(login_url="/login/")
 def index(request):
@@ -36,7 +58,7 @@ def index(request):
 @login_required(login_url="/login/")
 # @allowed_users(allowed_roles=['manager']) #decorator for testing
 def pages(request):
-    context = {}
+    context = context_maker(request.session.get("context"))
     context['user'] = request.user
     context['users'] = BaseUser.objects.all()
     # All resource paths end in .html.
@@ -59,7 +81,7 @@ def pages(request):
             if request.POST:
                 context['customers'] = Customer.objects.all()
                 context['filter'] = CustomerFilter()
-                context['customer_reg'] = CustomerRegister(id="C00004")
+                context['customer_reg'] = CustomerRegister()
             else:
                 customers = Customer.objects.all()
                 cus_filter = CustomerFilter(request.GET, queryset=customers)
@@ -82,6 +104,7 @@ def pages(request):
                 context['filter'] = cus_filter
                 context['supplier_reg'] = SupplierRegister()
 
+        print('load : ', load_template)
         html_template = loader.get_template( load_template )
         return HttpResponse(html_template.render(context, request))
         

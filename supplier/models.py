@@ -27,6 +27,9 @@ class Supplier(models.Model):
     def get_id(self):
         return self.id
 
+    def class_name(self):
+        return self.__class__.__name__
+
     def get_company(self):
         return self.last_name
     

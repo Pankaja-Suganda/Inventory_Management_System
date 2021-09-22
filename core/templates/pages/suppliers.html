@@ -224,7 +224,7 @@
                                                 <tbody>
                                                     {% for supplier in suppliers %}
                                                         <tr>
-                                                            <td>{{ supplier.id }}</td>
+                                                            <td><a  href="{% url 'supplier_info'  supplier.id %}">{{ supplier.id }}</a></td>
                                                             <td>{{ supplier.company }}</td>
                                                             <td>{{ supplier.mobile_number }}</td>
                                                             <td>{{ supplier.email }}</td>
@@ -262,8 +262,8 @@
                             <div class="card-body media align-items-center">
                                 <img id= 'img-profile' src="{{ user.profile_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
                             </div>
-                            <div class="text-center text-capitalize">{{ user.role }}</div>
-                            <h3 class="text-center text-primary ">{{ user.first_name }} {{ user.last_name }}</h3>
+                            <div class="text-center text-capitalize">{{ c_Supplier.id }}</div>
+                            <h3 class="text-center text-primary ">{{ c_Supplier.company }} {{ c_Supplier.name }}</h3>
                             <hr>
                             <!--Accordion wrapper-->
                             <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
