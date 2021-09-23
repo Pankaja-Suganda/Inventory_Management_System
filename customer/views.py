@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from .models import Customer
 from app.views import context_packer
@@ -6,6 +6,7 @@ from app.views import context_packer
 
 @login_required(login_url="/login/")
 def customer_info(request, id):
+    print('customer_info : ', id)
     context = {}
     context['0'] = context_packer(Customer, "c_customer", id)
 
@@ -14,8 +15,10 @@ def customer_info(request, id):
 
 @login_required(login_url="/login/")
 def customer_delete(request, id):
+    print('customer_delete : ', id)
     return redirect('/customers.html')
 
 @login_required(login_url="/login/")
 def customer_update(request, id):
+    print('customer_update : ', id)
     return redirect('/customers.html')

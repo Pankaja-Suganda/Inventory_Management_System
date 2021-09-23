@@ -221,22 +221,22 @@
                                 position: relative;        
                                 float: right;
                             }
-                            .search-box input {
-                                height: 34px;
+                            .search-box .in{
+                                height: 44px;
                                 border-radius: 20px;
-                                padding-left: 35px;
+                                padding-left: 30px;
                                 border-color: #ddd;
                                 box-shadow: none;
                             }
-                            .search-box input:focus {
+                            .search-box .in:focus {
                                 border-color: #3FBAE4;
                             }
                             .search-box i {
                                 color: #a0a5b1;
                                 position: absolute;
                                 font-size: 19px;
-                                top: 8px;
-                                left: 10px;
+                                top: 15px;
+                                left: 25px;
                             }
                             table.table tr th, table.table tr td {
                                 border-color: #e9e9e9;
@@ -321,18 +321,30 @@
                                         <div class="table-wrapper">
                                             <div class="table-title">
                                                 <div class="row">
-                                                    <div class="col-sm-8"><h2>Customer <b>Details</b></h2>
-                                                        <form role="form" method="post" class="form-horizontal">
+                                                    <div class="col-8">
+                                                        <form role="form" method="get" class="form-horizontal">
                                                             {% csrf_token %}
-                                                            {{ filter.form.as_table }}
+                                                            <div class="row">
+                                                                <div class="search-box col-3">
+                                                                    <i class="material-icons">&#xE8B6;</i>
+                                                                    {{ filter.form.id }}
+                                                                </div>
+                                                                <div class="search-box col-3">
+                                                                    <i class="material-icons">&#xE8B6;</i>
+                                                                    {{ filter.form.company }}
+                                                                </div>
+                                                                <div class="search-box col-3">
+                                                                    <i class="material-icons">&#xE8B6;</i>
+                                                                    {{ filter.form.status }}
+                                                                </div>
+                                                                <div class="search-box col-4">
+                                                                    <button style="display: none;" type="submit"></button>
+                                                                </div>
+                                                            </div>
                                                         </form>
                                                     </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="search-box">
-                                                            <i class="material-icons">&#xE8B6;</i>
-                                                            <input type="text" class="form-control" placeholder="Search&hellip;">
-                                                        </div>
-                                                        <button class="btn bg-success"  title="New Customer" data-toggle="modal" data-target="#new_customer">New Customer<i class="material-icons">&#xE8B6;</i></button>
+                                                    <div class="col-4">
+                                                        <button class="btn bg-success float-right text-light"  title="New Customer" data-toggle="modal" data-target="#new_customer">New Customer</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -369,9 +381,8 @@
                                                             <td>{{ customer.orders_count }}</td>
                                                             <td>{{ customer.last_order_date }}</td>
                                                             <td>
-                                                            {% comment %} data-target="#update_{{ customer.id }}"  {% endcomment %}
-                                                                <a href="{% url 'customer_update' customer.id %}" class="settings" title="settings" data-toggle="modal"><i class="material-icons">&#xE8B8;</i></a>
-                                                                <a href="{% url 'customer_delete' customer.id %}" class="delete" title="Delete" data-toggle="modal"><i class="material-icons">&#xE5C9;</i></a>
+                                                                <a href="{% url 'customer_update' customer.id %}" title="settings" class="settings"><i class="material-icons">&#xE8B8;</i></a>
+                                                                <a href="{% url 'customer_delete' customer.id %}" title="delete" class="delete" ><i class="material-icons">&#xE5C9;</i></a>
                                                             </td>
                                                         </tr>
                                                     {% endfor %}
@@ -572,195 +583,195 @@
                                         </div>
                                     </div>
                                 </div>  
-                                {% for customer in customers %}
-                                    <!-- update customer modal -->
-                                    <div class="modal fade" id="update_{{ customer.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Update <span class=" badge badge-info">{{ customer.id }}</span> Customer Informations</h5>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form role="form" method="post" enctype="multipart/form-data">     
-                                                        {% csrf_token %}
-                                                        <h5 class=" card-title">General Details</h5>
+                                
+                                <!-- update customer modal -->
+                                <div class="modal fade" id="update_{{ customer.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Update <span class=" badge badge-info">{{ customer.id }}</span> Customer Informations</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form role="form" method="post" enctype="multipart/form-data">     
+                                                    {% csrf_token %}
+                                                    <h5 class=" card-title">General Details</h5>
+                                                    <div class="row">
+                                                        <div class="card-body media align-items-center">
+                                                            <img id= 'cus-img-profile-new' src="{{ customer.customer_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="form-group">
                                                         <div class="row">
-                                                            <div class="card-body media align-items-center">
-                                                                <img id= 'cus-img-profile-new' src="{{ customer.customer_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
+                                                            <div class="form-group col-md-6">
+
+                                                                {{customer_reg.company.label}} :
+                                                                <div class="input-group"> {{ customer_reg.company }}</div>
+
+                                                                {% if customer_reg.company.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.company.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-md-6 py-0">
+                                                                {{customer_reg.first_name.label}} :
+                                                                <div class="input-group">{{ customer_reg.first_name }}</div>
+
+                                                                {% if customer_reg.first_name.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.first_name.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="form-group col-md-6 py-0">
+
+                                                                {{customer_reg.last_name.label}} :
+                                                                <div class="input-group"> {{ customer_reg.last_name }}</div>
+
+                                                                {% if customer_reg.last_name.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.last_name.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-md-6 py-0">
+                                                                {{customer_reg.customer_img.label}} :
+                                                                <div class="input-group">{{ customer_reg.customer_img }}</div>
+
+                                                                {% if customer_reg.customer_img.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.customer_img.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="form-group col-md-6 py-0">
+                                                                {{customer_reg.status.label}} :
+                                                                <div class="input-group">{{ customer_reg.status }}</div>
+
+                                                                {% if customer_reg.status.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.status.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <script>
+                                                            {% comment %} var id_customer_img = document.getElementById("id_customer_img");
+                                                            id_customer_img.onchange = function (event) {
+                                                                var img_cus_new = document.getElementById("cus-img-profile-new");
+                                                                img_cus_new.src = URL.createObjectURL(event.target.files[0]);
+                                                            }; {% endcomment %}
+                                                        </script>
+                                                    </div>
+                                                    <hr>
+                                                    <h5 class="card-title">Contact Details</h5>
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-6 py-0">
+                                                                {{customer_reg.email.label}} :
+                                                                <div class="input-group">{{ customer_reg.email }}</div>
+
+                                                                {% if customer_reg.email.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.email.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="form-group col-md-6 py-0">
+                                                                {{customer_reg.mobile_number.label}} :
+                                                                <div class="input-group">{{ customer_reg.mobile_number }}</div>
+
+                                                                {% if customer_reg.mobile_number.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.mobile_number.errors }}</span>
+                                                                {% endif %}
                                                             </div>
                                                         </div>
                                                         <hr>
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="form-group col-md-6">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-6 py-0">
+                                                                <h5 class="card-title">Postal Address</h5>
 
-                                                                    {{customer_reg.company.label}} :
-                                                                    <div class="input-group"> {{ customer_reg.company }}</div>
+                                                                {{customer_reg.Postal_Address_1.label}} :
+                                                                <div class="input-group">{{ customer_reg.Postal_Address_1 }}</div>
 
-                                                                    {% if customer_reg.company.errors %}
-                                                                    <span role="alert" class="alert alert-danger"
-                                                                        ><strong>Error!</strong>{{ customer_reg.company.errors }}</span>
-                                                                    {% endif %}
-                                                                </div>
+                                                                {% if customer_reg.Postal_Address_1.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.Postal_Address_1.errors }}</span>
+                                                                {% endif %}
+
+                                                                {{customer_reg.Postal_Address_2.label}} :
+                                                                <div class="input-group">{{ customer_reg.Postal_Address_2 }}</div>
+
+                                                                {% if customer_reg.Postal_Address_2.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.Postal_Address_2.errors }}</span>
+                                                                {% endif %}   
+
+                                                                {{customer_reg.Postal_city.label}} :
+                                                                <div class="input-group">{{ customer_reg.Postal_city }}</div>
+
+                                                                {% if customer_reg.Postal_city.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.Postal_city.errors }}</span>
+                                                                {% endif %}                                                               
+
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="form-group col-md-6 py-0">
-                                                                    {{customer_reg.first_name.label}} :
-                                                                    <div class="input-group">{{ customer_reg.first_name }}</div>
+                                                            <div class="form-group col-md-6 py-0">
+                                                                <h5 class="card-title">Billing Address</h5>
+                                                                {{customer_reg.billing_Address_1.label}} :
+                                                                <div class="input-group">{{ customer_reg.billing_Address_1 }}</div>
 
-                                                                    {% if customer_reg.first_name.errors %}
-                                                                    <span role="alert" class="alert alert-danger"
-                                                                        ><strong>Error!</strong>{{ customer_reg.first_name.errors }}</span>
-                                                                    {% endif %}
-                                                                </div>
-                                                                <div class="form-group col-md-6 py-0">
+                                                                {% if customer_reg.billing_Address_1.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.billing_Address_1.errors }}</span>
+                                                                {% endif %}
 
-                                                                    {{customer_reg.last_name.label}} :
-                                                                    <div class="input-group"> {{ customer_reg.last_name }}</div>
+                                                                {{customer_reg.billing_Address_2.label}} :
+                                                                <div class="input-group">{{ customer_reg.billing_Address_2 }}</div>
 
-                                                                    {% if customer_reg.last_name.errors %}
-                                                                    <span role="alert" class="alert alert-danger"
-                                                                        ><strong>Error!</strong>{{ customer_reg.last_name.errors }}</span>
-                                                                    {% endif %}
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="form-group col-md-6 py-0">
-                                                                    {{customer_reg.customer_img.label}} :
-                                                                    <div class="input-group">{{ customer_reg.customer_img }}</div>
+                                                                {% if customer_reg.billing_Address_2.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.billing_Address_2.errors }}</span>
+                                                                {% endif %}
 
-                                                                    {% if customer_reg.customer_img.errors %}
-                                                                    <span role="alert" class="alert alert-danger"
-                                                                        ><strong>Error!</strong>{{ customer_reg.customer_img.errors }}</span>
-                                                                    {% endif %}
-                                                                </div>
-                                                                <div class="form-group col-md-6 py-0">
-                                                                    {{customer_reg.status.label}} :
-                                                                    <div class="input-group">{{ customer_reg.status }}</div>
+                                                                {{customer_reg.billing_city.label}} :
+                                                                <div class="input-group">{{ customer_reg.billing_city }}</div>
 
-                                                                    {% if customer_reg.status.errors %}
-                                                                    <span role="alert" class="alert alert-danger"
-                                                                        ><strong>Error!</strong>{{ customer_reg.status.errors }}</span>
-                                                                    {% endif %}
-                                                                </div>
-                                                            </div>
-                                                            <script>
-                                                                {% comment %} var id_customer_img = document.getElementById("id_customer_img");
-                                                                id_customer_img.onchange = function (event) {
-                                                                    var img_cus_new = document.getElementById("cus-img-profile-new");
-                                                                    img_cus_new.src = URL.createObjectURL(event.target.files[0]);
-                                                                }; {% endcomment %}
-                                                            </script>
-                                                        </div>
-                                                        <hr>
-                                                        <h5 class="card-title">Contact Details</h5>
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="form-group col-md-6 py-0">
-                                                                    {{customer_reg.email.label}} :
-                                                                    <div class="input-group">{{ customer_reg.email }}</div>
-
-                                                                    {% if customer_reg.email.errors %}
-                                                                    <span role="alert" class="alert alert-danger"
-                                                                        ><strong>Error!</strong>{{ customer_reg.email.errors }}</span>
-                                                                    {% endif %}
-                                                                </div>
-                                                                <div class="form-group col-md-6 py-0">
-                                                                    {{customer_reg.mobile_number.label}} :
-                                                                    <div class="input-group">{{ customer_reg.mobile_number }}</div>
-
-                                                                    {% if customer_reg.mobile_number.errors %}
-                                                                    <span role="alert" class="alert alert-danger"
-                                                                        ><strong>Error!</strong>{{ customer_reg.mobile_number.errors }}</span>
-                                                                    {% endif %}
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                            <div class="row">
-                                                                <div class="form-group col-md-6 py-0">
-                                                                    <h5 class="card-title">Postal Address</h5>
-
-                                                                    {{customer_reg.Postal_Address_1.label}} :
-                                                                    <div class="input-group">{{ customer_reg.Postal_Address_1 }}</div>
-
-                                                                    {% if customer_reg.Postal_Address_1.errors %}
-                                                                    <span role="alert" class="alert alert-danger"
-                                                                        ><strong>Error!</strong>{{ customer_reg.Postal_Address_1.errors }}</span>
-                                                                    {% endif %}
-
-                                                                    {{customer_reg.Postal_Address_2.label}} :
-                                                                    <div class="input-group">{{ customer_reg.Postal_Address_2 }}</div>
-
-                                                                    {% if customer_reg.Postal_Address_2.errors %}
-                                                                    <span role="alert" class="alert alert-danger"
-                                                                        ><strong>Error!</strong>{{ customer_reg.Postal_Address_2.errors }}</span>
-                                                                    {% endif %}   
-
-                                                                    {{customer_reg.Postal_city.label}} :
-                                                                    <div class="input-group">{{ customer_reg.Postal_city }}</div>
-
-                                                                    {% if customer_reg.Postal_city.errors %}
-                                                                    <span role="alert" class="alert alert-danger"
-                                                                        ><strong>Error!</strong>{{ customer_reg.Postal_city.errors }}</span>
-                                                                    {% endif %}                                                               
-
-                                                                </div>
-                                                                <div class="form-group col-md-6 py-0">
-                                                                    <h5 class="card-title">Billing Address</h5>
-                                                                    {{customer_reg.billing_Address_1.label}} :
-                                                                    <div class="input-group">{{ customer_reg.billing_Address_1 }}</div>
-
-                                                                    {% if customer_reg.billing_Address_1.errors %}
-                                                                    <span role="alert" class="alert alert-danger"
-                                                                        ><strong>Error!</strong>{{ customer_reg.billing_Address_1.errors }}</span>
-                                                                    {% endif %}
-
-                                                                    {{customer_reg.billing_Address_2.label}} :
-                                                                    <div class="input-group">{{ customer_reg.billing_Address_2 }}</div>
-
-                                                                    {% if customer_reg.billing_Address_2.errors %}
-                                                                    <span role="alert" class="alert alert-danger"
-                                                                        ><strong>Error!</strong>{{ customer_reg.billing_Address_2.errors }}</span>
-                                                                    {% endif %}
-
-                                                                    {{customer_reg.billing_city.label}} :
-                                                                    <div class="input-group">{{ customer_reg.billing_city }}</div>
-
-                                                                    {% if customer_reg.billing_city.errors %}
-                                                                    <span role="alert" class="alert alert-danger"
-                                                                        ><strong>Error!</strong>{{ customer_reg.billing_city.errors }}</span>
-                                                                    {% endif %}
-                                                                </div>
+                                                                {% if customer_reg.billing_city.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.billing_city.errors }}</span>
+                                                                {% endif %}
                                                             </div>
                                                         </div>
-                                                        <div class='modal-message float-left'>Add all details about a customer to update</div>
-                                                        <div class="modal-footer">
-                                                            <button type="submit" class="btn btn-success">Update Customer</button>
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                                    </div>
+                                                    <div class='modal-message float-left'>Add all details about a customer to update</div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success">Update Customer</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Delete customer modal -->
-                                    <div class="modal fade" id="delete_{{ customer.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-md" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Customer Deletion Confirmation</h5>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <h5 class="modal-title" id="exampleModalLabel">would you like to delete  ({{ customer.id }})  <span class=" badge badge-danger">{{ customer.company }}</span>  this customer?</h5>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-danger">Yes, Confirmed</button>
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                </div>
+                                </div>
+
+                                <!-- Delete customer modal -->
+                                <div class="modal fade" id="customer-delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-md" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="delete-title">Customer Deletion Confirmation</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h5 class="modal-title" id="delete-body">would you like to delete  ({{ customer.id }})  <span class=" badge badge-danger">{{ customer.company }}</span>  this customer?</h5>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-danger">Yes, Confirmed</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>
                                     </div>
-                                {% endfor %}
+                                </div>
                             </div>
                         </div>
                     </div>

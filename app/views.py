@@ -73,7 +73,7 @@ def pages(request):
         context = context_maker(request.session.get("context"))
     else:
         context = {}
-        
+
     context['user'] = request.user
     context['users'] = BaseUser.objects.all()
     # All resource paths end in .html.
@@ -95,7 +95,7 @@ def pages(request):
         elif context['segment'] == 'customers':
             if request.POST:
                 context['customers'] = Customer.objects.all()
-                context['filter'] = CustomerFilter()
+                context['filter'] = CustomerFilter(request.GET, queryset=context['customers'])
                 context['customer_reg'] = CustomerRegister()
             else:
                 customers = Customer.objects.all()
