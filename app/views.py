@@ -27,11 +27,19 @@ from supplier.forms import SupplierRegister
 
 #  for packing the model pass one view to another
 def context_packer(model, name, id):
-    context = {
-            "model" : model.__name__, 
-            "id" : id,
-            "name": name
-        }
+    if not model == None:
+        context = {
+                "model" : model.__name__, 
+                "id" : id,
+                "name": name
+            }
+    else:
+        context = {
+                "model" : None, 
+                "id" : id,
+                "name": name
+            }
+
     return context
 
 # for remaking the model from passed data from previous view
@@ -42,6 +50,8 @@ def context_maker(context_in):
             context[value['name']] = Customer.objects.get(id=value['id'])
         elif value['model'] == Supplier.__name__:
             context[value['name']] = Supplier.objects.get(id=value['id'])
+        elif value['model'] == None:
+            context[value['name']] = value['id']
 
     return context
 
@@ -58,7 +68,12 @@ def index(request):
 @login_required(login_url="/login/")
 # @allowed_users(allowed_roles=['manager']) #decorator for testing
 def pages(request):
-    context = context_maker(request.session.get("context"))
+
+    if not request.session.get("context")==None:
+        context = context_maker(request.session.get("context"))
+    else:
+        context = {}
+        
     context['user'] = request.user
     context['users'] = BaseUser.objects.all()
     # All resource paths end in .html.

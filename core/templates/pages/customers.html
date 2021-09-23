@@ -32,12 +32,12 @@
                     <div class="col-sm-12 col-md-6 col-xl-4">
                         <div class = "card animated fadeInLeft">
                             <div class="card-body media align-items-center">
-                                <img id= 'img-profile' src="{{ user.profile_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
+                                <img id= 'img-profile' src="{{ c_customer.customer_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
+                                <div class="badge badge-pill badge-success">{{ c_customer.orders_count }}<i class="fa fa-user ml-2"></i></div>
                             </div>
-                            {{c_customer}}
-                            {{c_customer.id}}
-                            <div class="text-center text-capitalize">{{ c_customer.Company }}</div>
-                            <h3 class="text-center text-primary ">{{ c_customer.first_name }} {{ c_customer.last_name }}</h3>
+
+                            <div class="text-center text-capitalize">{{c_customer.id}}</div>
+                            <h3 class="text-center text-primary ">{{ c_customer.company }}</h3>
                             <hr>
                             <!--Accordion wrapper-->
                             <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
@@ -48,7 +48,7 @@
                                     <div class="card-header" role="tab" id="headingOne1">
                                     <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
                                         aria-controls="collapseOne1">
-                                        <h5 class="mb-0">
+                                        <h5 class="card-title fs-4 mb-0">
                                             General Info <i class="fas fa-angle-down rotate-icon"></i>
                                         </h5>
                                     </a>
@@ -57,8 +57,45 @@
                                     <!-- Card body -->
                                     <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
                                     data-parent="#accordionEx">
-                                    <div class="card-body">
-                                        Anim pariatur cliche reprehenderit, 
+                                    <div class="card-body ">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="fs-6 text-muted">First Name :</div>
+                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.first_name }}</h5>
+                                            </div>
+                                            <div class="col">
+                                                <div class="fs-6 text-muted">Last Name :</div>
+                                                <h5 class="fs-5 p-t-5 card-title">{{ c_customer.last_name }}</h5>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="fs-6 text-muted">Status :</div>
+                                                    {% if c_customer.status == 0 %}
+                                                        <h5 class=" p-t-5 card-title text-success">Active</h5>
+                                                    {% elif c_customer.status == 1  %}
+                                                        <h5 class=" p-t-5 card-title text-warning">Suspended</h5>
+                                                    {% else%}
+                                                        <h5 class=" p-t-5 card-title text-danger">Expired</h5>
+                                                    {% endif %}
+                                            </div>
+                                            <div class="col">
+                                                <div class="fs-6 text-muted">Orders Count :</div>
+                                                <h5 class="fs-5 p-t-5 card-title">{{ c_customer.orders_count }}</h5>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="fs-6 text-muted">Joined Date :</div>
+                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.joined_date }}</h5>
+                                            </div>
+                                            <div class="col">
+                                                <div class="fs-6 text-muted">Last Order Date :</div>
+                                                <h5 class="fs-5 p-t-5 card-title">{{ c_customer.last_order_date }}</h5>
+                                            </div>
+                                        </div>
                                     </div>
                                     </div>
 
@@ -82,31 +119,34 @@
                                     <div id="collapseTwo2" class="collapse" role="tabpanel" aria-labelledby="headingTwo2"
                                     data-parent="#accordionEx">
                                     <div class="card-body">
-                                        Anim pariatur cliche reprehenderit, 
-                                    </div>
-                                    </div>
-
-                                </div>
-                                <!-- Accordion card -->
-
-                                <!-- Accordion card -->
-                                <div class="card">
-
-                                    <!-- Card header -->
-                                    <div class="card-header" role="tab" id="headingThree3">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree3"
-                                        aria-expanded="false" aria-controls="collapseThree3">
-                                        <h5 class="mb-0">
-                                        Collapsible Group Item #3 <i class="fas fa-angle-down rotate-icon"></i>
-                                        </h5>
-                                    </a>
-                                    </div>
-
-                                    <!-- Card body -->
-                                    <div id="collapseThree3" class="collapse" role="tabpanel" aria-labelledby="headingThree3"
-                                    data-parent="#accordionEx">
-                                    <div class="card-body">
-                                        Anim pariatur cliche reprehenderit, 
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="fs-6 text-muted">Mobile Number :</div>
+                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.mobile_number }}</h5>
+                                            </div>
+                                            <div class="col">
+                                                <div class="fs-6 text-muted">E mail Address :</div>
+                                                <h5 class="fs-5 p-t-5 card-title">{{ c_customer.email }}</h5>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="fs-6 text-muted">Postal Address  :</div>
+                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.Postal_Address_1 }},</h5>
+                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.Postal_Address_2 }},</h5>
+                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.Postal_city }}.</h5>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="fs-6 text-muted">Billing Address :</div>
+                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.billing_Address_1 }},</h5>
+                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.billing_Address_2 }},</h5>
+                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.billing_city }}.</h5>
+                                            </div>
+                                        </div>
                                     </div>
                                     </div>
 
@@ -303,10 +343,10 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Company Name <i class="fa fa-sort"></i></th>
+                                                        <th>Company <i class="fa fa-sort"></i></th>
                                                         <th>Contact</th>
                                                         <th>Status <i class="fa fa-sort"></i></th>
-                                                        <th>Orders Count <i class="fa fa-sort"></i></th>
+                                                        <th>Orders <i class="fa fa-sort"></i></th>
                                                         <th>Last Order <i class="fa fa-sort"></i></th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -329,9 +369,9 @@
                                                             <td>{{ customer.orders_count }}</td>
                                                             <td>{{ customer.last_order_date }}</td>
                                                             <td>
-                                                                <a id="view_{{ customer.id }}" href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                                                <a id="settings_{{ customer.id }}" href="#" class="settings" title="settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                                                                <a id="delete_{{ customer.id }}" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                                                            {% comment %} data-target="#update_{{ customer.id }}"  {% endcomment %}
+                                                                <a href="{% url 'customer_update' customer.id %}" class="settings" title="settings" data-toggle="modal"><i class="material-icons">&#xE8B8;</i></a>
+                                                                <a href="{% url 'customer_delete' customer.id %}" class="delete" title="Delete" data-toggle="modal"><i class="material-icons">&#xE5C9;</i></a>
                                                             </td>
                                                         </tr>
                                                     {% endfor %}
@@ -356,17 +396,23 @@
                                     </div>  
                                 </div> 
                                 <!-- new customer modal -->
-                                <div class="modal fade" id="new_customer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal fade bd-example-modal-lg" id="new_customer" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">New Customer Registration</h5>
+                                                <h5 class="modal-title" id="myLargeModalLabel">New Customer Registration</h5>
                                             </div>
                                             <div class="modal-body">
                                                 <form role="form" method="post" enctype="multipart/form-data">     
                                                     {% csrf_token %}
                                                     <h5 class=" card-title">General Details</h5>
                                                     <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="card-body media align-items-center">
+                                                                <img id= 'cus-img-profile-new' src="/static/assets/images/user/default.png" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
+                                                            </div>
+                                                        </div>
+                                                        <hr>
                                                         <div class="row">
                                                             <div class="form-group col-md-6">
 
@@ -412,6 +458,22 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="form-group col-md-6 py-0">
+                                                                {{customer_reg.customer_img.label}} :
+                                                                <div class="input-group">{{ customer_reg.customer_img }}</div>
+
+                                                                {% if customer_reg.customer_img.errors %}
+                                                                <span role="alert" class="alert alert-danger"
+                                                                    ><strong>Error!</strong>{{ customer_reg.customer_img.errors }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                            <script>
+                                                                var id_customer_img = document.getElementById("id_customer_img");
+                                                                id_customer_img.onchange = function (event) {
+                                                                    var img_cus_new = document.getElementById("cus-img-profile-new");
+                                                                    img_cus_new.src = URL.createObjectURL(event.target.files[0]);
+                                                                };
+                                                            </script>
+                                                            <div class="form-group col-md-6 py-0">
                                                                 {{customer_reg.status.label}} :
                                                                 <div class="input-group">{{ customer_reg.status }}</div>
 
@@ -421,10 +483,8 @@
                                                                 {% endif %}
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <hr>
-                                                    <h5 class="card-title">Contact Details</h5>
-                                                    <div class="form-group">
+                                                        <hr>
+                                                        <h5 class="card-title">Contact Details</h5>
                                                         <div class="row">
                                                             <div class="form-group col-md-6 py-0">
                                                                 {{customer_reg.email.label}} :
@@ -512,6 +572,195 @@
                                         </div>
                                     </div>
                                 </div>  
+                                {% for customer in customers %}
+                                    <!-- update customer modal -->
+                                    <div class="modal fade" id="update_{{ customer.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Update <span class=" badge badge-info">{{ customer.id }}</span> Customer Informations</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form role="form" method="post" enctype="multipart/form-data">     
+                                                        {% csrf_token %}
+                                                        <h5 class=" card-title">General Details</h5>
+                                                        <div class="row">
+                                                            <div class="card-body media align-items-center">
+                                                                <img id= 'cus-img-profile-new' src="{{ customer.customer_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="form-group col-md-6">
+
+                                                                    {{customer_reg.company.label}} :
+                                                                    <div class="input-group"> {{ customer_reg.company }}</div>
+
+                                                                    {% if customer_reg.company.errors %}
+                                                                    <span role="alert" class="alert alert-danger"
+                                                                        ><strong>Error!</strong>{{ customer_reg.company.errors }}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="form-group col-md-6 py-0">
+                                                                    {{customer_reg.first_name.label}} :
+                                                                    <div class="input-group">{{ customer_reg.first_name }}</div>
+
+                                                                    {% if customer_reg.first_name.errors %}
+                                                                    <span role="alert" class="alert alert-danger"
+                                                                        ><strong>Error!</strong>{{ customer_reg.first_name.errors }}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                                <div class="form-group col-md-6 py-0">
+
+                                                                    {{customer_reg.last_name.label}} :
+                                                                    <div class="input-group"> {{ customer_reg.last_name }}</div>
+
+                                                                    {% if customer_reg.last_name.errors %}
+                                                                    <span role="alert" class="alert alert-danger"
+                                                                        ><strong>Error!</strong>{{ customer_reg.last_name.errors }}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="form-group col-md-6 py-0">
+                                                                    {{customer_reg.customer_img.label}} :
+                                                                    <div class="input-group">{{ customer_reg.customer_img }}</div>
+
+                                                                    {% if customer_reg.customer_img.errors %}
+                                                                    <span role="alert" class="alert alert-danger"
+                                                                        ><strong>Error!</strong>{{ customer_reg.customer_img.errors }}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                                <div class="form-group col-md-6 py-0">
+                                                                    {{customer_reg.status.label}} :
+                                                                    <div class="input-group">{{ customer_reg.status }}</div>
+
+                                                                    {% if customer_reg.status.errors %}
+                                                                    <span role="alert" class="alert alert-danger"
+                                                                        ><strong>Error!</strong>{{ customer_reg.status.errors }}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <script>
+                                                                {% comment %} var id_customer_img = document.getElementById("id_customer_img");
+                                                                id_customer_img.onchange = function (event) {
+                                                                    var img_cus_new = document.getElementById("cus-img-profile-new");
+                                                                    img_cus_new.src = URL.createObjectURL(event.target.files[0]);
+                                                                }; {% endcomment %}
+                                                            </script>
+                                                        </div>
+                                                        <hr>
+                                                        <h5 class="card-title">Contact Details</h5>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="form-group col-md-6 py-0">
+                                                                    {{customer_reg.email.label}} :
+                                                                    <div class="input-group">{{ customer_reg.email }}</div>
+
+                                                                    {% if customer_reg.email.errors %}
+                                                                    <span role="alert" class="alert alert-danger"
+                                                                        ><strong>Error!</strong>{{ customer_reg.email.errors }}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                                <div class="form-group col-md-6 py-0">
+                                                                    {{customer_reg.mobile_number.label}} :
+                                                                    <div class="input-group">{{ customer_reg.mobile_number }}</div>
+
+                                                                    {% if customer_reg.mobile_number.errors %}
+                                                                    <span role="alert" class="alert alert-danger"
+                                                                        ><strong>Error!</strong>{{ customer_reg.mobile_number.errors }}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="form-group col-md-6 py-0">
+                                                                    <h5 class="card-title">Postal Address</h5>
+
+                                                                    {{customer_reg.Postal_Address_1.label}} :
+                                                                    <div class="input-group">{{ customer_reg.Postal_Address_1 }}</div>
+
+                                                                    {% if customer_reg.Postal_Address_1.errors %}
+                                                                    <span role="alert" class="alert alert-danger"
+                                                                        ><strong>Error!</strong>{{ customer_reg.Postal_Address_1.errors }}</span>
+                                                                    {% endif %}
+
+                                                                    {{customer_reg.Postal_Address_2.label}} :
+                                                                    <div class="input-group">{{ customer_reg.Postal_Address_2 }}</div>
+
+                                                                    {% if customer_reg.Postal_Address_2.errors %}
+                                                                    <span role="alert" class="alert alert-danger"
+                                                                        ><strong>Error!</strong>{{ customer_reg.Postal_Address_2.errors }}</span>
+                                                                    {% endif %}   
+
+                                                                    {{customer_reg.Postal_city.label}} :
+                                                                    <div class="input-group">{{ customer_reg.Postal_city }}</div>
+
+                                                                    {% if customer_reg.Postal_city.errors %}
+                                                                    <span role="alert" class="alert alert-danger"
+                                                                        ><strong>Error!</strong>{{ customer_reg.Postal_city.errors }}</span>
+                                                                    {% endif %}                                                               
+
+                                                                </div>
+                                                                <div class="form-group col-md-6 py-0">
+                                                                    <h5 class="card-title">Billing Address</h5>
+                                                                    {{customer_reg.billing_Address_1.label}} :
+                                                                    <div class="input-group">{{ customer_reg.billing_Address_1 }}</div>
+
+                                                                    {% if customer_reg.billing_Address_1.errors %}
+                                                                    <span role="alert" class="alert alert-danger"
+                                                                        ><strong>Error!</strong>{{ customer_reg.billing_Address_1.errors }}</span>
+                                                                    {% endif %}
+
+                                                                    {{customer_reg.billing_Address_2.label}} :
+                                                                    <div class="input-group">{{ customer_reg.billing_Address_2 }}</div>
+
+                                                                    {% if customer_reg.billing_Address_2.errors %}
+                                                                    <span role="alert" class="alert alert-danger"
+                                                                        ><strong>Error!</strong>{{ customer_reg.billing_Address_2.errors }}</span>
+                                                                    {% endif %}
+
+                                                                    {{customer_reg.billing_city.label}} :
+                                                                    <div class="input-group">{{ customer_reg.billing_city }}</div>
+
+                                                                    {% if customer_reg.billing_city.errors %}
+                                                                    <span role="alert" class="alert alert-danger"
+                                                                        ><strong>Error!</strong>{{ customer_reg.billing_city.errors }}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class='modal-message float-left'>Add all details about a customer to update</div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-success">Update Customer</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Delete customer modal -->
+                                    <div class="modal fade" id="delete_{{ customer.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-md" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Customer Deletion Confirmation</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h5 class="modal-title" id="exampleModalLabel">would you like to delete  ({{ customer.id }})  <span class=" badge badge-danger">{{ customer.company }}</span>  this customer?</h5>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-danger">Yes, Confirmed</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

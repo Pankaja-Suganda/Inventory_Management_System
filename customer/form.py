@@ -136,9 +136,16 @@ class CustomerRegister(forms.ModelForm):
                 "class": "form-control"
             }
         ))
+    
+    customer_img = forms.ImageField(
+        label='Select Profile Image',
+        help_text='Required',
+        error_messages = {'invalid': "Image files only"})
 
     class Meta:
         model = Customer
         fields = ('id', 'company','first_name', 'last_name', 'status', 
                   'email', 'mobile_number', 'Postal_Address_1', 'Postal_Address_2', 
-                  'Postal_city', 'billing_Address_1', 'billing_Address_2', 'billing_city')
+                  'Postal_city', 'billing_Address_1', 'billing_Address_2', 'billing_city', 'customer_img')
+
+

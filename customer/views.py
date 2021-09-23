@@ -11,3 +11,11 @@ def customer_info(request, id):
 
     request.session['context'] = context
     return redirect('/customers.html')
+
+@login_required(login_url="/login/")
+def customer_delete(request, id):
+    return redirect('/customers.html')
+
+@login_required(login_url="/login/")
+def customer_update(request, id):
+    return redirect('/customers.html')
