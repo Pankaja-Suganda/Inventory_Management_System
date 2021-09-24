@@ -2,7 +2,7 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
-
+from django.views.generic.base import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
@@ -95,13 +95,13 @@ def pages(request):
         # for customer section
         elif context['segment'] == 'customers':
             if request.POST:
-                context['customers'] = Customer.objects.all()
-                context['filter'] = CustomerFilter(request.GET, queryset=context['customers'])
+                # context['customers'] = Customer.objects.all()
+                context['filter'] = CustomerFilter(request.GET, queryset=Customer.objects.all())
                 context['customer_reg'] = CustomerRegister()
             else:
                 customers = Customer.objects.all()
                 cus_filter = CustomerFilter(request.GET, queryset=customers)
-                context['customers'] = cus_filter.qs
+                # context['customers'] = cus_filter.qs
                 context['filter'] = cus_filter
                 context['customer_reg'] = CustomerRegister()
             
@@ -133,3 +133,7 @@ def pages(request):
     
         html_template = loader.get_template( 'page-500.html' )
         return HttpResponse(html_template.render(context, request))
+
+class CustomerTemplate(TemplateView):
+    template_name = 'customers.html'
+    extra_context = {'title' : 'test title'}
