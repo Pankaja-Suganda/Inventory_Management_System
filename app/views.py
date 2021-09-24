@@ -71,6 +71,7 @@ def pages(request):
 
     if not request.session.get("context")==None:
         context = context_maker(request.session.get("context"))
+        print ('context : ', context)
     else:
         context = {}
 

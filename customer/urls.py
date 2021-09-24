@@ -1,8 +1,11 @@
 from django.urls import path
-from .views import customer_info, customer_update, customer_delete
+from .views import *
 
 urlpatterns = [
     path('customer_info/<str:id>', customer_info, name="customer_info"),
-    path('customer_delete/<str:id>', customer_delete, name="customer_delete"),
-    path('customer_update/<str:id>', customer_update, name="customer_update")
+
+    # path('', CustomersList.as_view(), name='customers'),
+    path('create/', CustomerCreateView.as_view(), name='create_customer'),
+    path('update/<str:pk>', CustomerUpdateView.as_view(), name='update_customer'),
+    path('delete/<str:pk>', CustomerDeleteView.as_view(), name='delete_customer')
 ]

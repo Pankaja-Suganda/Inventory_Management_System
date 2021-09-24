@@ -1,0 +1,196 @@
+{% load widget_tweaks %}
+
+<form method="post" action="">
+  {% csrf_token %}
+
+  <div class="modal-header">
+    <h3 class="modal-title">Update Customer Informations</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+      {% for error in form.non_field_errors %}
+        {{ error }}
+      {% endfor %}
+    </div>
+
+    {% comment %} {% for field in form %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {% render_field field class="form-control" placeholder=field.label %}
+        <div class="{% if field.errors %} invalid{% endif %}">
+          {% for error in field.errors %}
+            <p class="help-block">{{ error }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %} {% endcomment %}
+    <div class="form-group">
+      <div class="row">
+          <div class="card-body media align-items-center">
+              <img id= 'cus-img-profile-new' src="/static/assets/images/user/default.png" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
+          </div>
+      </div>
+      <hr>
+      <div class="row">
+          <div class="form-group col-md-6">
+
+              {{form.id.label}} :
+              <div class="input-group">{{ form.id }}</div>
+
+              {% if form.id.errors %}
+              <span role="alert" class="alert alert-danger help-block"
+                  ><strong>Error!</strong>{{ form.id.errors }}</span>
+              {% endif %}
+          </div>
+          <div class="form-group col-md-6">
+
+              {{form.company.label}} :
+              <div class="input-group"> {{ form.company }}</div>
+
+              {% if form.company.errors %}
+              <span role="alert" class="alert alert-danger"
+                  ><strong>Error!</strong>{{ form.company.errors }}</span>
+              {% endif %}
+          </div>
+      </div>
+      <div class="row">
+          <div class="form-group col-md-6 py-0">
+              {{form.first_name.label}} :
+              <div class="input-group">{{ form.first_name }}</div>
+
+              {% if form.first_name.errors %}
+              <span role="alert" class="alert alert-danger"
+                  ><strong>Error!</strong>{{ form.first_name.errors }}</span>
+              {% endif %}
+          </div>
+          <div class="form-group col-md-6 py-0">
+
+              {{form.last_name.label}} :
+              <div class="input-group"> {{ form.last_name }}</div>
+
+              {% if form.last_name.errors %}
+              <span role="alert" class="alert alert-danger"
+                  ><strong>Error!</strong>{{ form.last_name.errors }}</span>
+              {% endif %}
+          </div>
+      </div>
+      <div class="row">
+          <div class="form-group col-md-6 py-0">
+              {{form.customer_img.label}} :
+              <div class="input-group">{{ form.customer_img }}</div>
+
+              {% if form.customer_img.errors %}
+              <span role="alert" class="alert alert-danger"
+                  ><strong>Error!</strong>{{ form.customer_img.errors }}</span>
+              {% endif %}
+          </div>
+          <script>
+              var id_customer_img = document.getElementById("id_customer_img");
+              id_customer_img.onchange = function (event) {
+                  var img_cus_new = document.getElementById("cus-img-profile-new");
+                  img_cus_new.src = URL.createObjectURL(event.target.files[0]);
+              };
+              console.log("working");
+          </script>
+          <div class="form-group col-md-6 py-0">
+              {{form.status.label}} :
+              <div class="input-group">{{ forsm.status }}</div>
+
+              {% if form.status.errors %}
+              <span role="alert" class="alert alert-danger"
+                  ><strong>Error!</strong>{{ form.status.errors }}</span>
+              {% endif %}
+          </div>
+      </div>
+      <hr>
+      <h5 class="card-title">Contact Details</h5>
+      <div class="row">
+          <div class="form-group col-md-6 py-0">
+              {{form.email.label}} :
+              <div class="input-group">{{ form.email }}</div>
+
+              {% if form.email.errors %}
+              <span role="alert" class="alert alert-danger"
+                  ><strong>Error!</strong>{{ form.email.errors }}</span>
+              {% endif %}
+          </div>
+          <div class="form-group col-md-6 py-0">
+              {{form.mobile_number.label}} :
+              <div class="input-group">{{ form.mobile_number }}</div>
+
+              {% if form.mobile_number.errors %}
+              <span role="alert" class="alert alert-danger"
+                  ><strong>Error!</strong>{{ form.mobile_number.errors }}</span>
+              {% endif %}
+          </div>
+      </div>
+      <div class="row">
+          <div class="form-group col-md-6 py-0">
+              <h5 class="card-title">Postal Address</h5>
+
+              {{form.Postal_Address_1.label}} :
+              <div class="input-group">{{ form.Postal_Address_1 }}</div>
+
+              {% if form.Postal_Address_1.errors %}
+              <span role="alert" class="alert alert-danger"
+                  ><strong>Error!</strong>{{ form.Postal_Address_1.errors }}</span>
+              {% endif %}
+
+              {{form.Postal_Address_2.label}} :
+              <div class="input-group">{{ form.Postal_Address_2 }}</div>
+
+              {% if form.Postal_Address_2.errors %}
+              <span role="alert" class="alert alert-danger"
+                  ><strong>Error!</strong>{{ form.Postal_Address_2.errors }}</span>
+              {% endif %}   
+
+                {{form.Postal_city.label}} :
+              <div class="input-group">{{ form.Postal_city }}</div>
+
+              {% if form.Postal_city.errors %}
+              <span role="alert" class="alert alert-danger"
+                  ><strong>Error!</strong>{{ form.Postal_city.errors }}</span>
+              {% endif %}                                                               
+
+          </div>
+          <div class="form-group col-md-6 py-0">
+              <h5 class="card-title">Billing Address</h5>
+              {{form.billing_Address_1.label}} :
+              <div class="input-group">{{ form.billing_Address_1 }}</div>
+
+              {% if form.billing_Address_1.errors %}
+              <span role="alert" class="alert alert-danger"
+                  ><strong>Error!</strong>{{ form.billing_Address_1.errors }}</span>
+              {% endif %}
+
+              {{form.billing_Address_2.label}} :
+              <div class="input-group">{{ form.billing_Address_2 }}</div>
+
+              {% if form.billing_Address_2.errors %}
+              <span role="alert" class="alert alert-danger"
+                  ><strong>Error!</strong>{{ form.billing_Address_2.errors }}</span>
+              {% endif %}
+
+              {{form.billing_city.label}} :
+              <div class="input-group">{{ form.billing_city }}</div>
+
+              {% if form.billing_city.errors %}
+              <span role="alert" class="alert alert-danger"
+                  ><strong>Error!</strong>{{ form.billing_city.errors }}</span>
+              {% endif %}
+          </div>
+      </div>
+  </div>
+
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">Update Customer</button>
+  </div>
+
+</form>

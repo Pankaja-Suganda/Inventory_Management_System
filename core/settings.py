@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'phonenumber_field',
     'bootstrap_modal_forms',
+    'widget_tweaks',
     'django_filters',
     'app',
     'authentication',
