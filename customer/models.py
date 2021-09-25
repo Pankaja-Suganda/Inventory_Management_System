@@ -33,7 +33,7 @@ class Customer(models.Model):
     last_order_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "self.id"
+        return self.id
 
     def get_last_name(self):
         return self.last_name
