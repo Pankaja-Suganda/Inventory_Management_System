@@ -136,4 +136,6 @@ def pages(request):
 
 class CustomerTemplate(TemplateView):
     template_name = 'customers.html'
-    extra_context = {'title' : 'test title'}
+
+class SupplierTemplate(TemplateView):
+    template_name = 'suppliers.html'

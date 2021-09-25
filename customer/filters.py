@@ -19,14 +19,8 @@ class CustomerFilter(FilterSet):
                 "class": "form-control in "
             }
         ))
-
-    STATUS_CHOICES = (
-        (0, 'Active'),
-        (1, 'Expired'),
-        (2, 'Suspended')
-    )
-    
-    status = django_filters.ChoiceFilter(choices=STATUS_CHOICES,
+        
+    status = django_filters.ChoiceFilter(choices=Customer.STATUS_CHOICES,
         widget=forms.Select(
             attrs={
                 "placeholder" : "By Status",                

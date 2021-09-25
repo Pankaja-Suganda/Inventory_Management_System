@@ -364,7 +364,7 @@
                                                     
                                                     {% for customer in customers %}
                                                         <tr>
-                                                            <td><a  href="{% url 'detail_customer'  customer.id %}">{{ customer.id }}</a></td>
+                                                            <td><a  href="{% url 'detail_customer'  customer.id %}?page={{ page_obj.number }}">{{ customer.id }}</a></td>
                                                             <td>{{ customer.company }}</td>
                                                             <td>{{ customer.mobile_number }}</td>
                                                             {% if customer.status == 0 %}
@@ -378,9 +378,7 @@
                                                             <td>{{ customer.orders_count }}</td>
                                                             <td>{{ customer.last_order_date }}</td>
                                                             <td>
-                                                                {% comment %} <a href="{% url 'customer_update' customer.id%}" title="settings" class="settings"><i class="material-icons">&#xE8B8;</i></a> {% endcomment %}
-                                                                {% comment %} <a data-form-url="{% url 'delete_customer' customer.id %} title="delete" class="delete" ><i class="material-icons">&#xE5C9;</i></a> {% endcomment %}
-                                                                 <a type="button" class="update-customer bs-modal settings" title="Update"  data-form-url="{% url 'update_customer' customer.id %}">
+                                                                <a type="button" class="update-customer bs-modal settings" title="Update"  data-form-url="{% url 'update_customer' customer.id %}">
                                                                     <i class="material-icons">update</i>
                                                                 </a>
                                                                 <a type="button" class="delete-customer bs-modal delete" title="Delete" data-form-url="{% url 'delete_customer' customer.id %}">
@@ -393,7 +391,7 @@
                                                 </tbody>
                                             </table>
                                             <div class="clearfix">
-                                                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                                                <div class="hint-text">Showing <b>{{ page_obj.object_list.count }}</b> out of <b>{{num_of_objects}}</b> entries</div>
                                                 <ul class="pagination">
                                                     {% comment %} {% if page_obj.has_previous %} {% endcomment %}
                                                     

@@ -1,14 +1,7 @@
-from django.shortcuts import redirect, render, HttpResponse
-from django.contrib.auth.decorators import login_required
-from django.core.serializers import serialize
 
 from .models import Customer
 from .form import CustomerRegister, CustomerUpdate
 from .filters import CustomerFilter
-
-from app.views import context_packer
-from django.http import JsonResponse
-from django.template.loader import render_to_string
 
 from django.urls import reverse_lazy
 from django.views import generic
@@ -33,9 +26,10 @@ class CustomersList(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['customers'] = Customer.objects.all()
+        context['c_customer'] = Customer.objects.first()
         context['filter'] = CustomerFilter()
-        
+        context['segment'] = 'customers'
+
         return context
 
 # customer Details
@@ -48,7 +42,7 @@ class CustomerDetails(generic.detail.DetailView):
         context = super().get_context_data(**kwargs)
         context['filter'] = CustomerFilter(self.request.GET, queryset=Customer.objects.all())
         
-        customer_paginator = Paginator(context['filter'].qs, 1)
+        customer_paginator = Paginator(context['filter'].qs, 2)
         page_number = self.request.GET.get('page')
 
         if type(page_number) is str:
@@ -58,7 +52,8 @@ class CustomerDetails(generic.detail.DetailView):
 
         context['page_obj'] = customer_paginator.get_page(page_number)
         context['customers'] = customer_paginator.page(page_number)
-        print (context['customers'])
+        context['num_of_objects'] = customer_paginator.count
+        context['segment'] = 'customers'
 
         return context
 

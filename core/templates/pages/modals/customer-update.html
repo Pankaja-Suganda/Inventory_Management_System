@@ -1,6 +1,6 @@
 {% load widget_tweaks %}
 
-<form method="post" action="">
+<form method="post" action="" >
   {% csrf_token %}
 
   <div class="modal-header">
@@ -17,17 +17,6 @@
       {% endfor %}
     </div>
 
-    {% comment %} {% for field in form %}
-      <div class="form-group">
-        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-        {% render_field field class="form-control" placeholder=field.label %}
-        <div class="{% if field.errors %} invalid{% endif %}">
-          {% for error in field.errors %}
-            <p class="help-block">{{ error }}</p>
-          {% endfor %}
-        </div>
-      </div>
-    {% endfor %} {% endcomment %}
     <div class="form-group">
       <div class="row">
           <div class="card-body media align-items-center">
@@ -98,7 +87,7 @@
           </script>
           <div class="form-group col-md-6 py-0">
               {{form.status.label}} :
-              <div class="input-group">{{ forsm.status }}</div>
+              <div class="input-group">{{ form.status }}</div>
 
               {% if form.status.errors %}
               <span role="alert" class="alert alert-danger"
