@@ -29,7 +29,7 @@
             <!-- Page content -->
             <div class="page-wrapper">
                 <div class = "row">
-                    <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="col-sm-12 col-md-12 col-xl-4">
                         <div class = "card ">
                             <div class="card-body media align-items-center">
                                 <img id= 'img-profile' src="{{ c_customer.customer_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
@@ -74,9 +74,9 @@
                                                     {% if c_customer.status == 0 %}
                                                         <h5 class=" p-t-5 card-title text-success">Active</h5>
                                                     {% elif c_customer.status == 1  %}
-                                                        <h5 class=" p-t-5 card-title text-warning">Suspended</h5>
+                                                        <h5 class=" p-t-5 card-title text-warning">Expired</h5>
                                                     {% else%}
-                                                        <h5 class=" p-t-5 card-title text-danger">Expired</h5>
+                                                        <h5 class=" p-t-5 card-title text-danger">Suspended</h5>
                                                     {% endif %}
                                             </div>
                                             <div class="col">
@@ -108,7 +108,7 @@
                                     <div class="card-header" role="tab" id="headingTwo2">
                                     <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo2"
                                         aria-expanded="false" aria-controls="collapseTwo2">
-                                        <h5 class="mb-0">
+                                        <h5 class="card-title fs-4 mb-0">
                                             Contact Info <i class="fas fa-angle-down rotate-icon"></i>
                                         </h5>
                                     </a>
@@ -117,36 +117,36 @@
                                     <!-- Card body -->
                                     <div id="collapseTwo2" class="collapse" role="tabpanel" aria-labelledby="headingTwo2"
                                     data-parent="#accordionEx">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="fs-6 text-muted">Mobile Number :</div>
-                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.mobile_number }}</h5>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="fs-6 text-muted">Mobile Number :</div>
+                                                    <h5 class="fs-5 p-t-5 body-text">{{ c_customer.mobile_number }}</h5>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="fs-6 text-muted">E mail Address :</div>
+                                                    <h5 class="fs-5 p-t-5 card-title">{{ c_customer.email }}</h5>
+                                                </div>
                                             </div>
-                                            <div class="col">
-                                                <div class="fs-6 text-muted">E mail Address :</div>
-                                                <h5 class="fs-5 p-t-5 card-title">{{ c_customer.email }}</h5>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <div class="fs-6 text-muted">Postal Address  :</div>
+                                                    <h5 class="fs-5 p-t-5 body-text">{{ c_customer.Postal_Address_1 }},</h5>
+                                                    <h5 class="fs-5 p-t-5 body-text">{{ c_customer.Postal_Address_2 }},</h5>
+                                                    <h5 class="fs-5 p-t-5 body-text">{{ c_customer.Postal_city }}.</h5>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <div class="fs-6 text-muted">Billing Address :</div>
+                                                    <h5 class="fs-5 p-t-5 body-text">{{ c_customer.billing_Address_1 }},</h5>
+                                                    <h5 class="fs-5 p-t-5 body-text">{{ c_customer.billing_Address_2 }},</h5>
+                                                    <h5 class="fs-5 p-t-5 body-text">{{ c_customer.billing_city }}.</h5>
+                                                </div>
                                             </div>
                                         </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-8">
-                                                <div class="fs-6 text-muted">Postal Address  :</div>
-                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.Postal_Address_1 }},</h5>
-                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.Postal_Address_2 }},</h5>
-                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.Postal_city }}.</h5>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-8">
-                                                <div class="fs-6 text-muted">Billing Address :</div>
-                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.billing_Address_1 }},</h5>
-                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.billing_Address_2 }},</h5>
-                                                <h5 class="fs-5 p-t-5 body-text">{{ c_customer.billing_city }}.</h5>
-                                            </div>
-                                        </div>
-                                    </div>
                                     </div>
 
                                 </div>
@@ -155,40 +155,72 @@
                             <!-- Accordion wrapper -->
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-xl-8">
+                    <div class="col-sm-12 col-md-12 col-xl-8">
                         <div class = "row">
-                            <div class="col-xl-6 col-sm-12">
+                            <div class="col-xl-3 col-md-6 col-sm-12">
                                 <div class="card yearly-sales ">
                                     <div class="card-block">
                                         <h6 class="mb-4">Total Customers</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-9">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i>$ 8.638.32</h3>
-                                            </div>
-                                            <div class="col-3 text-right">
-                                                <p class="m-b-0">80%</p>
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-users text-c-blue f-30 m-r-10"></i>{{num_of_objects}}</h3>
                                             </div>
                                         </div>
-                                        <div class="progress m-t-30" style="height: 7px;">
-                                            <div class="progress-bar progress-c-theme" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class=" m-t-30" style="height: 5px;">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-sm-12">
+                            <div class="col-xl-3 col-md-6 col-sm-12">
                                 <div class="card yearly-sales">
                                     <div class="card-block">
                                         <h6 class="mb-4">Active Customers</h6>
                                         <div class="row d-flex align-items-center">
-                                            <div class="col-9">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i>$ 8.638.32</h3>
+                                            <div class="col-6">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-check text-c-green f-30 m-r-10"></i>{{Active_customers.count }}</h3>
                                             </div>
-                                            <div class="col-3 text-right">
-                                                <p class="m-b-0">80%</p>
+                                            <div class="col-6 text-right">
+                                                <p class="m-b-0">{{Active_customers.persentage}}%</p>
                                             </div>
                                         </div>
                                         <div class="progress m-t-30" style="height: 7px;">
-                                            <div class="progress-bar progress-c-theme" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar progress-c-green" role="progressbar" style="width: {{Active_customers.persentage}}%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-sm-12">
+                                <div class="card yearly-sales ">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">Expired Customers</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-6">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-minus text-c-yellow f-30 m-r-10"></i>{{Expired_customers.count}}</h3>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <p class="m-b-0">{{Expired_customers.persentage}}%</p>
+                                            </div>
+                                        </div>
+                                        <div class="progress m-t-30" style="height: 7px;">
+                                            <div class="progress-bar progress-c-yellow" role="progressbar" style="width: {{Expired_customers.persentage}}%;" aria-valuenow="{{Expired_customers.persentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-sm-12">
+                                <div class="card yearly-sales">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">Suspended Customers</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-6">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-x text-c-red f-30 m-r-10"></i>{{Suspended_customers.count}}</h3>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <p class="m-b-0">{{Suspended_customers.persentage}}%</p>
+                                            </div>
+                                        </div>
+                                        <div class="progress m-t-30" style="height: 7px;">
+                                            <div class="progress-bar progress-c-red" role="progressbar" style="width: {{Suspended_customers.persentage}}%;" aria-valuenow="{{Suspended_customers.persentage}}" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -312,14 +344,13 @@
 
                         <div class = "row">
                             <div class="col-12">
-                                {% comment %} <div class="container-xl"> {% endcomment %}
                                 <div class="card yearly-sales ">
                                     <div class="table-responsive ">
                                         <div class="table-wrapper">
                                             <div class="table-title">
                                                 <div class="row">
                                                     <div class="col-8">
-                                                        <form role="form" method="get" class="form-horizontal">
+                                                        <form role="form" method="get" action="{% url 'detail_customer' c_customer.id%}"class="form-horizontal">
                                                             {% csrf_token %}
                                                             <div class="row">
                                                                 <div class="search-box col-3">
@@ -352,11 +383,11 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Company <i class="fa fa-sort"></i></th>
+                                                        <th>Company </th>
                                                         <th>Contact</th>
-                                                        <th>Status <i class="fa fa-sort"></i></th>
-                                                        <th>Orders <i class="fa fa-sort"></i></th>
-                                                        <th>Last Order <i class="fa fa-sort"></i></th>
+                                                        <th>Status </th>
+                                                        <th>Orders </th>
+                                                        <th>Last Order </th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -436,7 +467,6 @@
                                         // Delete book buttons - formURL is retrieved from the data of the element
                                         $(".delete-customer").each(function () {
                                             $(this).modalForm({formURL: $(this).data("form-url"), isDeleteForm: true});
-                                            console.log("triggerd");
                                         });
                                         
                                         // Create book button opens form in modal with id="create-modal"
@@ -444,7 +474,6 @@
                                             formURL: "{% url 'create_customer' %}",
                                             modalID: "#create-modal"
                                         });
-
                                     });
                                 </script>
                             </div>

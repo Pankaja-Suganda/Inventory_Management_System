@@ -8,7 +8,7 @@ class Supplier(models.Model):
     id = models.CharField(max_length=7, primary_key=True, blank=False)
     company = models.CharField('company', max_length=150, blank=True)
     name = models.CharField('name', max_length=150, blank=True)
-    supplier_img = models.ImageField(null=True, blank=True, upload_to='core/static/assets/images/supplier', default='core/static/assets/images/supplier/default.png')
+    supplier_img = models.ImageField(null=True, blank=False, upload_to='core/static/assets/images/supplier', default='core/static/assets/images/supplier/default.png')
 
     email = models.EmailField('email address', blank=True)
     mobile_number = models.IntegerField(max_length=10, blank=True)
@@ -33,7 +33,7 @@ class Supplier(models.Model):
     def get_company(self):
         return self.last_name
     
-    @property
-    def supplier_id(self):
+    @staticmethod
+    def supplier_id():
         id = shortuuid.ShortUUID(alphabet="0123456789")
         return 'S'+ str( id.random(length=6))

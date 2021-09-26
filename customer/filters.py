@@ -1,10 +1,13 @@
 from django_filters import fields, FilterSet
 import django_filters
 from django import forms
+
 from .models import Customer
 
 class CustomerFilter(FilterSet):
     id = django_filters.CharFilter(
+        field_name='id',
+        lookup_expr = 'icontains',
         widget=forms.TextInput(
             attrs={           
                 "placeholder" : "By ID..",         
@@ -13,6 +16,8 @@ class CustomerFilter(FilterSet):
         ))
 
     company = django_filters.CharFilter(
+        field_name='company',
+        lookup_expr = 'icontains',
         widget=forms.TextInput(
             attrs={
                 "placeholder" : "By Company..",                

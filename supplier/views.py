@@ -1,13 +1,86 @@
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from .models import Supplier
-from app.views import context_packer
-# Create your views here.
+from .forms import SupplierRegister, SupplierUpdate
+from .filters import SupplierFilter
 
-@login_required(login_url="/login/")
-def supplier_info(request, id):
-    context = {}
-    context['0'] = context_packer(Supplier, "c_Supplier", id)
+from django.urls import reverse_lazy
+from django.views import generic
 
-    request.session['context'] = context
-    return redirect('/suppliers.html')
+from django.core.paginator import Paginator
+
+from bootstrap_modal_forms.generic import (
+  BSModalCreateView,
+  BSModalUpdateView,
+  BSModalReadView,
+  BSModalDeleteView
+)
+
+
+# supplier list with pagination
+class SuppliersList(generic.ListView):
+    model = Supplier
+    paginate_by = 4
+    context_object_name = "suppliers"
+    template_name = 'pages/suppliers.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['num_of_objects'] = Supplier.objects.count()
+        context['c_supplier'] = Supplier.objects.first()
+        context['filter'] = SupplierFilter(self.request.GET, queryset=Supplier.objects.all())
+        context['segment'] = 'suppliers'
+
+        return context
+
+# supplier Details
+class SupplierDetails(generic.detail.DetailView):
+    model = Supplier
+    context_object_name = "c_supplier"
+    template_name = 'pages/suppliers.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = SupplierFilter(self.request.GET, queryset=Supplier.objects.all())
+        
+        supplier_paginator = Paginator(context['filter'].qs, 4)
+        page_number = self.request.GET.get('page')
+
+        if type(page_number) is str:
+            page_number = int(page_number)
+        else:
+            page_number = 1
+
+        context['page_obj'] = supplier_paginator.get_page(page_number)
+        context['suppliers'] = supplier_paginator.page(page_number)
+        context['num_of_objects'] = supplier_paginator.count
+        context['segment'] = 'suppliers'
+
+        return context
+
+# Customer Create
+class SupplierCreateView(BSModalCreateView):
+    template_name = 'pages/modals/supplier-create.html'
+    form_class = SupplierRegister
+    success_message = 'Success: New Supplier was created.'
+    success_url = reverse_lazy('suppliers')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['generated_id'] = Supplier.supplier_id()
+        return context
+
+# Customer Update
+class SupplierUpdateView(BSModalUpdateView):
+    model = Supplier
+    template_name = 'pages/modals/supplier-update.html'
+    form_class = SupplierUpdate
+    success_message = 'Success: Selected Supplier was updated.'
+    success_url = reverse_lazy('suppliers')
+
+# Customer Delete
+class SupplierDeleteView(BSModalDeleteView):
+    model = Supplier
+    template_name = 'pages/modals/supplier-delete.html'
+    success_message = 'Success: Selected Supplier was deleted.'
+    success_url = reverse_lazy('suppliers')
+

@@ -92,33 +92,33 @@ def pages(request):
             context['select'] = 'account-general'
             context['form_per'] = UserUpdatePer()
         
-        # for customer section
-        elif context['segment'] == 'customers':
-            if request.POST:
-                # context['customers'] = Customer.objects.all()
-                context['filter'] = CustomerFilter(request.GET, queryset=Customer.objects.all())
-                context['customer_reg'] = CustomerRegister()
-            else:
-                customers = Customer.objects.all()
-                cus_filter = CustomerFilter(request.GET, queryset=customers)
-                # context['customers'] = cus_filter.qs
-                context['filter'] = cus_filter
-                context['customer_reg'] = CustomerRegister()
+        # # for customer section
+        # elif context['segment'] == 'customers':
+        #     if request.POST:
+        #         # context['customers'] = Customer.objects.all()
+        #         context['filter'] = CustomerFilter(request.GET, queryset=Customer.objects.all())
+        #         context['customer_reg'] = CustomerRegister()
+        #     else:
+        #         customers = Customer.objects.all()
+        #         cus_filter = CustomerFilter(request.GET, queryset=customers)
+        #         # context['customers'] = cus_filter.qs
+        #         context['filter'] = cus_filter
+        #         context['customer_reg'] = CustomerRegister()
             
-        # for Supplier section
-        elif context['segment'] == 'suppliers':
-            if request.POST:
-                # if request is POST
-                context['suppliers'] = Supplier.objects.all()
-                context['filter'] = SupplierFilter()
-                context['supplier_reg'] = SupplierRegister()
-            else:
-                # if request is POST
-                customers = Supplier.objects.all()
-                cus_filter = SupplierFilter(request.GET, queryset=customers)
-                context['suppliers'] = cus_filter.qs
-                context['filter'] = cus_filter
-                context['supplier_reg'] = SupplierRegister()
+        # # for Supplier section
+        # elif context['segment'] == 'suppliers':
+        #     if request.POST:
+        #         # if request is POST
+        #         context['suppliers'] = Supplier.objects.all()
+        #         context['filter'] = SupplierFilter()
+        #         context['supplier_reg'] = SupplierRegister()
+        #     else:
+        #         # if request is POST
+        #         customers = Supplier.objects.all()
+        #         cus_filter = SupplierFilter(request.GET, queryset=customers)
+        #         context['suppliers'] = cus_filter.qs
+        #         context['filter'] = cus_filter
+        #         context['supplier_reg'] = SupplierRegister()
 
         print('load : ', load_template)
         html_template = loader.get_template( load_template )

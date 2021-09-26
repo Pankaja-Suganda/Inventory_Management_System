@@ -1,5 +1,6 @@
 from django import forms
 from .models import Customer
+import shortuuid
 from bootstrap_modal_forms.forms import BSModalModelForm
 
 class CustomerUpdate(BSModalModelForm):
@@ -8,7 +9,8 @@ class CustomerUpdate(BSModalModelForm):
         label='Customer Id',
         widget=forms.TextInput(
             attrs={               
-                "class": "form-control"
+                "class": "form-control",
+                "readonly": True
             }
         ))
 
@@ -147,6 +149,7 @@ class CustomerUpdate(BSModalModelForm):
         fields = ('id', 'company','first_name', 'last_name', 'status', 
                   'email', 'mobile_number', 'Postal_Address_1', 'Postal_Address_2', 
                   'Postal_city', 'billing_Address_1', 'billing_Address_2', 'billing_city', 'customer_img')
+    
 
 class CustomerRegister(BSModalModelForm):
 
@@ -154,7 +157,8 @@ class CustomerRegister(BSModalModelForm):
         label='Customer Id',
         widget=forms.TextInput(
             attrs={               
-                "class": "form-control"
+                "class": "form-control",
+                "readonly": True
             }
         ))
 
@@ -283,15 +287,11 @@ class CustomerRegister(BSModalModelForm):
                 "class": "form-control"
             }
         ))
-    
-    customer_img = forms.ImageField(
-        label='Select Profile Image',
-        error_messages = {'invalid': "Image files only"})
+
+
 
     class Meta:
         model = Customer
         fields = ('id', 'company','first_name', 'last_name', 'status', 
                   'email', 'mobile_number', 'Postal_Address_1', 'Postal_Address_2', 
                   'Postal_city', 'billing_Address_1', 'billing_Address_2', 'billing_city', 'customer_img')
-
-
