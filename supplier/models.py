@@ -35,5 +35,13 @@ class Supplier(models.Model):
     
     @staticmethod
     def supplier_id():
-        id = shortuuid.ShortUUID(alphabet="0123456789")
-        return 'S'+ str( id.random(length=6))
+        id_no = shortuuid.ShortUUID(alphabet="0123456789")
+        full_id = 'S'+ str( id_no.random(length=6))
+        check_id = Supplier.objects.filter(id=full_id)
+
+        while(check_id.exists()):
+            id = shortuuid.ShortUUID(alphabet="0123456789")
+            full_id = 'S'+ str( id_no.random(length=6))
+            check_id = Supplier.objects.filter(id=full_id)
+
+        return full_id

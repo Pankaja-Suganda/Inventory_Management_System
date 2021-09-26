@@ -19,7 +19,7 @@ from bootstrap_modal_forms.generic import (
 # customer list wth pagination
 class CustomersList(generic.ListView):
     model = Customer
-    paginate_by = 6
+    paginate_by = 7
     context_object_name = "customers"
     template_name = 'pages/customers.html'
 
@@ -52,7 +52,7 @@ class CustomerDetails(generic.detail.DetailView):
         context = super().get_context_data(**kwargs)
         context['filter'] = CustomerFilter(self.request.GET, queryset=Customer.objects.all())
         
-        customer_paginator = Paginator(context['filter'].qs, 6)
+        customer_paginator = Paginator(context['filter'].qs, 7)
         page_number = self.request.GET.get('page')
 
         if type(page_number) is str:

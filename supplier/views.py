@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from django.core.paginator import Paginator
+from django.db.models import Sum
 
 from bootstrap_modal_forms.generic import (
   BSModalCreateView,
@@ -19,17 +20,18 @@ from bootstrap_modal_forms.generic import (
 # supplier list with pagination
 class SuppliersList(generic.ListView):
     model = Supplier
-    paginate_by = 4
+    paginate_by = 7
     context_object_name = "suppliers"
     template_name = 'pages/suppliers.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['total_orders'] = Supplier.objects.aggregate(Sum('po_count'))
+        context['supplier_count'] = Supplier.objects.count()
         context['num_of_objects'] = Supplier.objects.count()
         context['c_supplier'] = Supplier.objects.first()
         context['filter'] = SupplierFilter(self.request.GET, queryset=Supplier.objects.all())
         context['segment'] = 'suppliers'
-
         return context
 
 # supplier Details
@@ -42,7 +44,7 @@ class SupplierDetails(generic.detail.DetailView):
         context = super().get_context_data(**kwargs)
         context['filter'] = SupplierFilter(self.request.GET, queryset=Supplier.objects.all())
         
-        supplier_paginator = Paginator(context['filter'].qs, 4)
+        supplier_paginator = Paginator(context['filter'].qs, 7)
         page_number = self.request.GET.get('page')
 
         if type(page_number) is str:
@@ -50,6 +52,8 @@ class SupplierDetails(generic.detail.DetailView):
         else:
             page_number = 1
 
+        context['supplier_count'] = Supplier.objects.count()
+        context['total_orders'] = Supplier.objects.aggregate(Sum('po_count'))
         context['page_obj'] = supplier_paginator.get_page(page_number)
         context['suppliers'] = supplier_paginator.page(page_number)
         context['num_of_objects'] = supplier_paginator.count

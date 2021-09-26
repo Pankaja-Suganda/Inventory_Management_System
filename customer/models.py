@@ -46,8 +46,16 @@ class Customer(models.Model):
 
     @staticmethod
     def customer_id():
-        id = shortuuid.ShortUUID(alphabet="0123456789")
-        return 'C'+ str( id.random(length=6))
+        id_no = shortuuid.ShortUUID(alphabet="0123456789")
+        full_id = 'C'+ str( id_no.random(length=6))
+        check_id = Customer.objects.filter(id=full_id)
+
+        while(check_id.exists()):
+            id = shortuuid.ShortUUID(alphabet="0123456789")
+            full_id = 'C'+ str( id_no.random(length=6))
+            check_id = Customer.objects.filter(id=full_id)
+
+        return full_id
     
     class Meta:
         __name__ = 'Customer'
