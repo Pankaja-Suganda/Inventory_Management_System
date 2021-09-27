@@ -93,16 +93,20 @@ def UpdateAccount(request):
                             instance=request.user)
         form.profile_img = profile_img
         print (form.is_valid(), form.errors)
+        context['from'] = 'update'
         if form.is_valid():
             form.save() 
             context['update_success'] = True
             context['form'] = ProfileUpdate(instance=request.user)
-            return redirect('settings.html', context)
+            messages.success(request, 'User Information is Successfully Updated')
+            
         else:
+            messages.error(request, 'Error occurred while updating profile')
             context['form'] = form
-            # context['user'] = request.user
+            context['user'] = request.user
 
-    return render(request, 'settings.html', context)
+    return redirect('/settings/?tab=1', context)
+
 
 
 @login_required(login_url="/login/")
@@ -120,68 +124,23 @@ def ResetPassword(request):
                 user.set_password(form.cleaned_data['password1'])
                 user.save()
                 update_session_auth_hash(request, request.user)  # Important!
-                messages.success(request, 'Your password was successfully updated!')
+                messages.info(request, 'Your password was successfully updated!')
                 success = True
+                return redirect('/settings/?tab=1')
+            else:
+                messages.error(request, 'Pass word is invalid')
+                return redirect('/settings/?tab=1')
         else:
             messages.error(request, 'Please correct the error below.')
     else:
         form = UserPasswordUpdate(instance=request.user)
 
-    return render(request, 'settings.html', {
+    return  redirect('/settings/?tab=1',  {
         'form_reset': form,
         'success' : success,
         'form': ProfileUpdate(instance=request.user),
         'select':'account-change-password' 
     })
-
-@login_required(login_url="/login/")
-def SetUserPermissions(request):
-    context = {}
-    pk = request.POST.get("id")
-    _is_active = bool(request.POST.get("is_active"))
-    _is_staff = bool(request.POST.get("is_staff"))
-
-    context['select'] = 'account-permissions'
-    if request.method == 'POST':
-        user = BaseUser.objects.filter(id=pk).update(
-        is_staff = _is_staff,
-        is_active = _is_active)
-
-    context['form_per'] = UserUpdatePer()
-    context['select'] = 'account-permissions' 
-    
-    return redirect('settings.html', context)
-
-@login_required(login_url="/login/")
-def deleteUser(request):    
-    pk = request.POST.get("id")
-    print ('delete id ', pk)
-    try:
-        user = BaseUser.objects.get(id = pk)
-        user.delete()
-        messages.success(request, "The user is deleted")            
-
-    except User.DoesNotExist:
-        messages.error(request, "User does not exist")    
-        return render(request, 'settings.html')
-
-    except Exception as e: 
-        return render(request, 'settings.html',{'error':e.message})
-
-    return redirect('settings.html')
-
-# user information update
-class UserUpdate(generic.UpdateView):
-    model = BaseUser
-    context_object_name = "customers"
-    form_class = ProfileUpdate
-    template_name = 'settins/update.html'
-    success_url = reverse_lazy('settings')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        print ('updating : ', context)
-        return context
 
 
 # User registraion
@@ -215,7 +174,10 @@ class UserList(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = ProfileUpdate(instance=self.request.user)
+
+        if not self.request.GET.get('from') == 'update':
+            context['form'] = ProfileUpdate(instance=self.request.user)
+
         context['form_reset'] = UserPasswordUpdate()
         context['segment'] = 'settings'
         context['num_of_objects'] = BaseUser.objects.count()
@@ -228,6 +190,7 @@ class UserList(generic.ListView):
             if int(tab) == 3:context['select'] = 'account-permissions'
         else:
             context['select'] = 'account-permissions'
+        print ('list view : ', context)
         return context
 
 # user permission Update
@@ -236,16 +199,16 @@ class UserUpdateView(BSModalUpdateView):
     template_name = 'pages/modals/user-permission-update.html'
     form_class = UserUpdatePer
     success_message = 'Success: Selected User was updated.'
-    success_url = reverse_lazy('settings_permissions')
-    # failure_url = reverse_lazy('settings')
+    success_url = reverse_lazy('settings_user')
+    failure_url = reverse_lazy('settings_user')
 
 # user Delete
 class UserDeleteView(BSModalDeleteView):
     model = BaseUser
     template_name = 'pages/modals/user-delete.html'
     success_message = 'Success: Selected user was deleted.'
-    success_url = reverse_lazy('settings_permissions')
-    # failure_url = reverse_lazy('settings')
+    success_url = reverse_lazy('settings_user')
+    failure_url = reverse_lazy('settings_user')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -7,8 +7,25 @@
     <bold>Update Success</bold> You have successfully Updated your profile!
   </div>
 {% endif %}
+{% comment %} message showing {% endcomment %}
+{% if messages %}
+    {% for msg in messages %}
+        {% if messages.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div role="alert" class="alert alert-info"><strong>Info! </strong>{{ msg  }}</div>
+        {% endif %}
+        {% if messages.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <div role="alert" class="alert alert-success"><strong>Success! </strong>{{ msg  }}</div>
+        {% endif %}
+        {% if messages.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div role="alert" class="alert alert-error"><strong>Error! </strong>{{ msg  }}</div>
+        {% endif %}
+        {% if messages.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+            <div role="alert" class="alert alert-warning"><strong>Warning! </strong>{{ msg  }}</div>
+        {% endif %}
+    {% endfor %} 
+{% endif %}
 
-  <form role="form" method="post" action="" enctype="multipart/form-data">
+  <form role="form" method="post" action="/update/" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group">
       <div class="row">
