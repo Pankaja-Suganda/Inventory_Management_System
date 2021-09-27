@@ -1,0 +1,67 @@
+{% load widget_tweaks %}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">User Permission Updating</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <h6>Current User Permission of <span class="text-primary">{{ object.first_name }} {{object.last_name}}</span></h6>
+    <br>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-6 justify-content-center">
+                <div class="fs-2 text-muted"> Is Staff : </div>
+                {% if object.is_staff %}
+                    <h5 class="card-title text-success text-center">Yes</h5> 
+                    <p class="card-title text-center">The User is in Staff</p>
+                {% else %}                   
+                    <h5 class="card-title text-danger text-center">No</h5> 
+                    <p class="card-title text-center">The User is not in Staff</p>
+                {% endif %} 
+                 
+            </div>
+            <div class="col-6">
+                <div class="fs-2 text-muted "> Is Active : </div>
+                {% if object.is_active %}
+                    <h5 class="card-title text-success text-center">Yes</h5>
+                    <p class="card-title text-center">The Account is Activated</p> 
+                {% else %}                   
+                    <h5 class="card-title text-danger text-center">No</h5>
+                    <p class="card-title text-center">The Account is not Activated</p>  
+                {% endif %} 
+            </div>
+        </div>
+    </div>
+    <hr>
+    <form role="form" method="post" action="">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ object.id }}">
+        <h6>Change User Permissions</h6>
+        <br>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <div class="form-check">
+                        {{ form.is_staff }}
+                    </div>
+                    <br>
+                    <p class="form-check-label text-center">{{ form.is_staff.label }}</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <div class="form-check">
+                    {{ form.is_active }}
+                    </div>
+                    <br>
+                    <p class="form-check-label text-center">{{ form.is_active.label }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Update Permission</button>
+        </div>
+    </form>
+</div>

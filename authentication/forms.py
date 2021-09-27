@@ -10,6 +10,8 @@ from django.forms import fields
 from .models import BaseUser
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.password_validation import validate_password
+from bootstrap_modal_forms.forms import BSModalModelForm
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -165,7 +167,7 @@ class SignUpForm(UserCreationForm):
         ))
     is_staff = forms.BooleanField(
         label='is Stafff ',
-        help_text='Required',
+        required=False,
         widget=forms.CheckboxInput(
             attrs={
                 "placeholder" : "is Staff",                
@@ -174,18 +176,13 @@ class SignUpForm(UserCreationForm):
         ))
     is_active = forms.BooleanField(
         label='is activated',
-        help_text='Required',
+        required=False,
         widget=forms.CheckboxInput(
             attrs={
                 "placeholder" : "Account Activate",                
                 "class": "form-control form-check-input",
             }
         ))
-
-    profile_img = forms.ImageField(
-        label='Select Profile Image',
-        help_text='Required',
-        error_messages = {'invalid': "Image files only"})
 
     class Meta:
         model = BaseUser
@@ -352,10 +349,11 @@ class UserPasswordUpdate(forms.ModelForm):
         model = BaseUser
         fields = ['old_password', 'password1', 'password2']
 
-class UserUpdatePer(forms.ModelForm):
+class UserUpdatePer(BSModalModelForm):
 
     is_active = forms.BooleanField(
         label='Change User Activation',
+        required=False,
         widget=forms.CheckboxInput(
             attrs={
                 "placeholder" : "Account Activate",                
@@ -364,6 +362,7 @@ class UserUpdatePer(forms.ModelForm):
         ))
 
     is_staff = forms.BooleanField(
+        required=False,
         label = 'is the user currently on staff ?',
         widget = forms.CheckboxInput(
             attrs={
@@ -376,8 +375,8 @@ class UserUpdatePer(forms.ModelForm):
         model = BaseUser
         fields = ['is_staff', 'is_active']
     
-    def __init__(self, *args, **kwargs):
-        super(UserUpdatePer, self).__init__(*args, **kwargs)
-        self.fields['is_staff'].required = False
-        self.fields['is_active'].required = False
+    # def __init__(self, *args, **kwargs):
+    #     super(UserUpdatePer, self).__init__(*args, **kwargs)
+    #     self.fields['is_staff'].required = False
+    #     self.fields['is_active'].required = False
 

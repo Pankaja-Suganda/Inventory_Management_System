@@ -12,8 +12,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.forms.utils import ErrorList
-from django.http import HttpResponse
+
+from django.urls import reverse_lazy
+from django.views import generic
+
+from bootstrap_modal_forms.generic import (
+  BSModalUpdateView,
+  BSModalDeleteView
+)
+
 from .forms import LoginForm, SignUpForm, ProfileUpdate, UserPasswordUpdate, UserUpdatePer
 from .models import BaseUser
 
@@ -93,7 +100,7 @@ def UpdateAccount(request):
             return redirect('settings.html', context)
         else:
             context['form'] = form
-            context['user'] = request.user
+            # context['user'] = request.user
 
     return render(request, 'settings.html', context)
 
@@ -162,3 +169,85 @@ def deleteUser(request):
         return render(request, 'settings.html',{'error':e.message})
 
     return redirect('settings.html')
+
+# user information update
+class UserUpdate(generic.UpdateView):
+    model = BaseUser
+    context_object_name = "customers"
+    form_class = ProfileUpdate
+    template_name = 'settins/update.html'
+    success_url = reverse_lazy('settings')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print ('updating : ', context)
+        return context
+
+
+# User registraion
+class UserRegistration(generic.CreateView):
+    model = BaseUser
+    form_class = SignUpForm
+    template_name = 'accounts/register.html'
+    success_url = reverse_lazy('register')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'POST':
+            form = SignUpForm(self.request.POST, self.request.FILES)
+            if form.is_valid():
+                form.save()
+                messages.success(self.request, ' User in Successfully Added to the System!')
+                username = form.cleaned_data.get("username")
+                raw_password = form.cleaned_data.get("password1")
+                user = authenticate(username=username, password=raw_password)
+            else:
+                messages.error(self.request, 'You Entered Data To the Form is Invail, Please Try Again!')
+        return context
+
+
+# user list wth pagination
+class UserList(generic.ListView):
+    model = BaseUser
+    paginate_by = 7
+    context_object_name = "users"
+    template_name = 'pages/settings.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = ProfileUpdate(instance=self.request.user)
+        context['form_reset'] = UserPasswordUpdate()
+        context['segment'] = 'settings'
+        context['num_of_objects'] = BaseUser.objects.count()
+        tab = self.request.GET.get('tab')
+        context['select'] = 'account-general'
+        if not tab == None:
+            if int(tab) == 0:context['select'] = 'account-general'
+            if int(tab) == 1:context['select'] = 'account-update'
+            if int(tab) == 2:context['select'] = 'account-change-password'
+            if int(tab) == 3:context['select'] = 'account-permissions'
+        else:
+            context['select'] = 'account-permissions'
+        return context
+
+# user permission Update
+class UserUpdateView(BSModalUpdateView):
+    model = BaseUser
+    template_name = 'pages/modals/user-permission-update.html'
+    form_class = UserUpdatePer
+    success_message = 'Success: Selected User was updated.'
+    success_url = reverse_lazy('settings_permissions')
+    # failure_url = reverse_lazy('settings')
+
+# user Delete
+class UserDeleteView(BSModalDeleteView):
+    model = BaseUser
+    template_name = 'pages/modals/user-delete.html'
+    success_message = 'Success: Selected user was deleted.'
+    success_url = reverse_lazy('settings_permissions')
+    # failure_url = reverse_lazy('settings')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['select'] = 'account-permissions'
+        return context

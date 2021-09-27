@@ -384,9 +384,16 @@
                         </div>
                     </div>
 
-                    <!-- Modal 2 with id="modal" -->
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="modal">
+                    <!-- Modal 2 with id="update-modal" -->
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="update-modal">
                         <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content"></div>
+                        </div>
+                    </div>
+
+                    <!-- Modal 3 with id="delete-modal" -->
+                    <div class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" id="delete-modal">
+                        <div class="modal-dialog modal-md" role="document">
                             <div class="modal-content"></div>
                         </div>
                     </div>
@@ -396,13 +403,19 @@
                         $(document).ready(function () {
                             // Read book buttons
                             $(".update-supplier").each(function () {
-                                $(this).modalForm({formURL: $(this).data("form-url")});
+                                $(this).modalForm({
+                                    formURL: $(this).data("form-url"),
+                                    modalID: "#update-modal"
+                                    });
                             });
 
                             // Delete book buttons - formURL is retrieved from the data of the element
                             $(".delete-supplier").each(function () {
-                                $(this).modalForm({formURL: $(this).data("form-url"), isDeleteForm: true});
-                                console.log("triggerd");
+                                $(this).modalForm({
+                                    formURL: $(this).data("form-url"), 
+                                    isDeleteForm: true,
+                                    modalID: "#delete-modal"
+                                    });
                             });
                             
                             // Create book button opens form in modal with id="create-modal"

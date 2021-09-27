@@ -26,21 +26,21 @@ from supplier.models import Supplier
 from supplier.forms import SupplierRegister
 
 #  for packing the model pass one view to another
-def context_packer(model, name, id):
-    if not model == None:
-        context = {
-                "model" : model.__name__, 
-                "id" : id,
-                "name": name
-            }
-    else:
-        context = {
-                "model" : None, 
-                "id" : id,
-                "name": name
-            }
+# def context_packer(model, name, id):
+#     if not model == None:
+#         context = {
+#                 "model" : model.__name__, 
+#                 "id" : id,
+#                 "name": name
+#             }
+#     else:
+#         context = {
+#                 "model" : None, 
+#                 "id" : id,
+#                 "name": name
+#             }
 
-    return context
+#     return context
 
 # for remaking the model from passed data from previous view
 def context_maker(context_in):
@@ -70,13 +70,11 @@ def index(request):
 def pages(request):
 
     if not request.session.get("context")==None:
-        context = context_maker(request.session.get("context"))
-        print ('context : ', context)
+        # context = context_maker(request.session.get("context"))
+        print ('context : ')
     else:
         context = {}
 
-    context['user'] = request.user
-    context['users'] = BaseUser.objects.all()
     # All resource paths end in .html.
     # Pick out the html file name from the url. And load that template.
 
@@ -86,11 +84,11 @@ def pages(request):
         context['segment'] = load_template.replace('.html','')
 
         # for settings section
-        if context['segment'] == 'settings':
-            context['form'] = ProfileUpdate(instance=request.user)
-            context['form_reset'] = UserPasswordUpdate()
-            context['select'] = 'account-general'
-            context['form_per'] = UserUpdatePer()
+        # if context['segment'] == 'settings':
+        #     context['form'] = ProfileUpdate(instance=request.user)
+        #     context['form_reset'] = UserPasswordUpdate()
+        #     context['select'] = 'account-general'
+        #     context['form_per'] = UserUpdatePer()
         
         # # for customer section
         # elif context['segment'] == 'customers':
@@ -139,3 +137,9 @@ class CustomerTemplate(TemplateView):
 
 class SupplierTemplate(TemplateView):
     template_name = 'suppliers.html'
+
+class SettingsTemplate(TemplateView):
+    template_name = 'settings.html'
+
+class RegisterTemplate(TemplateView):
+    template_name = 'accounts/register.html'

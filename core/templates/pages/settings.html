@@ -29,7 +29,7 @@
 
     <div class="main-body">
       <!-- Page content Start -->
-      <div class=" container light-style flex-grow-1 container-p-y animated fadeInUp ">
+      <div class=" container light-style flex-grow-1 container-p-y ">
         <div class="card overflow-hidden">
           <div class="row no-gutters row-bordered row-border-light">
             <!-- Right column start-->
@@ -45,13 +45,13 @@
 
               <!-- Tabs -->
               <div class="list-group list-group-flush account-settings-links">
-                  <a class="list-group-item list-group-item-action {% if 'account-general' in select %} active {% endif %} " data-toggle="list" href="#account-general">About</a>
+                  <a  class="list-group-item list-group-item-action {% if 'account-general' in select %} active {% endif %} " data-toggle="list" href="#account-general">About</a>
                   <a class="list-group-item list-group-item-action {% if 'account-update' in select %} active {% endif %}" data-toggle="list" href="#account-update">Update Info</a>
                   <a class="list-group-item list-group-item-action {% if 'account-change-password' in select %} active {% endif %}" data-toggle="list" href="#account-change-password">Change password</a>
                   {% if user.is_superuser %}
                     <a class="list-group-item list-group-item-action {% if 'account-permissions' in select %} active {% endif %}" data-toggle="list" href="#account-permissions">User Permissions</a>
                   {% endif %}
-                </div>
+              </div>
             </div>
             <!-- Right column end-->
 
@@ -84,7 +84,6 @@
           </div>
         </div>
       </div>
-      <!-- Page content end -->
     </div>
   </div>
 </div>
