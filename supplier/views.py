@@ -63,7 +63,7 @@ class SupplierDetails(generic.detail.DetailView):
 
 # Customer Create
 class SupplierCreateView(BSModalCreateView):
-    template_name = 'pages/modals/supplier-create.html'
+    template_name = 'pages/modals/supplier/supplier-create.html'
     form_class = SupplierRegister
     success_message = 'Success: New Supplier was created.'
     success_url = reverse_lazy('suppliers')
@@ -76,7 +76,7 @@ class SupplierCreateView(BSModalCreateView):
 # Customer Update
 class SupplierUpdateView(BSModalUpdateView):
     model = Supplier
-    template_name = 'pages/modals/supplier-update.html'
+    template_name = 'pages/modals/supplier/supplier-update.html'
     form_class = SupplierUpdate
     success_message = 'Success: Selected Supplier was updated.'
     success_url = reverse_lazy('suppliers')
@@ -84,7 +84,7 @@ class SupplierUpdateView(BSModalUpdateView):
 # Customer Delete
 class SupplierDeleteView(BSModalDeleteView):
     model = Supplier
-    template_name = 'pages/modals/supplier-delete.html'
+    template_name = 'pages/modals/supplier/supplier-delete.html'
     success_message = 'Success: Selected Supplier was deleted.'
     success_url = reverse_lazy('suppliers')
 

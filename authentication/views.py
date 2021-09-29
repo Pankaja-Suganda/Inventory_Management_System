@@ -196,7 +196,7 @@ class UserList(generic.ListView):
 # user permission Update
 class UserUpdateView(BSModalUpdateView):
     model = BaseUser
-    template_name = 'pages/modals/user-permission-update.html'
+    template_name = 'pages/modals/user/user-permission-update.html'
     form_class = UserUpdatePer
     success_message = 'Success: Selected User was updated.'
     success_url = reverse_lazy('settings_user')
@@ -205,7 +205,7 @@ class UserUpdateView(BSModalUpdateView):
 # user Delete
 class UserDeleteView(BSModalDeleteView):
     model = BaseUser
-    template_name = 'pages/modals/user-delete.html'
+    template_name = 'pages/modals/user/user-delete.html'
     success_message = 'Success: Selected user was deleted.'
     success_url = reverse_lazy('settings_user')
     failure_url = reverse_lazy('settings_user')

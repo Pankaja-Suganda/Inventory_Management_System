@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'app',
     'authentication',
     'customer',
-    'supplier'
+    'supplier',
+    'materials'
      # Enable the inner app 
 ]
 

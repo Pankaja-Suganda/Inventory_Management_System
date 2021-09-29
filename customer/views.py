@@ -81,7 +81,7 @@ class CustomerDetails(generic.detail.DetailView):
 
 # Customer Create
 class CustomerCreateView(BSModalCreateView):
-    template_name = 'pages/modals/customer-create.html'
+    template_name = 'pages/modals/customer/customer-create.html'
     form_class = CustomerRegister
     success_message = 'Success: New Customer was created.'
     success_url = reverse_lazy('customers')
@@ -95,7 +95,7 @@ class CustomerCreateView(BSModalCreateView):
 # Customer Update
 class CustomerUpdateView(BSModalUpdateView):
     model = Customer
-    template_name = 'pages/modals/customer-update.html'
+    template_name = 'pages/modals/customer/customer-update.html'
     form_class = CustomerUpdate
     success_message = 'Success: Selected Customer was updated.'
     success_url = reverse_lazy('customers')
@@ -104,7 +104,7 @@ class CustomerUpdateView(BSModalUpdateView):
 # Customer Delete
 class CustomerDeleteView(BSModalDeleteView):
     model = Customer
-    template_name = 'pages/modals/customer-delete.html'
+    template_name = 'pages/modals/customer/customer-delete.html'
     success_message = 'Success: Selected Customer was deleted.'
     success_url = reverse_lazy('customers')
     failure_url = reverse_lazy('customers')

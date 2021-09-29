@@ -143,3 +143,6 @@ class SettingsTemplate(TemplateView):
 
 class RegisterTemplate(TemplateView):
     template_name = 'accounts/register.html'
+
+class MaterialsTemplate(TemplateView):
+    template_name = 'materials.html'
