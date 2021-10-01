@@ -185,7 +185,7 @@ class MaterialsCreate(BSModalModelForm):
         ))
 
     category_id = forms.ModelChoiceField(
-        choices = Categories.objects.all(),
+        queryset = Categories.objects.all(),
         label='Select Category',
         help_text='Required',
         widget=forms.Select(
@@ -196,7 +196,7 @@ class MaterialsCreate(BSModalModelForm):
         ))
 
     shell_id = forms.ModelChoiceField(
-        choices = Shell.objects.all(),
+        queryset = Shell.objects.all(),
         label='Select Shell',
         help_text='Required',
         widget=forms.Select(
@@ -207,7 +207,7 @@ class MaterialsCreate(BSModalModelForm):
         ))
 
     supplier_id = forms.ModelChoiceField(
-        choices = Supplier.objects.all(),
+        queryset = Supplier.objects.all(),
         label='Select Supplier',
         help_text='Required',
         widget=forms.Select(
@@ -275,7 +275,7 @@ class MaterialsUpdate(BSModalModelForm):
         ))
 
     category_id = forms.ModelChoiceField(
-        choices = Categories.objects.all(),
+        queryset = Categories.objects.all(),
         label='Select Category',
         help_text='Required',
         widget=forms.Select(
@@ -286,7 +286,7 @@ class MaterialsUpdate(BSModalModelForm):
         ))
 
     shell_id = forms.ModelChoiceField(
-        choices = Shell.objects.all(),
+        queryset = Shell.objects.all(),
         label='Select Shell',
         help_text='Required',
         widget=forms.Select(
@@ -297,7 +297,7 @@ class MaterialsUpdate(BSModalModelForm):
         ))
 
     supplier_id = forms.ModelChoiceField(
-        choices = Supplier.objects.all(),
+        queryset = Supplier.objects.all(),
         label='Select Supplier',
         help_text='Required',
         widget=forms.Select(

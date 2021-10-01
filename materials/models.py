@@ -66,8 +66,8 @@ class Shell(models.Model):
 # Materials Model
 class Materials(models.Model):
     STATUS_CHOICES = (
-        (0, 'Unavailable'),
-        (1, 'Available'),
+        (0, 'In Stock'),
+        (1, 'Out Stock'),
     )
 
     id = models.CharField(max_length=12, primary_key=True, blank=False)
@@ -79,7 +79,7 @@ class Materials(models.Model):
     category_id = models.ForeignKey(Categories, blank=True, null=True, on_delete=models.SET_NULL)
     shell_id = models.ForeignKey(Shell, blank=True, null=True, on_delete=models.SET_NULL)
     supplier_id = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.SET_NULL)
-    user_id = models.ForeignKey(BaseUser, blank=True, null=True, on_delete=models.SET_NULsL)
+    user_id = models.ForeignKey(BaseUser, blank=True, null=True, on_delete=models.SET_NULL)
 
     @staticmethod
     def Material_id():

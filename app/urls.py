@@ -16,6 +16,7 @@ urlpatterns = [
     path('settings/', SettingsTemplate.as_view(), name="settings"),
     path('register/', RegisterTemplate.as_view(), name="register"),
     path('materials/', MaterialsTemplate.as_view(), name="materials"),
+    path('shells/', ShellsTemplate.as_view(), name="shells"),
 
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
