@@ -29,38 +29,61 @@
         <div class="main-body">
             <!-- Page content -->
             <style>
-                .settings {
+                .update {
                     color: #2196F3;
+                    cursor: pointer;
                 }
                 .delete {
                     color: #F44336;
+                    cursor: pointer;
+                }
+                .Scroll {
+                    height:800px;
+                    overflow-y: scroll;
+                }
+                .cat-card{
+                    margin: 10px;
+                    {% comment %} background: #F44336; {% endcomment %}
+                }
+                .search-box {
+                    position: relative;        
+                    float: right;
+                }
+                .search-box .in{
+                    height: 44px;
+                    border-radius: 20px;
+                    padding-left: 30px;
+                    border-color: #ddd;
+                    box-shadow: none;
+                }
+                .search-box .in:focus {
+                    border-color: #3FBAE4;
+                }
+                .search-box i {
+                    color: #a0a5b1;
+                    position: absolute;
+                    font-size: 19px;
+                    top: 15px;
+                    left: 25px;
                 }
             </style>
             <div class="page-wrapper">
                 <div class = "row">
-                    <div class="col-sm-12 col-md-12 col-xl-3">
-                        <div class = "card ">
+                    <div class="col-sm-12 col-md-12 col-xl-3" style="height:100px">
+                        <div class = "card">
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-8">
-                                        <form role="form" method="get" action="{% url 'detail_material' c_material.id%}"class="form-horizontal">
+                                        <form role="form" method="get" action="{% url 'categorys' c_category.id %}"class="form-horizontal">
                                             {% csrf_token %}
                                             <div class="row">
-                                                {% comment %} <div class="search-box col-3">
+                                                <div class="search-box col-8">
                                                     <i class="material-icons">&#xE8B6;</i>
-                                                    {{ material_filter.form.id }}
+                                                    {{ category_filter.form.name }}
                                                 </div>
-                                                <div class="search-box col-3">
-                                                    <i class="material-icons">&#xE8B6;</i>
-                                                    {{ material_filter.form.name }}
-                                                </div>
-                                                <div class="search-box col-3">
-                                                    <i class="material-icons">&#xE8B6;</i>
-                                                    {{ material_filter.form.state }}
-                                                </div>
-                                                <div class="search-box col-4">
+                                                <div class="search-box col-1">
                                                     <button style="display: none;" type="submit"></button>
-                                                </div> {% endcomment %}
+                                                </div> 
                                             </div>
                                         </form>
                                     </div>
@@ -71,54 +94,40 @@
                                     </div>
                                 </div>
                             </div>
-                            {% for category in categories %}
-                                <div class = "card ">
-                                    <div class="card-header">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="card-title">{{ category.name }}</div>
+                            <div class="overflow-auto Scroll">
+                                {% for category in categories %}
+                                    <div class = "card cat-card" >
+                                        <div class = "card-header">
+                                            <div class="row">
+                                                <div class="col-7">
+                                                    <div class="card-title">Name :  {{ category.name }}</div>
+                                                </div>
+                                                <div class="col-5">
+                                                    <div class="card-title">Id : {{ category.id }}</div>
+                                                </div>
                                             </div>
-                                            <div class="col-6">
-                                               <div class="card-subtitle">{{ category.id }}</div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p class="card-text">  {{category.description}} </p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="card-text">  {{category.description}} </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row">
-                                            <div class="col-8"></div>
-                                            <div class="col-1">
-                                                <a type="button" class="update-material bs-modal settings" title="Update"  data-form-url="{% url 'update_category' category.id %}">
-                                                    <i class="material-icons">info</i>
-                                                </a>
-                                            </div>
-                                            <div class="col-1">
-                                                <a type="button" class="update-material bs-modal settings" title="Update"  data-form-url="{% url 'update_category' category.id %}">
-                                                    <i class="material-icons">update</i>
-                                                </a>
-                                            </div>
-                                            <div class="col-1">
-                                                <a type="button" class="delete-material bs-modal delete" title="Delete" data-form-url="{% url 'delete_category' category.id %}">
-                                                    <span class="material-icons">delete</span>
-                                                </a>
+                                            <div class="row">
+                                                <div class="col-9"></div>
+                                                <div class="col-1">
+                                                    <a type="button" class="update-material bs-modal settings" title="Update"  data-form-url="{% url 'update_category' category.id %}">
+                                                        <i class="material-icons update">update</i>
+                                                    </a>
+                                                </div>
+                                                <div class="col-1">
+                                                    <a type="button" class="delete-material bs-modal delete" title="Delete" data-form-url="{% url 'delete_category' category.id %}">
+                                                        <span class="material-icons delete">delete</span>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                            {% endfor %}
- 
-                        </div>
-                        <div class = "card ">
-                            <div class="card-body media align-items-center">
-                                <img id= 'img-profile' src="{{ c_customer.customer_img.url }}" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
+                                {% endfor %}
                             </div>
-
-                            <div class="text-center text-capitalize">{{c_customer.id}}</div>
-                            <h3 class="text-center text-primary ">{{ c_customer.company }}</h3>
-                            <hr>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12 col-xl-9">
@@ -129,7 +138,7 @@
                                         <h6 class="mb-4">Total Materials</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-9">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-users text-c-blue f-30 m-r-10"></i>{{num_of_objects}}</h3>
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-users text-c-blue f-30 m-r-10"></i>{{total_materials}}</h3>
                                             </div>
                                         </div>
                                         <div class=" m-t-30" style="height: 5px;">
@@ -143,14 +152,14 @@
                                         <h6 class="mb-4">Materials In Stock</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-6">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-check text-c-green f-30 m-r-10"></i>{{Active_customers.count }}</h3>
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-check text-c-green f-30 m-r-10"></i>{{instock_materials.count }}</h3>
                                             </div>
                                             <div class="col-6 text-right">
-                                                <p class="m-b-0">{{Active_customers.persentage}}%</p>
+                                                <p class="m-b-0">{{instock_materials.persentage}}%</p>
                                             </div>
                                         </div>
                                         <div class="progress m-t-30" style="height: 7px;">
-                                            <div class="progress-bar progress-c-green" role="progressbar" style="width: {{Active_customers.persentage}}%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar progress-c-green" role="progressbar" style="width: {{instock_materials.persentage}}%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -161,32 +170,28 @@
                                         <h6 class="mb-4">Materials Out Stock</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-6">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-minus text-c-yellow f-30 m-r-10"></i>{{Expired_customers.count}}</h3>
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-minus text-c-yellow f-30 m-r-10"></i>{{outstock_materials.count}}</h3>
                                             </div>
                                             <div class="col-6 text-right">
-                                                <p class="m-b-0">{{Expired_customers.persentage}}%</p>
+                                                <p class="m-b-0">{{outstock_materials.persentage}}%</p>
                                             </div>
                                         </div>
                                         <div class="progress m-t-30" style="height: 7px;">
-                                            <div class="progress-bar progress-c-yellow" role="progressbar" style="width: {{Expired_customers.persentage}}%;" aria-valuenow="{{Expired_customers.persentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar progress-c-red" role="progressbar" style="width: {{outstock_materials.persentage}}%;" aria-valuenow="{{total_categories}}" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6 col-sm-12">
-                                <div class="card yearly-sales">
+                                <div class="card yearly-sales ">
                                     <div class="card-block">
                                         <h6 class="mb-4">Total Categories</h6>
                                         <div class="row d-flex align-items-center">
-                                            <div class="col-6">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-x text-c-red f-30 m-r-10"></i>{{Suspended_customers.count}}</h3>
-                                            </div>
-                                            <div class="col-6 text-right">
-                                                <p class="m-b-0">{{Suspended_customers.persentage}}%</p>
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-users text-c-blue f-30 m-r-10"></i>{{total_categories}}</h3>
                                             </div>
                                         </div>
-                                        <div class="progress m-t-30" style="height: 7px;">
-                                            <div class="progress-bar progress-c-red" role="progressbar" style="width: {{Suspended_customers.persentage}}%;" aria-valuenow="{{Suspended_customers.persentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class=" m-t-30" style="height: 5px;">
                                         </div>
                                     </div>
                                 </div>
@@ -233,6 +238,9 @@
                                 font-size: 19px;
                                 top: 15px;
                                 left: 25px;
+                            }
+                            .table-card{
+                                height: 550px;
                             }
                             table.table tr th, table.table tr td {
                                 border-color: #e9e9e9;
@@ -309,7 +317,7 @@
 
                         <div class = "row">
                             <div class="col-12">
-                                <div class="card yearly-sales ">
+                                <div class="card yearly-sales table-card ">
                                     <div class="table-responsive ">
                                         <div class="table-wrapper">
                                             <div class="table-title">
@@ -359,7 +367,6 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    
                                                     {% for material in materials %}
                                                         <tr>
                                                             <td>{{ material.id }}</td>
@@ -385,7 +392,6 @@
                                                             </td>
                                                         </tr>
                                                     {% endfor %}
-                                                    
                                                 </tbody>
                                             </table>
                                             <div class="clearfix">
