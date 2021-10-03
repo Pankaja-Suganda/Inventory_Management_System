@@ -26,11 +26,11 @@ class CategoryCreate(BSModalModelForm):
         ))
 
     description = forms.CharField(
-        label='Enter Category Description',
+        label='Enter Description of Category',
         help_text='Required',
-        widget=forms.TextInput(
+        widget=forms.Textarea(
             attrs={
-                "placeholder" : "Category Description",                
+                "placeholder" : "Description of creating category",                
                 "class": "form-control"
             }
         ))
@@ -63,9 +63,9 @@ class CategoryUpdate(BSModalModelForm):
     description = forms.CharField(
         label='Enter Category Description',
         help_text='Required',
-        widget=forms.TextInput(
+        widget=forms.Textarea(
             attrs={
-                "placeholder" : "Category Description",                
+                "placeholder" : "Description of Updating category",                
                 "class": "form-control"
             }
         ))
@@ -167,7 +167,7 @@ class MaterialsCreate(BSModalModelForm):
     description = forms.CharField(
         label='Enter Material Description',
         help_text='Required',
-        widget=forms.TextInput(
+        widget=forms.Textarea(
             attrs={
                 "placeholder" : "Material Description",                
                 "class": "form-control"
@@ -222,6 +222,14 @@ class MaterialsCreate(BSModalModelForm):
         fields = ('id', 'name', 'description', 'unit_price', 'category_id', 'shell_id', 'supplier_id')
 
 class MaterialsUpdate(BSModalModelForm):
+    id = forms.CharField(
+        label='Material Id',
+        widget=forms.TextInput(
+            attrs={               
+                "class": "form-control",
+                "readonly": True
+            }
+        ))
 
     name = forms.CharField(
         label='Enter Material Name',
@@ -236,7 +244,7 @@ class MaterialsUpdate(BSModalModelForm):
     description = forms.CharField(
         label='Enter Material Description',
         help_text='Required',
-        widget=forms.TextInput(
+        widget=forms.Textarea(
             attrs={
                 "placeholder" : "Material Description",                
                 "class": "form-control"
@@ -309,5 +317,5 @@ class MaterialsUpdate(BSModalModelForm):
 
     class Meta:
         model = Materials
-        fields = ('name', 'description', 'unit_price', 'category_id', 'shell_id',
+        fields = ('id','name', 'description', 'unit_price', 'category_id', 'shell_id',
          'supplier_id', 'quatity', 'status')

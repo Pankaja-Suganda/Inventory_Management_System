@@ -22,7 +22,7 @@ class Categories(models.Model):
 
         while(check_id.exists()):
             id = shortuuid.ShortUUID(alphabet="0123456789")
-            full_id = 'CAT'+ str( id_no.random(length=4))
+            full_id = 'CAT'+ str( id.random(length=4))
             check_id = Categories.objects.filter(id=full_id)
 
         return full_id
@@ -55,7 +55,7 @@ class Shell(models.Model):
 
         while(check_id.exists()):
             id = shortuuid.ShortUUID(alphabet="0123456789")
-            full_id = 'Inv-Shell-'+ str( id_no.random(length=2))
+            full_id = 'Inv-Shell-'+ str( id.random(length=2))
             check_id = Shell.objects.filter(id=full_id)
 
         return full_id
@@ -74,7 +74,7 @@ class Materials(models.Model):
     name = models.CharField( max_length=150, blank=False)
     description = models.CharField( max_length=500, blank=False)
     unit_price =models.FloatField(blank=False)
-    quatity = models.IntegerField( blank=False)
+    quatity = models.IntegerField( blank=False, default=0)
     status = models.IntegerField(choices=STATUS_CHOICES, default=0)
     category_id = models.ForeignKey(Categories, blank=True, null=True, on_delete=models.SET_NULL)
     shell_id = models.ForeignKey(Shell, blank=True, null=True, on_delete=models.SET_NULL)
@@ -89,7 +89,7 @@ class Materials(models.Model):
 
         while(check_id.exists()):
             id = shortuuid.ShortUUID(alphabet="0123456789")
-            full_id = 'M'+ str( id_no.random(length=6))
+            full_id = 'M'+ str( id.random(length=6))
             check_id = Materials.objects.filter(id=full_id)
 
         return full_id
