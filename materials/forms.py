@@ -1,6 +1,7 @@
 from django import forms
 from .models import Shell, Categories, Materials
 from supplier.models import Supplier
+from authentication.models import BaseUser
 import shortuuid
 from bootstrap_modal_forms.forms import BSModalModelForm
 
@@ -184,6 +185,16 @@ class MaterialsCreate(BSModalModelForm):
             }
         ))
 
+    stock_margin = forms.IntegerField(
+        label='Enter Stock Margin of Material',
+        help_text='Required',
+        widget=forms.NumberInput(
+            attrs={
+                "placeholder" : "Stock Margin",                
+                "class": "form-control"
+            }
+        ))
+
     category_id = forms.ModelChoiceField(
         queryset = Categories.objects.all(),
         label='Select Category',
@@ -219,7 +230,7 @@ class MaterialsCreate(BSModalModelForm):
 
     class Meta:
         model = Materials
-        fields = ('id', 'name', 'description', 'unit_price', 'category_id', 'shell_id', 'supplier_id')
+        fields = ('id', 'name', 'description', 'unit_price', 'stock_margin', 'category_id', 'shell_id', 'supplier_id')
 
 class MaterialsUpdate(BSModalModelForm):
     id = forms.CharField(
@@ -278,6 +289,17 @@ class MaterialsUpdate(BSModalModelForm):
         widget=forms.Select(
             attrs={
                 "placeholder" : "Material Status",                
+                "class": "form-control",
+                "disabled": 'disabled'
+            }
+        ))
+
+    stock_margin = forms.IntegerField(
+        label='Enter Stock Margin of Material',
+        help_text='Required',
+        widget=forms.NumberInput(
+            attrs={
+                "placeholder" : "Stock Margin",                
                 "class": "form-control"
             }
         ))
@@ -315,7 +337,8 @@ class MaterialsUpdate(BSModalModelForm):
             }
         ))
 
+
     class Meta:
         model = Materials
         fields = ('id','name', 'description', 'unit_price', 'category_id', 'shell_id',
-         'supplier_id', 'quatity', 'status')
+         'supplier_id', 'quatity', 'status', 'stock_margin')

@@ -45,9 +45,21 @@
                     margin: 10px;
                     {% comment %} background: #F44336; {% endcomment %}
                 }
+                .list-title {
+                    color: #000;
+                    padding: 16px 30px;
+                    margin: -20px -25px 10px;
+                    margin-left: -10px;
+                    border-radius: 20px;
+                }
+                .table-title h2 {
+                    margin: 5px 0 0;
+                    font-size: 24px;
+                }
                 .search-box {
                     position: relative;        
                     float: right;
+                    margin-top: 30px;
                 }
                 .search-box .in{
                     height: 44px;
@@ -71,7 +83,7 @@
                 <div class = "row">
                     <div class="col-sm-12 col-md-12 col-xl-3" style="height:100px">
                         <div class = "card">
-                            <div class="table-title">
+                            <div class="list-title">
                                 <div class="row">
                                     <div class="col-8">
                                         <form role="form" method="get" action="{% url 'categorys' c_category.id %}"class="form-horizontal">
@@ -88,8 +100,8 @@
                                         </form>
                                     </div>
                                     <div class="col-4">
-                                        <button id ="create-category" class="btn btn-md bg-success float-right text-light"  title="Add New Material" type="button" name="button" >
-                                            <span class="material-icons"> person_add</span>
+                                        <button id ="create-category" class="btn btn-sm bg-success float-right text-light search-box"  title="Add New Category" type="button" name="button" >
+                                            <span class="material-icons" style="font-size:18px">library_add</span>
                                         </button>
                                     </div>
                                 </div>
@@ -138,7 +150,9 @@
                                         <h6 class="mb-4">Total Materials</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-9">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-users text-c-blue f-30 m-r-10"></i>{{total_materials}}</h3>
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0">
+                                                    <i class="feather icon-archive text-c-blue f-30 m-r-10"></i>{{total_materials}}
+                                                </h3>
                                             </div>
                                         </div>
                                         <div class=" m-t-30" style="height: 5px;">
@@ -198,11 +212,8 @@
                             </div>
                         </div>
                         <style>
-                            .table-responsive {
-                                margin: 30px 0;
-                            }
                             .table-wrapper {
-                                min-width: 1000px;
+                                min-width: 800px;
                                 background: #fff;
                                 padding: 20px;
                                 box-shadow: 0 1px 1px rgba(0,0,0,.05);
@@ -211,7 +222,7 @@
                                 padding-bottom: 15px;
                                 color: #000;
                                 padding: 16px 30px;
-                                margin: -20px -25px 10px;
+                                margin: -50px -15px -5px;
                                 border-radius: 10px;
                             }
                             .table-title h2 {
@@ -345,8 +356,8 @@
                                                         </form>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button id ="create-material" class="btn btn-md bg-success float-right text-light"  title="Add New Material" type="button" name="button" >
-                                                            <span class="material-icons"> person_add</span>
+                                                        <button id ="create-material" class="btn btn-md bg-success float-right text-light search-box"  title="Add New Material" type="button" name="button" >
+                                                            <span class="material-icons" style="font-size:18px"> control_point_duplicate</span>
                                                         </button>
                                                     </div>
                                                 </div>

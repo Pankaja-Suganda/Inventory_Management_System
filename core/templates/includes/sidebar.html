@@ -5,10 +5,10 @@
 
                 <a target="_blank" 
                    href="" class="b-brand">
-                    <div class="b-bg">
+                    {% comment %} <div class="b-bg">
                         <i class="feather icon-trending-up"></i>
-                    </div>
-                    <span class="b-title">IMS | Company Name</span>
+                    </div> {% endcomment %}
+                    <span class="b-title">Thilina Fashion</span>
                 </a>
                 <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
                 
@@ -52,7 +52,7 @@
 
                     <!-- Stocks -->
                     <li class="nav-item pcoded-menu-caption">
-                        <label>Stocks</label>
+                        <label>Purchases</label>
                     </li>
 
                     <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" 
@@ -64,7 +64,8 @@
                             <li class="nav-item {% if 'materials' in segment %} active {% endif %}"><a href="/materials/" class="">Materials</a></li>
                             <li class="nav-item {% if 'shells' in segment %} active {% endif %}"><a href="/shells/" class="">Shells</a></li>
                             <li class="nav-item {% if 'purchase-order' in segment %} active {% endif %}"><a href="/purchase-order.html" class="">Purchase Order</a></li>
-                            <li class="nav-item {% if 'stock-report' in segment %} active {% endif %}"><a href="/stock-report.html" class="">Report</a><span class="pcoded-badge label label-danger">NEW</span></a></li>
+                            <li class="nav-item {% if 'stock-report' in segment %} active {% endif %}"><a href="/stock-report.html" class="">Report</a></li> 
+                            {% comment %} <span class="pcoded-badge label label-danger">NEW</span> {% endcomment %}
                         </ul>
                     </li>
 

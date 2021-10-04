@@ -75,11 +75,18 @@ class Materials(models.Model):
     description = models.CharField( max_length=500, blank=False)
     unit_price =models.FloatField(blank=False)
     quatity = models.IntegerField( blank=False, default=0)
+    stock_margin = models.IntegerField( blank=False, default=0)
     status = models.IntegerField(choices=STATUS_CHOICES, default=0)
     category_id = models.ForeignKey(Categories, blank=True, null=True, on_delete=models.SET_NULL)
     shell_id = models.ForeignKey(Shell, blank=True, null=True, on_delete=models.SET_NULL)
     supplier_id = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.SET_NULL)
     user_id = models.ForeignKey(BaseUser, blank=True, null=True, on_delete=models.SET_NULL)
+
+    def make_stock_status(self):
+        if self.quatity > self.stock_margin:
+            self.status = 0
+        else:
+            self.status = 1
 
     @staticmethod
     def Material_id():

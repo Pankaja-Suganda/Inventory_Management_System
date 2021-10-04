@@ -67,12 +67,12 @@
                 </div>
                 <div class="form-group col-md-6 py-0">
 
-                    {{form.supplier_id.label}} :
-                    <div class="input-group"> {{ form.supplier_id }}</div>
+                    {{form.stock_margin.label}} :
+                    <div class="input-group"> {{ form.stock_margin }}</div>
 
-                    {% if form.supplier_id.errors %}
+                    {% if form.stock_margin.errors %}
                     <span role="alert" class="alert alert-danger"
-                        ><strong>Error!</strong>{{ form.supplier_id.errors }}</span>
+                        ><strong>Error!</strong>{{ form.stock_margin.errors }}</span>
                     {% endif %}
                 </div>
             </div>
@@ -94,6 +94,18 @@
                     {% if form.shell_id.errors %}
                     <span role="alert" class="alert alert-danger"
                         ><strong>Error!</strong>{{ form.shell_id.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6 py-0">
+
+                    {{form.supplier_id.label}} :
+                    <div class="input-group"> {{ form.supplier_id }}</div>
+
+                    {% if form.supplier_id.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.supplier_id.errors }}</span>
                     {% endif %}
                 </div>
             </div>
