@@ -124,3 +124,27 @@ class ShellsTemplate(TemplateView):
         context = super().get_context_data(**kwargs)
         context['segment'] = 'shells'
         return context
+
+class PurchaseOrderTemplate(TemplateView):
+    template_name = 'purchase-order.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'purchase-order'
+        return context
+
+class ItemsTemplate(TemplateView):
+    template_name = 'items.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'items'
+        return context
+
+class SalesOrderTemplate(TemplateView):
+    template_name = 'sales-order.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'sales-order'
+        return context
