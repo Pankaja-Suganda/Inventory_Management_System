@@ -3,7 +3,6 @@ from django.db import models
 from supplier.models import Supplier
 from authentication.models import BaseUser
 import shortuuid
-# Create your models here.
 
 # Category Model
 class Categories(models.Model):
@@ -41,8 +40,9 @@ class Shell(models.Model):
     id = models.CharField(max_length=12, primary_key=True, blank=False)
     row = models.IntegerField(max_length=12, blank=False)
     column = models.IntegerField(max_length=12, blank=False)
-    last_update = models.DateTimeField(auto_now_add=True)
-    shell_state = models.IntegerField(choices=STATUS_CHOICES, default=0)
+    description = models.CharField( max_length=350, blank=False, default='')
+    last_update = models.DateTimeField(auto_now=True)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=0)
 
     def class_name(self):
         return self.__name__

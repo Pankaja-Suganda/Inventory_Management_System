@@ -50,7 +50,7 @@ class ShellFilter(FilterSet):
         ))
 
     class Meta:
-        model = Categories
+        model = Shell
         fields = ('id', 'shell_state')
 
 class MaterialFilter(FilterSet):

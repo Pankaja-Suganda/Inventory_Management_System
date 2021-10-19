@@ -12,5 +12,12 @@ urlpatterns = [
     path('categories/<str:pk>/', CategoriesDetails.as_view(), name='categorys'),
     path('create_category/', CategoryCreateView.as_view(), name='create_category'),
     path('update_category/<str:pk>', CategoryUpdateView.as_view(), name='update_category'),
-    path('delete_category/<str:pk>', CategoryDeleteView.as_view(), name='delete_category')
+    path('delete_category/<str:pk>', CategoryDeleteView.as_view(), name='delete_category'),
+
+    path('shells/', ShellsList.as_view(), name='shells'),
+    path('create_shell/', ShellCreateView.as_view(), name='create_shell'),
+    path('update_shell/<str:pk>', ShellUpdateView.as_view(), name='update_shell'),
+    path('delete_shell/<str:pk>', ShellDeleteView.as_view(), name='delete_shell')
+    
+
 ]

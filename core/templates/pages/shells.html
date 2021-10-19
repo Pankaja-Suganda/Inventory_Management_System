@@ -1,5 +1,5 @@
 {% extends "layouts/base.html" %}
-
+{% load index %}
 {% block title %} Shells {% endblock %} 
 
 <!-- Specific CSS goes HERE -->
@@ -28,17 +28,101 @@
         <!-- [ breadcrumb ] end -->
         <div class="main-body">
             <!-- Page content -->
+            <style>
+                .update {
+                    color: #2196F3;
+                    cursor: pointer;
+                }
+                .delete {
+                    color: #F44336;
+                    cursor: pointer;
+                }
+                .Scroll {
+                    height:650px;
+                    overflow-y: scroll;
+                }
+                .cat-card{
+                    margin: 10px;
+                    {% comment %} background: #F44336; {% endcomment %}
+                }
+            </style>
             <div class="page-wrapper">
                 <div class = "row">
                     <div class="col-sm-12 col-md-12 col-xl-4">
                         <div class="card text-center">
-                            <div class="card-header">
-                                Purchase Orders
+                            <div class="card-header text-left">
+                                Created Shells
+                                <hr>
+                                <div class="list-title">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <form role="form" method="get" action=""class="form-horizontal">
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="search-box col-8">
+                                                        <i class="material-icons">&#xE8B6;</i>
+                                                        {{ shell_filter.form.id }}
+                                                    </div>
+                                                    <div class="search-box col-1">
+                                                        <button style="display: none;" type="submit"></button>
+                                                    </div> 
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-4">
+                                            <button id ="create-shell" class="btn btn-sm bg-success float-right text-light search-box"  title="Add New Category" type="button" name="button" >
+                                                <span class="material-icons" style="font-size:18px">library_add</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-body" style="height:650px;">
-                                {% comment %} <h5 class="card-title">Special title treatment</h5>
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a> {% endcomment %}
+                                <div class="overflow-auto Scroll">
+                                    {% for shell in shells %}
+                                        <div class = "card cat-card border-left " >
+                                            <div class = "card-header">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <div class="row">
+                                                            {% if shell.status == 0 %}
+                                                                <div class="text-left font-weight-bold text-danger">Empty </div>
+                                                            {% elif shell.status == 1 %}
+                                                                <div class="text-left font-weight-bold text-primary">Partialy Filled</div>
+                                                            {% elif shell.status == 2 %}
+                                                                <div class="text-left font-weight-bold text-success">Filled</div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class=" mt-2">
+                                                            <div class="text-left font-weight-bold">{{ shell.description }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <div class="card-title">Id : {{ shell.id }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <p class="card-text text-left mb-1 mt-3">  row : {{shell.row}}, column : {{shell.column}}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-9 text-left text-muted">{{ shell.last_update }}</div>
+                                                    <div class="col-1">
+                                                        <a type="button" class="update-shell bs-modal settings" title="Update"  data-form-url="{% url 'update_shell' shell.id %}">
+                                                            <i class="material-icons update">update</i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-1">
+                                                        <a type="button" class="delete-shell bs-modal delete" title="Delete" data-form-url="{% url 'delete_shell' shell.id %}">
+                                                            <span class="material-icons delete">delete</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                             <div class="card-footer text-muted">
                             </div>
@@ -46,13 +130,13 @@
                     </div>
                     <div class="col-sm-12 col-md-12 col-xl-8">
                         <div class = "row">
-                            <div class="col-xl-4 col-md-6 col-sm-12">
+                            <div class="col-xl-3 col-md-6 col-sm-12">
                                 <div class="card yearly-sales ">
                                     <div class="card-block">
-                                        <h6 class="mb-4">Total Materials</h6>
+                                        <h6 class="mb-4">Total Shells</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-9">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-users text-c-blue f-30 m-r-10"></i>{{num_of_objects}}</h3>
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-inbox text-c-blue f-30 m-r-10"></i>{{total_shells}}</h3>
                                             </div>
                                         </div>
                                         <div class=" m-t-30" style="height: 5px;">
@@ -60,38 +144,56 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-md-6 col-sm-12">
+                            <div class="col-xl-3 col-md-6 col-sm-12">
                                 <div class="card yearly-sales">
                                     <div class="card-block">
-                                        <h6 class="mb-4">Active Customers</h6>
+                                        <h6 class="mb-4">Empty Shells</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-6">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-check text-c-green f-30 m-r-10"></i>{{Active_customers.count }}</h3>
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-codepen text-c-red f-30 m-r-10"></i>{{empty_shells.count }}</h3>
                                             </div>
                                             <div class="col-6 text-right">
-                                                <p class="m-b-0">{{Active_customers.persentage}}%</p>
+                                                <p class="m-b-0">{{empty_shells.persentage}}%</p>
                                             </div>
                                         </div>
                                         <div class="progress m-t-30" style="height: 7px;">
-                                            <div class="progress-bar progress-c-green" role="progressbar" style="width: {{Active_customers.persentage}}%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar progress-c-red" role="progressbar" style="width: {{empty_shells.persentage}}%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card yearly-sales ">
+                            <div class="col-xl-3 col-md-6 col-sm-12">
+                                <div class="card yearly-sales">
                                     <div class="card-block">
-                                        <h6 class="mb-4">Expired Customers</h6>
+                                        <h6 class="mb-4">Partialy Filled Shells</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-6">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-minus text-c-yellow f-30 m-r-10"></i>{{Expired_customers.count}}</h3>
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-codepen text-c-blue f-30 m-r-10"></i>{{pfilled_shells.count }}</h3>
                                             </div>
                                             <div class="col-6 text-right">
-                                                <p class="m-b-0">{{Expired_customers.persentage}}%</p>
+                                                <p class="m-b-0">{{pfilled_shells.persentage}}%</p>
                                             </div>
                                         </div>
                                         <div class="progress m-t-30" style="height: 7px;">
-                                            <div class="progress-bar progress-c-yellow" role="progressbar" style="width: {{Expired_customers.persentage}}%;" aria-valuenow="{{Expired_customers.persentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar progress-c-blue" role="progressbar" style="width: {{pfilled_shells.persentage}}%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-sm-12">
+                                <div class="card yearly-sales ">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">Filled Shells</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-6">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-codepen text-c-green f-30 m-r-10"></i>{{filled_shells.count}}</h3>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <p class="m-b-0">{{filled_shells.persentage}}%</p>
+                                            </div>
+                                        </div>
+                                        <div class="progress m-t-30" style="height: 7px;">
+                                            <div class="progress-bar progress-c-green" role="progressbar" style="width: {{filled_shells.persentage}}%;" aria-valuenow="{{filled_shells.persentage}}" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -102,7 +204,7 @@
                                 margin: 30px 0;
                             }
                             .table-wrapper {
-                                min-width: 1000px;
+                                min-width: 800px;
                                 background: #fff;
                                 padding: 20px;
                                 box-shadow: 0 1px 1px rgba(0,0,0,.05);
@@ -220,14 +322,53 @@
                                             <div class="table-title">
                                                 <div class="row">
                                                     <div class="col-8">
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <button id ="create-customer" class="btn btn-md bg-success float-right text-light"  title="Add New Customer" type="button" name="button" >
-                                                            <span class="material-icons"> person_add</span>
-                                                        </button>
+                                                        <div class="card-title">Shell Availability</div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <table class="table table-striped table-bordered table-hover " height="420px;" style="table-layout:fixed;">
+ 
+                                                <tbody>
+                                                    {% for i in index_table %}
+                                                        <tr style="">
+                                                            {% for j in index_table %}
+                                                                {% with my_var=shell_table|index:i|index:j %}
+                                                                    {% if my_var.id == 1 %} 
+                                                                        <td class='bg-light' style="width: 25%;">
+                                                                            <div class="text-danger text-center">Not Defined</div>
+                                                                        </td>
+                                                                    {% else %}
+                                                                        <td class=' {% if my_var.shell.status == 0 %} bg-danger {% elif my_var.shell.status == 1 %} bg-primary {% elif my_var.shell.status == 2 %} bg-success {% endif %} '>
+                                                                            <div class="row">
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-7">
+                                                                                    <div class=" mt-2">
+                                                                                        {% for material in my_var.materials %}
+                                                                                            <div class="text-light">{{material.id}}</div>
+                                                                                        {% endfor %}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-5">
+                                                                                    <div class="card-title text-light font-weight-bold">Id : {{ my_var.shell.id }}</div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-12">
+                                                                                    <p class="card-text text-left mb-0 mt-3 text-light">  row : {{my_var.shell.row}}, column : {{my_var.shell.column}}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-0">
+                                                                                <div class="col text-left text-light">{{ my_var.shell.last_update }}</div>
+                                                                            </div>
+                                                                        </td>
+                                                                    {% endif %}
+                                                                {% endwith %}
+                                                            {% endfor %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>  
                                 </div> 
@@ -255,11 +396,11 @@
                                     </div>
                                 </div>
 
-                                {% comment %} <script src="/static/assets/plugins/jquery/js/jquery.min.js" type="text/javascript"></script>
+                                <script src="/static/assets/plugins/jquery/js/jquery.min.js" type="text/javascript"></script>
                                 <script type="text/javascript">
                                     $(document).ready(function () {
                                         // Read book buttons
-                                        $(".update-customer").each(function () {
+                                        $(".update-shell").each(function () {
                                             $(this).modalForm({
                                                 formURL: $(this).data("form-url"),
                                                  modalID: "#update-modal"
@@ -267,7 +408,7 @@
                                         });
 
                                         // Delete book buttons - formURL is retrieved from the data of the element
-                                        $(".delete-customer").each(function () {
+                                        $(".delete-shell").each(function () {
                                             $(this).modalForm({
                                                 formURL: $(this).data("form-url"), 
                                                 isDeleteForm: true,
@@ -276,12 +417,12 @@
                                         });
                                         
                                         // Create book button opens form in modal with id="create-modal"
-                                        $("#create-customer").modalForm({
-                                            formURL: "{% url 'create_customer' %}",
+                                        $("#create-shell").modalForm({
+                                            formURL: "{% url 'create_shell' %}",
                                             modalID: "#create-modal"
                                         });
                                     });
-                                </script> {% endcomment %}
+                                </script>
                             </div>
                         </div>
                     </div>

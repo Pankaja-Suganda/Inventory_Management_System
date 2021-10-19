@@ -20,6 +20,8 @@ urlpatterns = [
     path('purchase-order/', PurchaseOrderTemplate.as_view(), name="purchase-order"),
     path('items/', ItemsTemplate.as_view(), name="items"),
     path('sales-order/', SalesOrderTemplate.as_view(), name="sales-order"),
+    path('pre-sales-order/', PreSalesOrderTemplate.as_view(), name="pre-sales-order"),
+    
 
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),

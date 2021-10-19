@@ -148,3 +148,11 @@ class SalesOrderTemplate(TemplateView):
         context = super().get_context_data(**kwargs)
         context['segment'] = 'sales-order'
         return context
+
+class PreSalesOrderTemplate(TemplateView):
+    template_name = 'pre-sales-order.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'pre-sale-order'
+        return context

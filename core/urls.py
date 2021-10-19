@@ -12,6 +12,5 @@ urlpatterns = [
     path("", include("customer.urls")),        # customer url
     path("", include("supplier.urls")),        # customer url
     path("", include("materials.urls")),
-    path("", include("app.urls"))             # UI Kits Html files
-    
+    path("", include("app.urls"))             # UI Kits Html files   
 ]

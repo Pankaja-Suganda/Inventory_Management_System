@@ -3,8 +3,9 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.core.paginator import Paginator
 from .models import Materials
-from .filters import CategoryFilter, MaterialFilter
+from .filters import CategoryFilter, MaterialFilter, ShellFilter
 from .forms import *
+import json
 
 from bootstrap_modal_forms.generic import (
   BSModalCreateView,
@@ -12,6 +13,65 @@ from bootstrap_modal_forms.generic import (
   BSModalUpdateView,
   BSModalDeleteView
 )
+
+# materials list wth pagination
+class ShellsList(generic.ListView):
+    model = Shell
+    context_object_name = "shells"
+    template_name = 'pages/shells.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        count = Shell.objects.count()
+        context['total_shells'] = count
+        if count != 0:
+            context['empty_shells'] = {
+                    'count' : Shell.objects.filter(status=0).count(),
+                    'persentage': count_persentage(Shell, 0)
+                }
+            context['pfilled_shells'] = {
+                    'count' : Shell.objects.filter(status=1).count(),
+                    'persentage': count_persentage(Shell, 1)
+                }
+            context['filled_shells'] = {
+                    'count' : Shell.objects.filter(status=2).count(),
+                    'persentage': count_persentage(Shell, 2)
+                }
+
+
+        context['segment'] = 'shells'
+        context['shell_filter'] = ShellFilter(self.request.GET, queryset=Shell.objects.all())
+        context['shells'] = context['shell_filter'].qs
+
+        shell_table = []
+        for i, shell in enumerate(Shell.objects.all()):
+            materials = Materials.objects.filter(shell_id =shell.id)
+            shell_table.append({
+                'id':shell.id,
+                'shell': shell,
+                'row' : shell.row,
+                'column' : shell.column,
+                'materials' : materials
+            })
+        
+        table = []
+        for i in range(4):
+            row = []
+            for j in range(4):
+                for shell in shell_table:
+                    data = None
+                    if shell['row'] == i and shell['column'] == j:
+                        data = shell
+                        break
+                    else:
+                        data = {'id':1}
+                row.append(data)
+            table.append(row)
+
+        print(table)
+        context['shell_table'] = table
+        context['index_table'] = [0,1,2,3]
+        return context
 
 # get material count
 def count_persentage(obj, value):
@@ -193,3 +253,33 @@ class CategoryDeleteView(BSModalDeleteView):
     success_message = 'Success: Selected Material was deleted.'
     success_url = reverse_lazy('materials')
     failure_url = reverse_lazy('materials')
+
+# shell Create
+class ShellCreateView(BSModalCreateView):
+    template_name = 'pages/modals/materials/shell-create.html'
+    form_class = ShellCreate
+    success_message = 'Success: New Shell was created.'
+    success_url = reverse_lazy('shells')
+    failure_url = reverse_lazy('shells')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['generated_id'] = Shell.category_id()
+        return context
+
+# shell Update
+class ShellUpdateView(BSModalUpdateView):
+    model = Shell
+    template_name = 'pages/modals/materials/shell-update.html'
+    form_class = ShellUpdate
+    success_message = 'Success: Selected Shell was updated.'
+    success_url = reverse_lazy('shells')
+    failure_url = reverse_lazy('shells')
+
+# shell Delete
+class ShellDeleteView(BSModalDeleteView):
+    model = Shell
+    template_name = 'pages/modals/materials/shell-delete.html'
+    success_message = 'Success: Selected Shell was deleted.'
+    success_url = reverse_lazy('shells')
+    failure_url = reverse_lazy('shells')

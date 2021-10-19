@@ -85,65 +85,110 @@ class ShellCreate(BSModalModelForm):
             }
         ))
 
-    row = forms.IntegerField(
-        label='Enter Row Number',
-        help_text='Required',
-        widget=forms.NumberInput(
-            attrs={
-                "placeholder" : "Row Number",                
-                "class": "form-control"
-            }
-        ))
-
-    column = forms.IntegerField(
-        label='Enter Column Number',
-        help_text='Required',
-        widget=forms.NumberInput(
-            attrs={
-                "placeholder" : "Column Number",                
-                "class": "form-control"
-            }
-        ))
-
-    class Meta:
-        model = Shell
-        fields = ('id', 'row', 'column')
-
-class ShellUpdate(BSModalModelForm):
-
-    row = forms.IntegerField(
-        label='Enter Row Number',
-        help_text='Required',
-        widget=forms.NumberInput(
-            attrs={
-                "placeholder" : "Row Number",                
-                "class": "form-control"
-            }
-        ))
-
-    column = forms.IntegerField(
-        label='Enter Column Number',
-        help_text='Required',
-        widget=forms.NumberInput(
-            attrs={
-                "placeholder" : "Column Number",                
-                "class": "form-control"
-            }
-        ))
-
-    shell_state = forms.ChoiceField(choices=Shell.STATUS_CHOICES,
-        label='Select Customer Status',
+    status = forms.ChoiceField(choices=Shell.STATUS_CHOICES,
+        label='Shell Status',
+        initial=0,
         help_text='Required',
         widget=forms.Select(
             attrs={
-                "placeholder" : "Customer Status",                
+                "placeholder" : "Shell Status",                
+                "class": "form-control"
+            }
+        ))
+
+    description = forms.CharField(
+        label='Enter Shell Description',
+        help_text='Required',
+        widget=forms.Textarea(
+            attrs={
+                "placeholder" : "Description of Shell contains",                
+                "class": "form-control"
+            }
+        ))
+
+    row = forms.IntegerField(
+        label='Enter Row Number',
+        help_text='Required',
+        initial='0',
+        widget=forms.NumberInput(
+            attrs={
+                "placeholder" : "Row Number",                
+                "class": "form-control"
+            }
+        ))
+
+    column = forms.IntegerField(
+        label='Enter Column Number',
+        help_text='Required',
+        initial='0',
+        widget=forms.NumberInput(
+            attrs={
+                "placeholder" : "Column Number",                
                 "class": "form-control"
             }
         ))
 
     class Meta:
         model = Shell
-        fields = ('row', 'column', 'shell_state')
+        fields = ('id', 'row', 'column', 'description', 'status')
+
+class ShellUpdate(BSModalModelForm):
+
+    id = forms.CharField(
+        label='Shell Id',
+        widget=forms.TextInput(
+            attrs={               
+                "class": "form-control",
+                "readonly": True
+            }
+        ))
+
+    status = forms.ChoiceField(choices=Shell.STATUS_CHOICES,
+        label='Shell Status',
+        initial=0,
+        help_text='Required',
+        widget=forms.Select(
+            attrs={
+                "placeholder" : "Shell Status",                
+                "class": "form-control",
+            }
+        ))
+
+    description = forms.CharField(
+        label='Enter Shell Description',
+        help_text='Required',
+        widget=forms.Textarea(
+            attrs={
+                "placeholder" : "Description of Shell contains",                
+                "class": "form-control"
+            }
+        ))
+
+    row = forms.IntegerField(
+        label='Enter Row Number',
+        help_text='Required',
+        initial='0',
+        widget=forms.NumberInput(
+            attrs={
+                "placeholder" : "Row Number",                
+                "class": "form-control"
+            }
+        ))
+
+    column = forms.IntegerField(
+        label='Enter Column Number',
+        help_text='Required',
+        initial='0',
+        widget=forms.NumberInput(
+            attrs={
+                "placeholder" : "Column Number",                
+                "class": "form-control"
+            }
+        ))
+
+    class Meta:
+        model = Shell
+        fields = ('id', 'row', 'column', 'description', 'status')
 
 class MaterialsCreate(BSModalModelForm):
     id = forms.CharField(
@@ -290,7 +335,6 @@ class MaterialsUpdate(BSModalModelForm):
             attrs={
                 "placeholder" : "Material Status",                
                 "class": "form-control",
-                "disabled": 'disabled'
             }
         ))
 
