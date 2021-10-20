@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'authentication',
     'customer',
     'supplier',
-    'materials'
-     # Enable the inner app 
+    'materials',
+    'purchase_order'
+    # Enable the inner app 
 ]
 
 MIDDLEWARE = [

@@ -10,7 +10,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),          # Django admin route
     path("", include("authentication.urls")), # Auth routes - login / register
     path("", include("customer.urls")),        # customer url
-    path("", include("supplier.urls")),        # customer url
-    path("", include("materials.urls")),
+    path("", include("supplier.urls")),        # supplier url
+    path("", include("materials.urls")),       # materials url
+    path("", include("purchase_order.urls")),  # purchase_order url
     path("", include("app.urls"))             # UI Kits Html files   
 ]
