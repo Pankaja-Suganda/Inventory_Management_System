@@ -53,11 +53,18 @@ class ShellsList(generic.ListView):
                 'column' : shell.column,
                 'materials' : materials
             })
+        page_number = self.request.GET.get('page')
         
+
+        if type(page_number) is str:
+            page_number = int(page_number)
+        else:
+            page_number = 1
+            
         table = []
         for i in range(4):
             row = []
-            for j in range(4):
+            for j in range(page_number-1, page_number+4):
                 for shell in shell_table:
                     data = None
                     if shell['row'] == i and shell['column'] == j:
@@ -68,8 +75,10 @@ class ShellsList(generic.ListView):
                 row.append(data)
             table.append(row)
 
-        print(table)
         context['shell_table'] = table
+        context['page_number'] = page_number
+        context['page_next'] = page_number + 1
+        context['page_previous'] = page_number - 1
         context['index_table'] = [0,1,2,3]
         return context
 
