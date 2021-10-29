@@ -6,7 +6,7 @@
             Purchase Order
         </title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <meta name="viewport" content="width=device-width, initial-scale=1.5, user-scalable=0, minimal-ui">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
         <!-- fontawesome icon -->
@@ -22,12 +22,13 @@
             <div class="p-5">
                 <section class="top-content justify-content-between">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-6 text-dark">
                             <div class="font-weight-bold purchase-order">PURCHASE ORDER</div>
-                            <div class="po-no">#PO-1223344455</div>
+                            <div class="po-no">#PO-[po-number]</div>
+                            <div class="card-title mt-2 font-weight-bold">Date : 2012-12-02 12:32:32</div>
                         </div>
-                        <div class="col-3 p-0 text-right">
-                            <div class="com-detial-container mt-0">
+                        <div class="col-3 p-0 text-right ">
+                            <div class="com-detial-container mt-0 text-dark">
                                 <div class="text">369, Thalangama south,</div>
                                 <div class="text">batapotha battaramulla,</div>
                                 <div class="text"><span class="pcoded-micon"><i class="feather icon-phone"></i></span> 011-2077112/ 071-1795055</div>
@@ -44,121 +45,150 @@
                             </div>
                             <div class="row ">
                                 <div class="col">
-                                    <div class="text-center" style="font-size:15px; font-weight:900;">Thilina Fashion</div>
+                                    <div class="text-center mt-1" style="font-size:12px; font-weight:900;">THILINA FASHION</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section> 
-                <hr>
-                <section class="store-content mt-5">
-                    <div class="col-10">
-                        <div class="row bb pb-3">
-                            <div class="col-7">
-                                <p>Supplier</p>
-                                <h2>Store Name</h2>
-                                <p class="address">777 Brockton Avenue, <br> Abing</p>
-                                <div class="txn mt-2">TXN : XXXXXX</div>
+                <hr class="m-0">
+                <section class="store-content mt-1">
+                    <div class="col-12">
+                        <div class="row bb pt-2">
+                            <div class="col-6">
+                                <div class="card-text pl-2 head-detail" style="font-weight:900;">SUPPLIER</div>
+                                <div class="card-text pl-2 mt-2" style="font-weight:900;">[Conatct Person]</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">[Company Name]</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">[Address 1]</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">[Address 2]</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">[City]</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">[Phone]</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">[Fax]</div>
                             </div>
-                            <div class="col-5">
-                                <p>Customer</p>
-                                <h2>customer Name</h2>
-                                <p class="address">777 Brockton Avenue, <br> Abing</p>
-                                <div class="txn mt-2">TXN : XXXXXX</div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row extra-info pt-3">
-                            <div class="col-7">
-                                <p>Payment Method:
-                                <span>bKash</span></p>
-                                <p>Order Number: <span>#868</span></p>
-                            </div>
-                            <div class="col-5">
-                                <p>Deliver Date:<span>10-
-                                04-20</span></p>
+                            <div class="col-6">
+                                <div class="card-text pl-2 head-detail" style="font-weight:900;">SHIP TO</div>
+                                <div class="card-text pl-2 mt-2" style="font-weight:900;">[Conatct Person]</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">[Company Name]</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">[Address 1]</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">[Address 2]</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">[City]</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">[Phone]</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">[Fax]</div>
                             </div>
                         </div>
                     </div>
                 </section> 
-                <hr>
-                <section class="product-area mt-4">
-                    <table class="table table-hover">
-                        <thead>
+                <section class="product-area mt-5">
+                    <table class="table table-bordered text-dark table-hover">
+                        <thead class="head-detail border">
                             <tr>
-                                <td>Item description</td>
-                                <td>Price</td>
-                                <td>Quantity</td>
-                                <td>Total</td>
+                                <th style="width: 10%">Item#</th>
+                                <th style="width: 45%">Description</th>
+                                <th style="width: 15%">Quantity</th>
+                                <th style="width: 15%">Unit Price</th>
+                                <th style="width: 15%" class="text-right">Total</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="table border">
                             <tr>
                                 <td>Chair</td>
                                 <td>100.00</td>
                                 <td>10</td>
                                 <td>1000.00</td>
+                                <td class="text-right">1000.00</td>
                             </tr>
-                        </tbody>
-                        <tbody>
+                            
                             <tr>
                                 <td>Chair</td>
                                 <td>100.00</td>
                                 <td>10</td>
                                 <td>1000.00</td>
+                                <td>1000.00</td>
                             </tr>
-                        </tbody>
-                        <tbody>
                             <tr>
                                 <td>Chair</td>
                                 <td>100.00</td>
                                 <td>10</td>
+                                <td>1000.00</td>
+                                <td>1000.00</td>
+                            </tr>
+                            <tr>
+                                <td>Chair</td>
+                                <td>100.00</td>
+                                <td>10</td>
+                                <td>1000.00</td>
+                                <td>1000.00</td>
+                            </tr>
+                            <tr>
+                                <td>Chair</td>
+                                <td>100.00</td>
+                                <td>10</td>
+                                <td>1000.00</td>
+                                <td>1000.00</td>
+                            </tr>
+                            <tr>
+                                <td>Chair</td>
+                                <td>100.00</td>
+                                <td>10</td>
+                                <td>1000.00</td>
+                                <td>1000.00</td>
+                            </tr>
+                            <tr>
+                                <td>Chair</td>
+                                <td>100.00</td>
+                                <td>10</td>
+                                <td>1000.00</td>
+                                <td>1000.00</td>
+                            </tr>
+                            <tr>
+                                <td>Chair</td>
+                                <td>100.00</td>
+                                <td>10</td>
+                                <td>1000.00</td>
                                 <td>1000.00</td>
                             </tr>
                         </tbody>
                     </table>
                 </section> 
 
-                <section class="balance-info">
-                    <div class="row">
-                        <div class="col-8">
-                            <p class="m-0 font-weight-bold">Note</p>
+                <section class="balance-info mt-2">
+                    <div class="row text-dark">
+                        <div class="col-7 border">
+                            <p class="m-0 font-weight-bold ">Note</p>
                             <p> lorem ipsem dolos sit amet consecteter adiposicingale
                             elit, in dlectus, adipisci vero est dolore praesentium</p>
                         </div>
-                        <div class="col-4">
-                            <table class="table border-1 table-hover">
+                        <div class="col-5">
+                            <table class="table table-bordered table-hover m-0 text-dark">
                                 <tr>
-                                    <td>Sub Total : </td>
-                                    <td>800$</td>
+                                    <td class="font-weight-bold" style="width: 60%">Sub Total :</td>
+                                    <td >800$</td>
                                 </tr>
                                 <tr>
-                                    <td>Tax :</td>
+                                    <td class="font-weight-bold">Tax :</td>
                                     <td>15$</td>
                                 </tr>
                                 <tr>
-                                    <td>Deliver : </td>
+                                    <td class="font-weight-bold">Deliver : </td>
                                     <td>110$</td>
                                 </tr>
                                 <tfoot>
                                     <tr>
-                                        <td>Total : </td>
-                                        <td>200$</td>
+                                        <td class="font-weight-bold">Total : </td>
+                                        <td >200$</td>
                                     </tr>
                                 </tfoot>
                             </table>
-                            <div>
-
-                            </div>
                         </div>
                     </div>
                 </section> 
-
+                
                 <footer>
-                    <p class="m-0 text-center">
+                    <p class="m-3 text-center">
                         view this invoice online At - <a href="#!"></a>
                     </p>
                 </footer> 
+                
             </div>
         </div>
     </body>

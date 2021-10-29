@@ -16,7 +16,7 @@ class PurchaseOrder(models.Model):
         (0, 'Issued'),
         (1, 'Paid'),
         (2, 'Received'),
-        (2, 'Closed')
+        (3, 'Closed')
     )
 
     id = models.CharField(max_length=11, primary_key=True, blank=False)

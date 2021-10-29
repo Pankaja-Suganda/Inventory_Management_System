@@ -105,6 +105,33 @@ body {
     font-size: 12px;
 }
 
+.head-detail {
+    margin-top: 0;
+    padding-left: 20px;
+    font-size: 1em;
+    color: white;
+    width: 250px;
+    background-color: var(--theme-color);
+}
+
+.body-detail {
+    margin-top: 0;
+    padding-left: 20px;
+    font-size: 1em;
+    color: white;
+    width: 180px;
+    background-color: var(--theme-color);
+}
+
+.balance-info {
+    padding-left: 15px;
+}
+
+table.table thead {
+    border-left: 1px solid red;
+    border-right: 1px solid red;
+}
+
 @page {
     size: A4;
     margin: 0;
