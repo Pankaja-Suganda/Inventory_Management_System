@@ -90,81 +90,81 @@
                                             </form>
                                         </div>
                                         <div class="col-4">
-                                            <button id ="create-shell" class="btn btn-sm bg-success float-right text-light search-box"  title="Add New Category" type="button" name="button" >
+                                            <a type="button" class=" closed" title="btn-success close"  href="{% url 'create-po' %}">
                                                 <span class="material-icons" style="font-size:18px">library_add</span>
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body" style="height:650px;">
+                            <div class="card-body" style="height:900px;">
                                 <div class="overflow-auto Scroll">
-                                    {% for shell in PurchaseOrders %}
+                                    {% for PurchaseOrder in PurchaseOrders %}
                                         <div class = "card cat-card border-left" >
                                             <div class = "card-header">
                                                 <div class="row">
                                                     <div class="col-7">
                                                         <div class="row">
-                                                            {% if shell.status == 0 %}
+                                                            {% if PurchaseOrder.status == 0 %}
                                                                 <div class="text-left font-weight-bold text-primary"><span class="badge badge-pill badge-primary">Issued</span> </div>
-                                                            {% elif shell.status == 1 %}
+                                                            {% elif PurchaseOrder.status == 1 %}
                                                                 <div class="text-left font-weight-bold text-success"><span class="badge badge-pill badge-success">Paid</span></div>
-                                                            {% elif shell.status == 2 %}
+                                                            {% elif PurchaseOrder.status == 2 %}
                                                                 <div class="text-left font-weight-bold text-warning"><span class="badge badge-pill badge-warning">Received</span></div>
-                                                            {% elif shell.status == 3 %}
+                                                            {% elif PurchaseOrder.status == 3 %}
                                                                 <div class="text-left font-weight-bold text-danger"><span class="badge badge-pill badge-danger">Closed</span></div>
                                                             {% endif %}
                                                         </div>
                                                         <div class=" mt-2">
-                                                            <div class="text-left font-weight-bold">{{ shell.description }}</div>
+                                                            
                                                         </div>
                                                     </div>
                                                     <div class="col-5">
-                                                        <div class="card-title">Id : {{ shell.id }}</div>
+                                                        <div class="card-title">Id : {{ PurchaseOrder.id }}</div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <p class="card-text text-left mb-1 mt-3">  Supplier ID : {{shell.supplier_id.id}}</p>
+                                                        <p class="card-text text-left mb-1 mt-3">  Supplier ID : {{PurchaseOrder.supplier_id.id}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="row">
 
-                                                    <div class="col-8 text-left text-muted">
+                                                    <div class="col-9 text-left text-muted">
                                                         <p class="card-text text-left mb-1 ">
-                                                            {% if shell.status == 0 %}
-                                                                Issued Date  : {{shell.issued_date}}
-                                                            {% elif shell.status == 1 %}
-                                                                Paid Date  : {{shell.paid_date}}
-                                                            {% elif shell.status == 2 %}
-                                                                Received Date  : {{shell.Received_date}}
-                                                            {% elif shell.status == 3 %}
-                                                                Closed Date  : {{shell.closed_date}}
+                                                            {% if PurchaseOrder.status == 0 %}
+                                                                Issued Date  : {{PurchaseOrder.issued_date}}
+                                                            {% elif PurchaseOrder.status == 1 %}
+                                                                Paid Date  : {{PurchaseOrder.paid_date}}
+                                                            {% elif PurchaseOrder.status == 2 %}
+                                                                Received Date  : {{PurchaseOrder.Received_date}}
+                                                            {% elif PurchaseOrder.status == 3 %}
+                                                                Closed Date  : {{PurchaseOrder.closed_date}}
                                                             {% endif %}
                                                         </p>
                                                     </div>
                                                     <div class="col-1">
-                                                        {% if shell.status == 0 %}
-                                                            <a type="button" class=" paid" title="paid"  data-form-url="{% url 'update-status' shell.id %}">
+                                                        {% if PurchaseOrder.status == 0 %}
+                                                            <a type="button" class=" paid" title="paid"  href="{% url 'update-status' PurchaseOrder.id %}">
                                                                 <i class="material-icons paid">receipt</i>
                                                             </a>
-                                                        {% elif shell.status == 1 %}
-                                                            <a type="button" class="received" title="received"  data-form-url="{% url 'update-status' shell.id %}">
+                                                        {% elif PurchaseOrder.status == 1 %}
+                                                            <a type="button" class="received" title="received"  href="{% url 'update-status' PurchaseOrder.id %}">
                                                                 <i class="material-icons received">inventory_2</i>
                                                             </a>
-                                                        {% elif shell.status == 2 %}
-                                                            <a type="button" class=" closed" title="close"  data-form-url="{% url 'update-status' shell.id %}">
+                                                        {% elif PurchaseOrder.status == 2 %}
+                                                            <a type="button" class=" closed" title="close"  href="{% url 'update-status' PurchaseOrder.id %}">
                                                                 <i class="material-icons closed">cancel</i>
                                                             </a>
                                                         {% endif %}
                                                     </div>
                                                     <div class="col-1">
-                                                        <a type="button" class="update-shell bs-modal view" title="view"  data-form-url="{% url 'update_shell' shell.id %}">
+                                                        <a type="button" class="view" title="view"  href="{% url 'purchase-order' PurchaseOrder.id %}">
                                                             <i class="material-icons update">visibility</i>
                                                         </a>
                                                     </div>
                                                     <div class="col-1">
-                                                        <a type="button" class="delete-shell bs-modal delete" title="Delete" data-form-url="{% url 'delete_shell' shell.id %}">
+                                                        <a type="button" class="delete-shell bs-modal delete" title="Delete" data-form-url="{% url 'delete_shell' PurchaseOrder.id %}">
                                                             <span class="material-icons delete">delete</span>
                                                         </a>
                                                     </div>
@@ -359,18 +359,9 @@
                                         <div class="table-wrapper">
                                             <div class="table-title">
                                                 <div class="row">
-                                                    <div class="col-8">
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <button id ="create-customer" class="btn btn-md bg-success float-right text-light"  title="Create new Purchase Order" type="button" name="button" >
-                                                            <span class="material-icons">add</span>New PO
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="col ">
                                                         <div class="embed-responsive embed-responsive-16by9">
-                                                            <iframe class="embed-responsive-item" src="./documents/purchase-order-doc.html"></iframe>
+                                                            <iframe class="embed-responsive-item" src=" {% if create == 0 %} {% url 'preview-po' PO_selected.id %} {% else %} {% url 'purchase-order-doc'%} {% endif %} "></iframe>
                                                         </div>
                                                     </div>                                                  
                                                 </div>

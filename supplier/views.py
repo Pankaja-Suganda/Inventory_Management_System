@@ -2,7 +2,11 @@ from django.contrib.auth.decorators import login_required
 from .models import Supplier
 from .forms import SupplierRegister, SupplierUpdate
 from .filters import SupplierFilter
+from django.http import HttpResponse
+from django.core import serializers
+import json
 
+from supplier.models import Supplier
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -33,6 +37,11 @@ class SuppliersList(generic.ListView):
         context['filter'] = SupplierFilter(self.request.GET, queryset=Supplier.objects.all())
         context['segment'] = 'suppliers'
         return context
+
+# supplier Details for documents
+def SupplierDetailsAdd(request, pk):
+    supplier = Supplier.objects.get(pk=pk)
+    return HttpResponse(serializers.serialize("json", [supplier]), content_type="application/json")
 
 # supplier Details
 class SupplierDetails(generic.detail.DetailView):

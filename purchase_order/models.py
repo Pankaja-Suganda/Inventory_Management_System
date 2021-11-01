@@ -1,14 +1,11 @@
 from django.db import models
+from django.db.models import Sum
+import datetime
 import shortuuid
 from supplier.models import Supplier
 from materials.models import Materials
 from authentication.models import BaseUser
 
-# PO Supportive model
-class CMaterial(models.Model):
-    id = models.AutoField(primary_key=True)
-    material_id = models.ForeignKey(Materials, blank=True, null=True, on_delete=models.SET_NULL)
-    quatity = models.IntegerField( blank=False, default=0)
 
 # PO Model
 class PurchaseOrder(models.Model):
@@ -22,7 +19,7 @@ class PurchaseOrder(models.Model):
     id = models.CharField(max_length=11, primary_key=True, blank=False)
     user_id = models.ForeignKey(BaseUser, blank=True, null=True, on_delete=models.SET_NULL)
     supplier_id = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.SET_NULL)
-    material_ids = models.ManyToManyField(CMaterial, blank=True, null=True)
+    material_ids = models.ManyToManyField('CMaterial', blank=True, null=True)
     total_price = models.FloatField(blank=False, default=0.0)
     sub_total_price = models.FloatField(blank=False, default=0.0)
     discount_persentage = models.FloatField(blank=False, default=0.0)
@@ -32,13 +29,28 @@ class PurchaseOrder(models.Model):
     Received_date = models.DateTimeField(blank=True, null=True)
     closed_date = models.DateTimeField(blank=True, null=True)
     status = models.IntegerField(choices=STATUS_CHOICES, default=0)
-    po_pdf = models.FileField(null=True, blank=False, upload_to='core/static/assets/documents/purchase order/')
+    po_pdf = models.FileField(null=True, blank=True, upload_to='core/static/assets/documents/purchase order/')
+    description = models.TextField(blank=True)
 
     def get_id(self):
         return self.id
 
     def class_name(self):
         return self.__class__.__name__
+    
+    def save(self, *args, **kwargs):
+        # calculations
+        for material in self.material_ids.all():
+            self.sub_total_price += material.total_price
+        self.total_price = self.sub_total_price - (self.sub_total_price*(self.discount_persentage/100))
+        
+        # supplier po count increment
+        self.supplier_id.po_count += 1
+        # assigning supplier last po date
+        self.supplier_id.last_order_date = self.issued_date
+        self.supplier_id.save()
+
+        super(PurchaseOrder, self).save(*args, **kwargs)
     
     @staticmethod
     def po_id():
@@ -52,3 +64,15 @@ class PurchaseOrder(models.Model):
             check_id = PurchaseOrder.objects.filter(id=full_id)
 
         return full_id
+
+# PO Supportive model
+class CMaterial(models.Model):
+    id = models.AutoField(primary_key=True)
+    po_id = models.ForeignKey(PurchaseOrder, blank=True, null=True, on_delete=models.CASCADE)
+    material_id = models.ForeignKey(Materials, blank=True, null=True, on_delete=models.SET_NULL)
+    quantity = models.IntegerField(blank=False, default=0)
+    total_price = models.FloatField( blank=False, default=0.0)
+    
+    def save(self, *args, **kwargs):
+        self.total_price = self.quantity * self.material_id.unit_price
+        super(CMaterial, self).save(*args, **kwargs)

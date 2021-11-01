@@ -9,6 +9,7 @@ from django.template import loader
 from django.http import HttpResponseRedirect, HttpResponse
 from django import template
 from django.core.serializers import deserialize
+import datetime
 
 # from authentication application
 from authentication.decorator import allowed_users
@@ -24,6 +25,9 @@ from customer.form import CustomerRegister
 from supplier.filters import SupplierFilter
 from supplier.models import Supplier
 from supplier.forms import SupplierRegister
+
+# from purchaseorder Application
+from purchase_order.models import PurchaseOrder
 
 #  for packing the model pass one view to another
 # def context_packer(model, name, id):
@@ -156,3 +160,6 @@ class PreSalesOrderTemplate(TemplateView):
         context = super().get_context_data(**kwargs)
         context['segment'] = 'pre-sale-order'
         return context
+
+
+    
