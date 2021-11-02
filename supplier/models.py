@@ -33,6 +33,9 @@ class Supplier(models.Model):
     def get_company(self):
         return self.last_name
     
+    def __str__(self):
+        return self.name
+    
     @staticmethod
     def supplier_id():
         id_no = shortuuid.ShortUUID(alphabet="0123456789")

@@ -4,7 +4,7 @@ from django.views import generic
 from django.views.generic.base import TemplateView
 from .models import PurchaseOrder, CMaterial
 from .filters import PurchaseOrderFilter
-from .forms import PurchaseOrderForm,  CMaterialForm, CMaterialFormSet
+from .forms import PurchaseOrderForm,  CMaterialForm, CMaterialFormSet, PurchaseOrderStatusForm
 import datetime
 
 from bootstrap_modal_forms.generic import (
@@ -51,9 +51,22 @@ class PurchaseOrderDetails(generic.detail.DetailView):
         context['create'] = 0
         return context
 
-def update_status(request, pk):
-    print ('id : ', pk)
-    return redirect('/purchase-order/')
+# def update_status(request, pk):
+#     print ('id : ', pk)
+#     po_object = PurchaseOrder.objects.filter(id=pk).first()
+#     if po_object.status == 0:
+#         po_object.status = 1 # paid for purchase-order
+#     elif po_object.status == 1:
+#         po_object.status = 2 # received from supplier
+#     elif po_object.status == 2:
+#         po_object.status = 3 # closed purchase-order
+#     elif po_object.status == 3:
+#         print('closed')
+#     po_object.save()
+
+#     print(po_object)
+
+#     return redirect('/purchase-order/')
 
 def create_po(request):
     context = {}
@@ -73,7 +86,7 @@ class po_view(generic.TemplateView):
         if self.request.method == 'GET':
             po_id = self.request.path.rsplit('/', 1)[-1]
             context['Order'] = PurchaseOrder.objects.filter(id=po_id)[0]
-            context['other_count'] = range(context['Order'].material_ids.count()+1, 11 - context['Order'].material_ids.count())
+            context['other_count'] = range(context['Order'].material_ids.count()+1, (10+context['Order'].material_ids.count()) - context['Order'].material_ids.count())
         context['segment'] = 'purchase-order'
         context['user'] = self.request.user
         
@@ -117,3 +130,46 @@ class PurchaseOrderDocTemplate(generic.CreateView):
                         po_id.material_ids.add(material)
 
         return super(PurchaseOrderDocTemplate, self).form_valid(form)
+
+# Purchase Order Update
+class StatusUpdateView(BSModalUpdateView):
+    model = PurchaseOrder
+    template_name = 'pages/modals/purchase-order/po-info.html'
+    form_class  = PurchaseOrderStatusForm
+    success_message = 'Success: Selected Purchase Order\' status was updated.'
+    success_url = reverse_lazy('purchase-order')
+
+    def post(self, request, *args, **kwargs):
+        po_object = PurchaseOrder.objects.filter(id=request.POST.get('id')).first()
+        if po_object.status == 0:
+            # paid for purchase-order
+            po_object.status = 1 
+            po_object.paid_date = datetime.datetime.now()
+
+        elif po_object.status == 1:
+            # received from supplier
+            po_object.status = 2
+            po_object.Received_date = datetime.datetime.now()
+
+            for cmaterial in po_object.material_ids.all():
+                material = cmaterial.material_id
+                material.quatity += cmaterial.quantity
+                material.save()
+                material.make_stock_status()
+                material.save()
+
+        elif po_object.status == 2:
+            # closed purchase-order
+            po_object.status = 3 
+            po_object.closed_date = datetime.datetime.now()
+        po_object.save()
+
+        return redirect('/purchase-order/')
+
+
+# Purchase Order Delete
+class PurchaseOrderDeleteView(BSModalDeleteView):
+    model = PurchaseOrder
+    template_name = 'pages/modals/purchase-order/po-delete.html'
+    success_message = 'Success: Selected Purchase Order was deleted.'
+    success_url = reverse_lazy('purchase-order')

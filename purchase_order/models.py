@@ -39,18 +39,34 @@ class PurchaseOrder(models.Model):
         return self.__class__.__name__
     
     def save(self, *args, **kwargs):
-        # calculations
-        for material in self.material_ids.all():
-            self.sub_total_price += material.total_price
-        self.total_price = self.sub_total_price - (self.sub_total_price*(self.discount_persentage/100))
         
-        # supplier po count increment
-        self.supplier_id.po_count += 1
-        # assigning supplier last po date
-        self.supplier_id.last_order_date = self.issued_date
-        self.supplier_id.save()
+        if self.status == 0:
+            # calculations
+            for material in self.material_ids.all():
+                self.sub_total_price += material.total_price
+            self.total_price = self.sub_total_price - (self.sub_total_price*(self.discount_persentage/100))
+
+            # supplier po count increment
+            self.supplier_id.po_count += 1
+            # assigning supplier last po date
+            self.supplier_id.last_order_date = self.issued_date
+            self.supplier_id.save()
 
         super(PurchaseOrder, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        # decrease the po_count of the supplier 
+        self.supplier_id.po_count -= 1
+        self.supplier_id.save()
+
+        if self.status == 2:
+            for cmaterial in self.material_ids.all():
+                material = cmaterial.material_id
+                material.quatity -= cmaterial.quantity
+                material.save()
+                material.make_stock_status()
+                material.save()
+        super(PurchaseOrder, self).delete(*args, **kwargs)
     
     @staticmethod
     def po_id():
@@ -70,9 +86,9 @@ class CMaterial(models.Model):
     id = models.AutoField(primary_key=True)
     po_id = models.ForeignKey(PurchaseOrder, blank=True, null=True, on_delete=models.CASCADE)
     material_id = models.ForeignKey(Materials, blank=True, null=True, on_delete=models.SET_NULL)
-    quantity = models.IntegerField(blank=False, default=0)
-    total_price = models.FloatField( blank=False, default=0.0)
+    quantity = models.PositiveIntegerField(blank=False, null=False, default=0)
+    total_price = models.FloatField(blank=False, default=0.0)
     
     def save(self, *args, **kwargs):
-        self.total_price = self.quantity * self.material_id.unit_price
+        self.total_price = abs(self.quantity) * abs(self.material_id.unit_price)
         super(CMaterial, self).save(*args, **kwargs)

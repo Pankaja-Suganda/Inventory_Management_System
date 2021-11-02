@@ -18,7 +18,7 @@
     </head>
 
     <body>
-        <div class="my-0 page" size="A4">
+        <div class="my-0 {% if create == 1%}page{% endif %}" size="{% if create == 1%}A4{% endif %}">
             <div class="p-5">
             {% if create == 0%}
                 <form class="" method="POST" action="" hx-post="{% url 'purchase-order-doc'%}">
@@ -132,7 +132,7 @@
                             </div>
                         </div>
                     </section> 
-                    <section class="product-area mt-5">
+                    <section class="product-area mt-3">
                         <table class="table table-bordered text-dark table-hover">
                             <thead class="head-detail border">
                                 <tr>

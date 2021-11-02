@@ -3,7 +3,7 @@ from django.forms.models import  inlineformset_factory
 from materials.models import Materials
 from supplier.models import Supplier
 from .models import CMaterial, PurchaseOrder
-# from bootstrap_modal_forms.forms import BSModalModelForm
+from bootstrap_modal_forms.forms import BSModalModelForm
 
 class CMaterialForm(forms.ModelForm):
     material_id = forms.ModelChoiceField(
@@ -22,7 +22,7 @@ class CMaterialForm(forms.ModelForm):
         help_text='Required',
         widget=forms.NumberInput(
             attrs={
-                "placeholder" : "Quatity",                
+                "placeholder" : "Quantity",                
                 "class": "form-control"
             }
         ))
@@ -36,7 +36,7 @@ CMaterialFormSet = inlineformset_factory(
                         CMaterial,
                         form=CMaterialForm,
                         can_delete=True,
-                        extra=6
+                        extra=9
                     )
 
 class PurchaseOrderForm(forms.ModelForm):
@@ -93,3 +93,17 @@ class PurchaseOrderForm(forms.ModelForm):
     class Meta:
         model = PurchaseOrder
         fields = ('id', 'supplier_id', 'discount_persentage', 'tax_rate', 'description')
+
+class PurchaseOrderStatusForm(BSModalModelForm):
+    id = forms.CharField(
+        label='PO Id',
+        widget=forms.TextInput(
+            attrs={               
+                "class": "form-control",
+
+            }
+        ))
+
+    class Meta:
+        model = PurchaseOrder
+        fields = ('id',)

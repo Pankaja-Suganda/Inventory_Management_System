@@ -130,6 +130,7 @@ body {
 table.table thead {
     border-left: 1px solid red;
     border-right: 1px solid red;
+    background-color: var(--theme-color);
 }
 
 @page {
@@ -147,5 +148,13 @@ table.table thead {
         box-shadow: initial;
         background: initial;
         page-break-after: always;
+    }
+    .head-detail {
+        margin-top: 0;
+        padding-left: 20px;
+        font-size: 1em;
+        color: white;
+        width: 250px;
+        background-color: var(--theme-color);
     }
 }
