@@ -35,12 +35,14 @@ INSTALLED_APPS = [
     'bootstrap_modal_forms',
     'widget_tweaks',
     'django_filters',
+    'colorfield',
     'app',
     'authentication',
     'customer',
     'supplier',
     'materials',
-    'purchase_order'
+    'purchase_order',
+    'stock'
     # Enable the inner app 
 ]
 
