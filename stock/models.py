@@ -17,15 +17,18 @@ class Size(models.Model):
     @staticmethod
     def size_id():
         id_no = shortuuid.ShortUUID(alphabet="0123456789")
-        full_id = 'S'+ str( id_no.random(length=4))
+        full_id = 'S-'+ str( id_no.random(length=4))
         check_id = Size.objects.filter(id=full_id)
 
         while(check_id.exists()):
             id = shortuuid.ShortUUID(alphabet="0123456789")
-            full_id = 'S'+ str( id.random(length=2))
+            full_id = 'S-'+ str( id.random(length=2))
             check_id = Size.objects.filter(id=full_id)
 
         return full_id
+    
+    def __str__(self):
+        return self.name
     
     class Meta:
         __name__ = 'Size'
@@ -34,7 +37,7 @@ class Size(models.Model):
 class Color(models.Model):
     id = models.CharField(max_length=7, primary_key=True, blank=False)
     name = models.CharField( max_length=150, blank=False)
-    color = ColorField(format='hexa', default='#FF0000')
+    color = ColorField(default='#FF0000')
     description = models.CharField( max_length=350, blank=False)
 
     def class_name(self):
@@ -43,16 +46,19 @@ class Color(models.Model):
     @staticmethod
     def color_id():
         id_no = shortuuid.ShortUUID(alphabet="0123456789")
-        full_id = 'C'+ str( id_no.random(length=2))
+        full_id = 'C-'+ str( id_no.random(length=2))
         check_id = Color.objects.filter(id=full_id)
 
         while(check_id.exists()):
             id = shortuuid.ShortUUID(alphabet="0123456789")
-            full_id = 'C'+ str( id.random(length=2))
+            full_id = 'C-'+ str( id.random(length=2))
             check_id = Color.objects.filter(id=full_id)
 
         return full_id
-    
+
+    def __str__(self):
+        return self.name
+
     class Meta:
         __name__ = 'Color'
 
@@ -69,15 +75,18 @@ class ProductCategories(models.Model):
     @staticmethod
     def category_id():
         id_no = shortuuid.ShortUUID(alphabet="0123456789")
-        full_id = 'PCAT'+ str( id_no.random(length=4))
+        full_id = 'PC-'+ str( id_no.random(length=4))
         check_id = ProductCategories.objects.filter(id=full_id)
 
         while(check_id.exists()):
             id = shortuuid.ShortUUID(alphabet="0123456789")
-            full_id = 'PCAT'+ str( id.random(length=4))
+            full_id = 'PC-'+ str( id.random(length=4))
             check_id = ProductCategories.objects.filter(id=full_id)
 
         return full_id
+
+    def __str__(self):
+        return self.name
     
     class Meta:
         __name__ = 'Product_Categories'
@@ -127,6 +136,9 @@ class Product(models.Model):
 
     def class_name(self):
         return self.__name__
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         __name__ = 'Product'

@@ -13,5 +13,7 @@ urlpatterns = [
     path("", include("supplier.urls")),        # supplier url
     path("", include("materials.urls")),       # materials url
     path("", include("purchase_order.urls")),  # purchase_order url
-    path("", include("app.urls"))             # UI Kits Html files   
+    path("", include("stock.urls")),             # stock urls
+    
+    path("", include("app.urls")),          # UI Kits Html files  
 ]

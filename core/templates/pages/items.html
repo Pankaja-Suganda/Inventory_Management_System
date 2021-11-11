@@ -59,7 +59,6 @@
                 .search-box {
                     position: relative;        
                     float: right;
-                    margin-top: 30px;
                 }
                 .search-box .in{
                     height: 44px;
@@ -78,80 +77,229 @@
                     top: 15px;
                     left: 25px;
                 }
+
+                .dot{
+                    height: 15px;
+                    width: 15px;
+                    border-radius: 50%;
+                    display: inline-block;
+                }
+
             </style>
             <div class="page-wrapper">
                 <div class = "row">
                     <div class="col-sm-12 col-md-12 col-xl-3" style="height:100px">
-                        <div class = "card">
-                            <div class="list-title">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link {% if tab == 0 %} active {% endif %}" id="category-tab" data-toggle="tab" href="#category" role="tab" aria-controls="category" aria-selected="true">Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if tab == 1 %} active {% endif %}" id="size-tab" data-toggle="tab" href="#size" role="tab" aria-controls="size" aria-selected="false">Sizes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if tab == 2 %} active {% endif %}" id="color-tab" data-toggle="tab" href="#color" role="tab" aria-controls="color" aria-selected="false">Colors</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane {% if tab == 0 %} active {% endif %}" id="category" role="tabpanel" aria-labelledby="category-tab">
                                 <div class="row">
                                     <div class="col-8">
-                                        {% comment %} <form role="form" method="get" action="{% url 'categorys' c_category.id %}"class="form-horizontal">
+                                        <form role="form" method="get" action="" class="form-horizontal">
                                             {% csrf_token %}
+                                            <input type="hidden" name="value" value="0">
                                             <div class="row">
                                                 <div class="search-box col-8">
                                                     <i class="material-icons">&#xE8B6;</i>
-                                                    {{ category_filter.form.name }}
+                                                    {{ Category_filter.form.name }}
                                                 </div>
                                                 <div class="search-box col-1">
                                                     <button style="display: none;" type="submit"></button>
                                                 </div> 
                                             </div>
-                                        </form> {% endcomment %}
+                                        </form>
                                     </div>
                                     <div class="col-4">
-                                        <button id ="create-category" class="btn btn-sm bg-success float-right text-light search-box"  title="Add New Category" type="button" name="button" >
-                                            <span class="material-icons" style="font-size:18px">library_add</span>
+                                        <button id ="create-category" class="btn btn-sm bg-success float-right text-light"  title="Add New Category" type="button" name="button" >
+                                            <span class="material-icons" style="font-size:18px">category</span>
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="overflow-auto Scroll">
-                                {% comment %} {% for category in categories %}
-                                    <div class = "card cat-card" >
-                                        <div class = "card-header">
-                                            <div class="row">
-                                                <div class="col-7">
-                                                    <div class="card-title">Name :  {{ category.name }}</div>
-                                                </div>
-                                                <div class="col-5">
-                                                    <div class="card-title">Id : {{ category.id }}</div>
+                                <div class = "">
+                                    <div class="overflow-auto Scroll">
+                                        {% for category in Categories %}
+                                            <div class = "card cat-card border-left" >
+                                                <div class = "card-header">
+                                                    <div class="row">
+                                                        <div class="col-7">
+                                                            <div class="card-title">Name :  {{ category.name }}</div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <div class="card-title">Id : {{ category.id }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="card-text">  {{category.description}} </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-9"></div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="update-category bs-modal settings" title="Update"  data-form-url="{% url 'update_product_category' category.id %}">
+                                                                <i class="material-icons update">update</i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="delete-category bs-modal delete" title="Delete" data-form-url="{% url 'delete_product_category' category.id %}">
+                                                                <span class="material-icons delete">delete</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <p class="card-text">  {{category.description}} </p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-9"></div>
-                                                <div class="col-1">
-                                                    <a type="button" class="update-material bs-modal settings" title="Update"  data-form-url="{% url 'update_category' category.id %}">
-                                                        <i class="material-icons update">update</i>
-                                                    </a>
-                                                </div>
-                                                <div class="col-1">
-                                                    <a type="button" class="delete-material bs-modal delete" title="Delete" data-form-url="{% url 'delete_category' category.id %}">
-                                                        <span class="material-icons delete">delete</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        {% endfor %}
                                     </div>
-                                {% endfor %} {% endcomment %}
+                                </div>
+                            </div>
+                            <div class="tab-pane {% if tab == 1 %} active {% endif %}" id="size" role="tabpanel" aria-labelledby="size-tab">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <form role="form" method="get" action=""class="form-horizontal">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="value" value="1">
+                                            <div class="row">
+                                                <div class="search-box col-8">
+                                                    <i class="material-icons">&#xE8B6;</i>
+                                                    {{ Size_filter.form.name }}
+                                                </div>
+                                                <div class="search-box col-1">
+                                                    <button style="display: none;" type="submit"></button>
+                                                </div> 
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-4">
+                                        <button id ="create-size" class="btn btn-sm bg-success float-right text-light"  title="Add New Size" type="button" name="button" >
+                                            <span class="material-icons" style="font-size:18px">photo_size_select_small</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class = "">
+                                    <div class="overflow-auto Scroll">
+                                        {% for size in Sizes %}
+                                            <div class = "card cat-card border-left" >
+                                                <div class = "card-header">
+                                                    <div class="row">
+                                                        <div class="col-7">
+                                                            <div class="card-title">Name :  {{ size.name }}</div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <div class="card-title">Id : {{ size.id }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="card-text">  {{size.description}} </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-9"></div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="update-size bs-modal settings" title="Update"  data-form-url="{% url 'update_size' size.id %}">
+                                                                <i class="material-icons update">update</i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="delete-size bs-modal delete" title="Delete" data-form-url="{% url 'delete_size' size.id %}">
+                                                                <span class="material-icons delete">delete</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane {% if tab == 2 %} active {% endif %}" id="color" role="tabpanel" aria-labelledby="color-tab">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <form role="form" method="get" action="" class="form-horizontal">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="value" value="2">
+                                            <div class="row">
+                                                <div class="search-box col-8">
+                                                    <i class="material-icons">&#xE8B6;</i>
+                                                    {{ Color_filter.form.name }}
+                                                </div>
+                                                <div class="search-box col-1">
+                                                    <button style="display: none;" type="submit"></button>
+                                                </div> 
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-4">
+                                        <button id ="create-color" class="btn btn-sm bg-success float-right text-light"  title="Add New Color" type="button" name="button" >
+                                            <span class="material-icons" style="font-size:18px">palette</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class = "">
+                                    <div class="overflow-auto Scroll">
+                                        {% for color in Colors %}
+                                            <div class = "card cat-card border-left" >
+                                                <div class = "card-header">
+                                                    <div class="row">
+                                                        <div class="col-7">
+                                                            <div class="card-title">Name :  {{ color.name }}</div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <div class="card-title">Id : {{ color.id }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <span class="dot text-center" style="background-color:{{ color.color}}"></span>
+                                                        </div>
+                                                        <div class="col-9">
+                                                            <p class="card-text">  {{color.description}} </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-9"><div class="font-weight-bold">{{ color.color}}</div></div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="update-color bs-modal settings" title="Update"  data-form-url="{% url 'update_color' color.id %}">
+                                                                <i class="material-icons update">update</i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="delete-color bs-modal delete" title="Delete" data-form-url="{% url 'delete_color' color.id %}">
+                                                                <span class="material-icons delete">delete</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                     <div class="col-sm-12 col-md-12 col-xl-9">
                         <div class = "row">
                             <div class="col-xl-3 col-md-6 col-sm-12">
                                 <div class="card yearly-sales ">
                                     <div class="card-block">
-                                        <h6 class="mb-4">Total Materials</h6>
+                                        <h6 class="mb-4">In Stock Products</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-9">
                                                 <h3 class="f-w-300 d-flex align-items-center  m-b-0">
-                                                    {% comment %} <i class="feather icon-archive text-c-blue f-30 m-r-10"></i>{{total_materials}} {% endcomment %}
+                                                    <i class="feather icon-trending-up text-c-green f-30 m-r-10"></i>{{In_Stock}}
                                                 </h3>
                                             </div>
                                         </div>
@@ -163,35 +311,15 @@
                             <div class="col-xl-3 col-md-6 col-sm-12">
                                 <div class="card yearly-sales">
                                     <div class="card-block">
-                                        <h6 class="mb-4">Materials In Stock</h6>
+                                        <h6 class="mb-4">Out Stock Products</h6>
                                         <div class="row d-flex align-items-center">
-                                            <div class="col-6">
-                                                {% comment %} <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-check text-c-green f-30 m-r-10"></i>{{instock_materials.count }}</h3> {% endcomment %}
-                                            </div>
-                                            <div class="col-6 text-right">
-                                                {% comment %} <p class="m-b-0">{{instock_materials.persentage}}%</p> {% endcomment %}
-                                            </div>
-                                        </div>
-                                        <div class="progress m-t-30" style="height: 7px;">
-                                            {% comment %} <div class="progress-bar progress-c-green" role="progressbar" style="width: {{instock_materials.persentage}}%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div> {% endcomment %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6 col-sm-12">
-                                <div class="card yearly-sales ">
-                                    <div class="card-block">
-                                        <h6 class="mb-4">Materials Out Stock</h6>
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-6">
-                                                {% comment %} <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-minus text-c-yellow f-30 m-r-10"></i>{{outstock_materials.count}}</h3> {% endcomment %}
-                                            </div>
-                                            <div class="col-6 text-right">
-                                                {% comment %} <p class="m-b-0">{{outstock_materials.persentage}}%</p> {% endcomment %}
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0">
+                                                    <i class="feather icon-trending-down text-c-red f-30 m-r-10"></i>{{Out_Stock}}
+                                                </h3>
                                             </div>
                                         </div>
-                                        <div class="progress m-t-30" style="height: 7px;">
-                                            {% comment %} <div class="progress-bar progress-c-red" role="progressbar" style="width: {{outstock_materials.persentage}}%;" aria-valuenow="{{total_categories}}" aria-valuemin="0" aria-valuemax="100"></div> {% endcomment %}
+                                        <div class=" m-t-30" style="height: 5px;">
                                         </div>
                                     </div>
                                 </div>
@@ -202,7 +330,23 @@
                                         <h6 class="mb-4">Total Categories</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-9">
-                                                {% comment %} <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-users text-c-blue f-30 m-r-10"></i>{{total_categories}}</h3> {% endcomment %}
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0">
+                                                    <i class="feather icon-grid text-c-yellow f-30 m-r-10"></i>{{Category_count}}
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <div class=" m-t-30" style="height: 5px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-sm-12">
+                                <div class="card yearly-sales ">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">Total Sizes</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-layers text-c-blue f-30 m-r-10"></i>{{Sizes_count}}</h3>
                                             </div>
                                         </div>
                                         <div class=" m-t-30" style="height: 5px;">
@@ -334,29 +478,26 @@
                                             <div class="table-title">
                                                 <div class="row">
                                                     <div class="col-8">
-                                                        {% comment %} <form role="form" method="get" action="{% url 'detail_material' c_material.id%}"class="form-horizontal">
+                                                        <form role="form" method="get" action="" class="form-horizontal mt-4">
                                                             {% csrf_token %}
+                                                            <input type="hidden" name="product-filter" value="2">
                                                             <div class="row">
                                                                 <div class="search-box col-3">
                                                                     <i class="material-icons">&#xE8B6;</i>
-                                                                    {{ material_filter.form.id }}
+                                                                    {{ Product_filter.form.name }}
                                                                 </div>
                                                                 <div class="search-box col-3">
                                                                     <i class="material-icons">&#xE8B6;</i>
-                                                                    {{ material_filter.form.name }}
-                                                                </div>
-                                                                <div class="search-box col-3">
-                                                                    <i class="material-icons">&#xE8B6;</i>
-                                                                    {{ material_filter.form.state }}
+                                                                    {{ Product_filter.form.status }}
                                                                 </div>
                                                                 <div class="search-box col-4">
                                                                     <button style="display: none;" type="submit"></button>
                                                                 </div>
                                                             </div>
-                                                        </form> {% endcomment %}
+                                                        </form>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button id ="create-material" class="btn btn-md bg-success float-right text-light search-box"  title="Add New Material" type="button" name="button" >
+                                                        <button id ="create-product" class="btn btn-md bg-success float-right text-light search-box mt-3"  title="Add New Product" type="button" name="button" >
                                                             <span class="material-icons" style="font-size:18px"> control_point_duplicate</span>
                                                         </button>
                                                     </div>
@@ -371,42 +512,51 @@
                                                         <th>Unit Price</th>
                                                         <th>Quatity </th>
                                                         <th>Status </th>
-                                                        <th>Supplier </th>
-                                                        <th>Shell</th>
-                                                        <th>Category</th>
+                                                        <th>Category </th>
+                                                        <th>Size</th>
+                                                        <th>Color</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {% comment %} {% for material in materials %}
+                                                    {% for product in Products %}
                                                         <tr>
-                                                            <td>{{ material.id }}</td>
-                                                            <td>{{ material.name }}</td>
-                                                            <td>{{ material.unit_price }}</td>
-                                                            <td>{{ material.quatity }}</td>
-                                                            {% if material.status == 0 %}
+                                                            <td>{{ product.id }}</td>
+                                                            <td>{{ product.name }}</td>
+                                                            <td>{{ product.unit_price }}</td>
+                                                            <td>{{ product.quatity }}</td>
+                                                            {% if product.status == 0 %}
                                                                 <td class="card-title text-success">In Stock</td> 
                                                             {% else %}
                                                                 <td class="card-title text-danger">Out Stock</td> 
                                                             {% endif %}
 
-                                                            <td><a  href="{% url 'detail_supplier' material.supplier_id.id %}">{{ material.supplier_id.id }}</a></td>
-                                                            <td>{{ material.shell_id.id }}</td>
-                                                            <td>{{ material.category_id.id }}</td>
+                                                            <td><a>{{ product.category_id.name }}</a></td>
+                                                            <td><b>{{ product.Size_id.name }}</b></td>
                                                             <td>
-                                                                <a type="button" class="update-material bs-modal settings" title="Update"  data-form-url="{% url 'update_material' material.id %}">
+                                                                <div class="row">
+                                                                    <div class="col-3">
+                                                                        <span class="dot text-center" style="background-color:{{ product.color_id.color}}"></span>
+                                                                    </div>
+                                                                    <div class="col-9">
+                                                                        {{ product.color_id.name }} 
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <a type="button" class="update-product bs-modal settings" title="Update"  data-form-url="{% url 'update_product' product.id %}">
                                                                     <i class="material-icons">update</i>
                                                                 </a>
-                                                                <a type="button" class="delete-material bs-modal delete" title="Delete" data-form-url="{% url 'delete_material' material.id %}">
+                                                                <a type="button" class="delete-product bs-modal delete" title="Delete" data-form-url="{% url 'delete_product' product.id %}">
                                                                     <span class="material-icons">delete</span>
                                                                 </a>
                                                             </td>
                                                         </tr>
-                                                    {% endfor %} {% endcomment %}
+                                                    {% endfor %}
                                                 </tbody>
                                             </table>
                                             <div class="clearfix">
-                                                {% comment %} <div class="hint-text">Showing <b>{{ page_obj.object_list.count }}</b> out of <b>{{num_of_objects}}</b> entries</div>
+                                                <div class="hint-text">Showing <b>{{ page_obj.object_list.count }}</b> out of <b>{{num_of_objects}}</b> entries</div>
                                                 <ul class="pagination">
                                                     
                                                     <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}"><a href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
@@ -418,7 +568,7 @@
                                                         <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}"><a href="?page={{ page_obj.next_page_number }}" class="page-link">{{ page_obj.next_page_number }}</a></li>
                                                     {% endif %}
                                                     <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
-                                                </ul> {% endcomment %}
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>  
@@ -455,18 +605,18 @@
                                 </div>
 
                                 <script src="/static/assets/plugins/jquery/js/jquery.min.js" type="text/javascript"></script>
-                                {% comment %} <script type="text/javascript">
+                                <script type="text/javascript">
                                     $(document).ready(function () {
-                                        // Read book buttons
-                                        $(".update-material").each(function () {
+                                        // Update products
+                                        $(".update-product").each(function () {
                                             $(this).modalForm({
                                                 formURL: $(this).data("form-url"),
                                                  modalID: "#update-modal"
                                                 });
                                         });
 
-                                        // Delete book buttons - formURL is retrieved from the data of the element
-                                        $(".delete-material").each(function () {
+                                        // Delete Products
+                                        $(".delete-product").each(function () {
                                             $(this).modalForm({
                                                 formURL: $(this).data("form-url"), 
                                                 isDeleteForm: true,
@@ -475,17 +625,80 @@
                                         });
                                         
                                         // Create book button opens form in modal with id="create-modal"
-                                        $("#create-material").modalForm({
-                                            formURL: "{% url 'create_material' %}",
+                                        $("#create-product").modalForm({
+                                            formURL: "{% url 'create_product' %}",
                                             modalID: "#create-modal"
                                         });
 
+                                        //for categories functions
+                                        // Category Creation
                                         $("#create-category").modalForm({
-                                            formURL: "{% url 'create_category' %}",
+                                            formURL: "{% url 'create_product_category' %}",
                                             modalID: "#create-modal"
                                         });
+
+                                        // Category Updating
+                                        $(".update-category").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"),
+                                                 modalID: "#update-modal"
+                                                });
+                                        });
+                                        // Category Deletion
+                                        $(".delete-category").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"), 
+                                                isDeleteForm: true,
+                                                modalID: "#delete-modal"
+                                                });
+                                        });
+
+                                        // for Size functions
+                                        // Size Creation
+                                        $("#create-size").modalForm({
+                                            formURL: "{% url 'create_size' %}",
+                                            modalID: "#create-modal"
+                                        });
+                                        // Size Updating
+                                        $(".update-size").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"),
+                                                 modalID: "#update-modal"
+                                                });
+                                        });
+                                        // Size Deletion
+                                        $(".delete-size").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"), 
+                                                isDeleteForm: true,
+                                                modalID: "#delete-modal"
+                                                });
+                                        });
+
+                                        // for color functions
+                                        // color Creation
+                                        $("#create-color").modalForm({
+                                            formURL: "{% url 'create_color' %}",
+                                            modalID: "#create-modal"
+                                        });
+                                        // color Updating
+                                        $(".update-color").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"),
+                                                 modalID: "#update-modal"
+                                                });
+                                        });
+                                        // color Deletion
+                                        $(".delete-color").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"), 
+                                                isDeleteForm: true,
+                                                modalID: "#delete-modal"
+                                                });
+                                        });
+                        
                                     });
-                                </script> {% endcomment %}
+                                </script>
                             </div>
                         </div>
                     </div>
