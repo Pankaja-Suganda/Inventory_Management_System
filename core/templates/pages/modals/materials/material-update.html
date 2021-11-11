@@ -4,7 +4,7 @@
     {% csrf_token %}
 
     <div class="modal-header">
-        <h3 class="modal-title">Material Updating </h3>
+        <h3 class="modal-title">Selected Material Updating</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -20,23 +20,24 @@
 
         <div class="form-group">
             <div class="row">
+
                 <div class="form-group col-md-6">
 
                     {{form.name.label}} :
                     <div class="input-group"> {{ form.name }}</div>
+
                     {% if form.name.errors %}
-                    <span role="alert" class="alert alert-danger help-block"
+                    <span role="alert" class="alert alert-danger"
                         ><strong>Error!</strong>{{ form.name.errors }}</span>
                     {% endif %}
                 </div>
                 <div class="form-group col-md-6">
+                    {{form.stock_margin.label}} :
+                    <div class="input-group"> {{ form.stock_margin }}</div>
 
-                    {{form.status.label}} :
-                    <div class="input-group"> {{ form.status }}</div>
-
-                    {% if form.status.errors %}
+                    {% if form.stock_margin.errors %}
                     <span role="alert" class="alert alert-danger"
-                        ><strong>Error!</strong>{{ form.status.errors }}</span>
+                        ><strong>Error!</strong>{{ form.stock_margin.errors }}</span>
                     {% endif %}
                 </div>
             </div>
@@ -65,12 +66,12 @@
                 </div>
                 <div class="form-group col-md-6 py-0">
 
-                    {{form.quatity.label}} :
-                    <div class="input-group"> {{ form.quatity }}</div>
+                    {{form.supplier_id.label}} :
+                    <div class="input-group"> {{ form.supplier_id }}</div>
 
-                    {% if form.quatity.errors %}
+                    {% if form.supplier_id.errors %}
                     <span role="alert" class="alert alert-danger"
-                        ><strong>Error!</strong>{{ form.quatity.errors }}</span>
+                        ><strong>Error!</strong>{{ form.supplier_id.errors }}</span>
                     {% endif %}
                 </div>
             </div>
@@ -95,30 +96,10 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="row">
-                <div class="col form-group">
-                    {{form.supplier_id.label}} :
-                    <div class="input-group">{{ form.supplier_id }}</div>
-
-                    {% if form.supplier_id.errors %}
-                    <span role="alert" class="alert alert-danger"
-                        ><strong>Error!</strong>{{ form.supplier_id.errors }}</span>
-                    {% endif %}
-                </div>
-                <div class="col form-group">
-                    {{form.stock_margin.label}} :
-                    <div class="input-group">{{ form.stock_margin }}</div>
-
-                    {% if form.stock_margin.errors %}
-                    <span role="alert" class="alert alert-danger"
-                        ><strong>Error!</strong>{{ form.stock_margin.errors }}</span>
-                    {% endif %}
-                </div>
-            </div>
         </div>
-    </div>
 
+    </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" url="{% url 'update_material' form.id.value %}">Update Material</button>
+        <button type="submit" class="btn btn-primary" > Update Material</button>
     </div>
 </form>

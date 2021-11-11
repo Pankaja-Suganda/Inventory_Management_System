@@ -243,7 +243,6 @@ class MaterialsCreate(BSModalModelForm):
     category_id = forms.ModelChoiceField(
         queryset = Categories.objects.all(),
         label='Select Category',
-        help_text='Required',
         widget=forms.Select(
             attrs={
                 "placeholder" : "Category",                
@@ -254,7 +253,6 @@ class MaterialsCreate(BSModalModelForm):
     shell_id = forms.ModelChoiceField(
         queryset = Shell.objects.all(),
         label='Select Shell',
-        help_text='Required',
         widget=forms.Select(
             attrs={
                 "placeholder" : "Shell",                
@@ -265,7 +263,6 @@ class MaterialsCreate(BSModalModelForm):
     supplier_id = forms.ModelChoiceField(
         queryset = Supplier.objects.all(),
         label='Select Supplier',
-        help_text='Required',
         widget=forms.Select(
             attrs={
                 "placeholder" : "Supplier",                
@@ -278,14 +275,6 @@ class MaterialsCreate(BSModalModelForm):
         fields = ('id', 'name', 'description', 'unit_price', 'stock_margin', 'category_id', 'shell_id', 'supplier_id')
 
 class MaterialsUpdate(BSModalModelForm):
-    id = forms.CharField(
-        label='Material Id',
-        widget=forms.TextInput(
-            attrs={               
-                "class": "form-control",
-                "readonly": True
-            }
-        ))
 
     name = forms.CharField(
         label='Enter Material Name',
@@ -314,27 +303,6 @@ class MaterialsUpdate(BSModalModelForm):
             attrs={
                 "placeholder" : "Unit Price",                
                 "class": "form-control"
-            }
-        ))
-
-    quatity = forms.IntegerField(
-        label='Enter Quatity of Material',
-        help_text='Required',
-        widget=forms.NumberInput(
-            attrs={
-                "placeholder" : "Quatity of Materials",                
-                "class": "form-control"
-            }
-        ))
-
-    status = forms.ChoiceField(
-        choices=Materials.STATUS_CHOICES,
-        label='Select Material Status',
-        help_text='Required',
-        widget=forms.Select(
-            attrs={
-                "placeholder" : "Material Status",                
-                "class": "form-control",
             }
         ))
 
@@ -384,5 +352,5 @@ class MaterialsUpdate(BSModalModelForm):
 
     class Meta:
         model = Materials
-        fields = ('id','name', 'description', 'unit_price', 'category_id', 'shell_id',
-         'supplier_id', 'quatity', 'status', 'stock_margin')
+        fields = ('name', 'description', 'unit_price', 'category_id', 'shell_id',
+         'supplier_id', 'stock_margin')

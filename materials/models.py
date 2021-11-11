@@ -26,6 +26,9 @@ class Categories(models.Model):
 
         return full_id
     
+    def __str__(self):
+        return self.name
+    
     class Meta:
         __name__ = 'Categories'
 
@@ -59,6 +62,9 @@ class Shell(models.Model):
             check_id = Shell.objects.filter(id=full_id)
 
         return full_id
+
+    def __str__(self):
+        return self.id
     
     class Meta:
         __name__ = 'Shell'

@@ -146,7 +146,7 @@ class MaterialsDetails(generic.detail.DetailView):
                     'persentage': count_persentage(Materials, 1)
                 }
         context['total_categories'] = Categories.objects.count()
-        material_paginator = Paginator(context['material_filter'].qs, 1)
+        material_paginator = Paginator(context['material_filter'].qs, 6)
         page_number = self.request.GET.get('page')
 
         if type(page_number) is str:

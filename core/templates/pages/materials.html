@@ -388,11 +388,11 @@
                                                                 <td class="card-title text-danger">Out Stock</td> 
                                                             {% endif %}
 
-                                                            <td><a  href="{% url 'detail_supplier' material.supplier_id.id %}">{{ material.supplier_id.id }}</a></td>
+                                                            <td><a  href="{% url 'detail_supplier' material.supplier_id.id %}">{{ material.supplier_id.company }}</a></td>
                                                             <td>{{ material.shell_id.id }}</td>
-                                                            <td>{{ material.category_id.id }}</td>
+                                                            <td>{{ material.category_id.name }}</td>
                                                             <td>
-                                                                <a type="button" class="update-material bs-modal settings" title="Update"  data-form-url="{% url 'update_material' material.id %}">
+                                                                <a type="button" class="update-material bs-modal settings" title="Update" data-form-url="{% url 'update_material' material.id %}">
                                                                     <i class="material-icons">update</i>
                                                                 </a>
                                                                 <a type="button" class="delete-material bs-modal delete" title="Delete" data-form-url="{% url 'delete_material' material.id %}">
