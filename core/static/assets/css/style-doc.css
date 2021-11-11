@@ -153,7 +153,6 @@ table.table thead {
         margin-top: 0;
         padding-left: 20px;
         font-size: 1em;
-        color: white;
         width: 250px;
         background-color: var(--theme-color);
     }
