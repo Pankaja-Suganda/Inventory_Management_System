@@ -5,6 +5,7 @@ from django.views.generic.base import TemplateView
 from .models import PurchaseOrder, CMaterial
 from .filters import PurchaseOrderFilter
 from .forms import PurchaseOrderForm,  CMaterialForm, CMaterialFormSet, PurchaseOrderStatusForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 import datetime
 
 from bootstrap_modal_forms.generic import (
@@ -16,7 +17,7 @@ from bootstrap_modal_forms.generic import (
 
 # Create your views here.
 # purchase order list
-class PurchaseOrderList(generic.ListView):
+class PurchaseOrderList(LoginRequiredMixin, generic.ListView):
     model = PurchaseOrder
     context_object_name = "PurchaseOrders"
     template_name = 'pages/purchase-order.html'
@@ -34,7 +35,7 @@ class PurchaseOrderList(generic.ListView):
         return context
 
 # purchase order Details
-class PurchaseOrderDetails(generic.detail.DetailView):
+class PurchaseOrderDetails(LoginRequiredMixin, generic.detail.DetailView):
     model = PurchaseOrder
     context_object_name = "PO_selected"
     template_name = 'pages/purchase-order.html'
@@ -96,7 +97,7 @@ class po_view(generic.TemplateView):
         return context
 
 # create po view
-class PurchaseOrderDocTemplate(generic.CreateView):
+class PurchaseOrderDocTemplate(LoginRequiredMixin, generic.CreateView):
     template_name = 'documents/purchase-order-doc.html'
     model=PurchaseOrder
     form_class = PurchaseOrderForm
@@ -132,7 +133,7 @@ class PurchaseOrderDocTemplate(generic.CreateView):
         return super(PurchaseOrderDocTemplate, self).form_valid(form)
 
 # Purchase Order Update
-class StatusUpdateView(BSModalUpdateView):
+class StatusUpdateView(LoginRequiredMixin, BSModalUpdateView):
     model = PurchaseOrder
     template_name = 'pages/modals/purchase-order/po-info.html'
     form_class  = PurchaseOrderStatusForm
@@ -168,7 +169,7 @@ class StatusUpdateView(BSModalUpdateView):
 
 
 # Purchase Order Delete
-class PurchaseOrderDeleteView(BSModalDeleteView):
+class PurchaseOrderDeleteView(LoginRequiredMixin, BSModalDeleteView):
     model = PurchaseOrder
     template_name = 'pages/modals/purchase-order/po-delete.html'
     success_message = 'Success: Selected Purchase Order was deleted.'
