@@ -29,7 +29,7 @@ class PurchaseOrder(models.Model):
     Received_date = models.DateTimeField(blank=True, null=True)
     closed_date = models.DateTimeField(blank=True, null=True)
     status = models.IntegerField(choices=STATUS_CHOICES, default=0)
-    po_pdf = models.FileField(null=True, blank=True, upload_to='core/static/assets/documents/purchase order/')
+    po_pdf = models.FileField(null=True, blank=True, upload_to='core/static/assets/documents/sales order/')
     description = models.TextField(blank=True)
 
     def get_id(self):
