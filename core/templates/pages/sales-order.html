@@ -28,17 +28,164 @@
         <!-- [ breadcrumb ] end -->
         <div class="main-body">
             <!-- Page content -->
+            <style>
+                .produced{
+                    color: #5cb85c;
+                    cursor: pointer;
+                }
+                .sended {
+                    color: #f0ad4e;
+                    cursor: pointer;
+                }
+                .returned {
+                    color: #f0ad4e;
+                    cursor: pointer;
+                }
+                .closed {
+                    color: #d9534f;
+                    cursor: pointer;
+                }
+                .view {
+                    color: #2196F3;
+                    cursor: pointer;
+                }
+                .update {
+                    color: #2196F3;
+                    cursor: pointer;
+                }
+                .delete {
+                    color: #F44336;
+                    cursor: pointer;
+                }
+                .Scroll {
+                    height:650px;
+                    overflow-y: scroll;
+                }
+                .cat-card{
+                    margin: 10px;
+                    {% comment %} background: #F44336; {% endcomment %}
+                }
+            </style>
             <div class="page-wrapper">
                 <div class = "row">
                     <div class="col-sm-12 col-md-12 col-xl-4">
                         <div class="card text-center">
                             <div class="card-header">
                                 Sales Orders
+                                <hr>
+                                <div class="list-title">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <form role="form" method="get" action=""class="form-horizontal">
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="search-box col-5">
+                                                        <i class="material-icons">&#xE8B6;</i>
+                                                        {{ filter.form.id }}
+                                                    </div>
+                                                    <div class="search-box col-6">
+                                                        <i class="material-icons">&#xE8B6;</i>
+                                                        {{ filter.form.status }}
+                                                    </div>                                                   
+                                                    <div class="search-box col-1">
+                                                        <button style="display: none;" type="submit"></button>
+                                                    </div> 
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-4">
+                                            <a type="button" class="btn bg-success w-40 text-light" title="Create Sales Order"  href="{% url 'create-so' %}">
+                                                <span class="material-icons" style="font-size:18px">library_add</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-body" style="height:650px;">
-                                {% comment %} <h5 class="card-title">Special title treatment</h5>
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a> {% endcomment %}
+                                <div class="overflow-auto Scroll" style="height:810px;">
+                                    {% for SalesOrder in SalesOrders %}
+                                        <div class = "card cat-card border-left" >
+                                            <div class = "card-header">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <div class="row">
+                                                            {% if SalesOrder.status == 0 %}
+                                                                <div class="text-left font-weight-bold text-primary"><span class="badge badge-pill badge-primary">Issued</span> </div>
+                                                            {% elif SalesOrder.status == 1 %}
+                                                                <div class="text-left font-weight-bold text-success"><span class="badge badge-pill badge-success">Produced</span></div>
+                                                            {% elif SalesOrder.status == 2 %}
+                                                                <div class="text-left font-weight-bold text-warning"><span class="badge badge-pill badge-warning">Sended</span></div>
+                                                            {% elif SalesOrder.status == 3 %}
+                                                                <div class="text-left font-weight-bold text-secondary"><span class="badge badge-pill badge-secondary">Returned</span></div>
+                                                            {% elif SalesOrder.status == 4 %}
+                                                                <div class="text-left font-weight-bold text-danger"><span class="badge badge-pill badge-danger">Closed</span></div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class=" mt-2">
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <div class="card-title">Id : {{ SalesOrder.id }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <p class="card-text text-left mb-1 mt-3">  Customer ID : {{SalesOrder.customer_id.id}}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                    <div class="col-9 text-left text-muted">
+                                                        <p class="card-text text-left mb-1 ">
+                                                            {% if SalesOrder.status == 0 %}
+                                                                Issued Date  : {{SalesOrder.issued_date}}
+                                                            {% elif SalesOrder.status == 1 %}
+                                                                Produced Date  : {{SalesOrder.Produced_date}}
+                                                            {% elif SalesOrder.status == 2 %}
+                                                                Sended Date  : {{SalesOrder.Sended_date}}
+                                                            {% elif SalesOrder.status == 3 %}
+                                                                Returned Date  : {{SalesOrder.Returned_date}}
+                                                            {% elif SalesOrder.status == 4 %}
+                                                                Closed Date  : {{SalesOrder.closed_date}}
+                                                            {% endif %}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-1">
+                                                        {% if SalesOrder.status == 0 %}
+                                                            <a type="button" class="delete-po produced" title="Produced"  data-form-url="{% url 'update-status-sales' SalesOrder.id 0 %}">
+                                                                <i class="material-icons produced">build_circle</i>
+                                                            </a>
+                                                        {% elif SalesOrder.status == 1 %}
+                                                            <a type="button" class="delete-po sended" title="Sended"  data-form-url="{% url 'update-status-sales' SalesOrder.id 0 %}">
+                                                                <i class="material-icons sended">local_shipping</i>
+                                                            </a>
+                                                        {% elif SalesOrder.status == 2 %}
+                                                            <a type="button" class="delete-po returned" title="Returned"  data-form-url="{% url 'update-status-sales' SalesOrder.id 1 %}">
+                                                                <i class="material-icons sended">keyboard_return</i>
+                                                            </a>
+                                                            <a type="button" class="delete-po closed" title="closed"  data-form-url="{% url 'update-status-sales' SalesOrder.id 0 %}">
+                                                                <i class="material-icons closed">cancel</i>
+                                                            </a>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-1">
+                                                        <a type="button" class="view" title="view"  href="{% url 'sales-order' SalesOrder.id %}">
+                                                            <i class="material-icons update">visibility</i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-1">
+                                                        {% if PurchaseOrder.status != 3 %}
+                                                            <a type="button" class="delete-po bs-modal delete" title="Delete" data-form-url="{% url 'delete-sales-order' SalesOrder.id %}">
+                                                                <span class="material-icons delete">delete</span>
+                                                            </a>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                             <div class="card-footer text-muted">
                             </div>
@@ -46,13 +193,13 @@
                     </div>
                     <div class="col-sm-12 col-md-12 col-xl-8">
                         <div class = "row">
-                            <div class="col-xl-4 col-md-6 col-sm-12">
+                            <div class="col-xl-2 col-md-4 col-sm-6">
                                 <div class="card yearly-sales ">
                                     <div class="card-block">
-                                        <h6 class="mb-4">Total Materials</h6>
+                                        <h6 class="mb-4">Total</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-9">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-users text-c-blue f-30 m-r-10"></i>{{num_of_objects}}</h3>
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-layers text-c-blue f-30 m-r-10"></i>{{total}}</h3>
                                             </div>
                                         </div>
                                         <div class=" m-t-30" style="height: 5px;">
@@ -60,38 +207,72 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card yearly-sales">
+                             <div class="col-xl-2 col-md-4 col-sm-6">
+                                <div class="card yearly-sales ">
                                     <div class="card-block">
-                                        <h6 class="mb-4">Active Customers</h6>
+                                        <h6 class="mb-4">Issued</h6>
                                         <div class="row d-flex align-items-center">
-                                            <div class="col-6">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-check text-c-green f-30 m-r-10"></i>{{Active_customers.count }}</h3>
-                                            </div>
-                                            <div class="col-6 text-right">
-                                                <p class="m-b-0">{{Active_customers.persentage}}%</p>
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-file-text text-c-yellow f-30 m-r-10"></i>{{issued}}</h3>
                                             </div>
                                         </div>
-                                        <div class="progress m-t-30" style="height: 7px;">
-                                            <div class="progress-bar progress-c-green" role="progressbar" style="width: {{Active_customers.persentage}}%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class=" m-t-30" style="height: 5px;">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-md-6 col-sm-12">
+                            <div class="col-xl-2 col-md-4 col-sm-6">
                                 <div class="card yearly-sales ">
                                     <div class="card-block">
-                                        <h6 class="mb-4">Expired Customers</h6>
+                                        <h6 class="mb-4">Produced</h6>
                                         <div class="row d-flex align-items-center">
-                                            <div class="col-6">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user-minus text-c-yellow f-30 m-r-10"></i>{{Expired_customers.count}}</h3>
-                                            </div>
-                                            <div class="col-6 text-right">
-                                                <p class="m-b-0">{{Expired_customers.persentage}}%</p>
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-anchor text-c-green f-30 m-r-10"></i>{{produced}}</h3>
                                             </div>
                                         </div>
-                                        <div class="progress m-t-30" style="height: 7px;">
-                                            <div class="progress-bar progress-c-yellow" role="progressbar" style="width: {{Expired_customers.persentage}}%;" aria-valuenow="{{Expired_customers.persentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class=" m-t-30" style="height: 5px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-4 col-sm-6">
+                                <div class="card yearly-sales ">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">Delivered</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-log-out text-c-yellow f-30 m-r-10"></i>{{delivered}}</h3>
+                                            </div>
+                                        </div>
+                                        <div class=" m-t-30" style="height: 5px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-4 col-sm-6">
+                                <div class="card yearly-sales ">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">Closed</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-file text-c-blue f-30 m-r-10"></i>{{closed}}</h3>
+                                            </div>
+                                        </div>
+                                        <div class=" m-t-30" style="height: 5px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-4 col-sm-6">
+                                <div class="card yearly-sales ">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">Returned</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-rotate-ccw text-c-red f-30 m-r-10"></i>{{returned}}</h3>
+                                            </div>
+                                        </div>
+                                        <div class=" m-t-30" style="height: 5px;">
                                         </div>
                                     </div>
                                 </div>
@@ -215,21 +396,28 @@
                         <div class = "row">
                             <div class="col-12">
                                 <div class="card yearly-sales ">
-                                    <div class="table-responsive ">
+                                   <div class="table-responsive ">
                                         <div class="table-wrapper">
-                                            <div class="table-title">
+                                            <div class="table-title"> 
                                                 <div class="row">
-                                                    <div class="col-8">
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <button id ="create-customer" class="btn btn-md bg-success float-right text-light"  title="Add New Customer" type="button" name="button" >
-                                                            <span class="material-icons"> person_add</span>
-                                                        </button>
-                                                    </div>
+                                                    <div class="col ">
+                                                        {% if create == 0 %}
+                                                            <button onclick="print_click();" class="btn btn-primary float-right"><i class="material-icons md-36">local_printshop</i></button>
+                                                        {% endif %}
+                                                        <div class="embed-responsive embed-responsive-16by9">
+                                                            <iframe id="printf" name="printf" class="embed-responsive-item" src=" {% if create == 0 %} {% url 'preview-so' SO_selected.id %} {% else %} {% url 'sales-order-doc'%} {% endif %} "></iframe>
+                                                        </div>
+                                                        <script type="text/javascript">
+                                                            function print_click(event) {
+                                                                window.frames["printf"].focus();
+                                                                window.frames["printf"].print();
+                                                            }
+                                                        </script>
+                                                    </div>                                                  
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>  
+                                    </div>    
                                 </div> 
 
                                 <!-- Modal 1 with id="create-modal" -->
@@ -255,33 +443,20 @@
                                     </div>
                                 </div>
 
-                                {% comment %} <script src="/static/assets/plugins/jquery/js/jquery.min.js" type="text/javascript"></script>
+                                <script src="/static/assets/plugins/jquery/js/jquery.min.js" type="text/javascript"></script>
                                 <script type="text/javascript">
                                     $(document).ready(function () {
-                                        // Read book buttons
-                                        $(".update-customer").each(function () {
-                                            $(this).modalForm({
-                                                formURL: $(this).data("form-url"),
-                                                 modalID: "#update-modal"
-                                                });
-                                        });
 
-                                        // Delete book buttons - formURL is retrieved from the data of the element
-                                        $(".delete-customer").each(function () {
+                                        // Delete Purchase Order buttons - formURL is retrieved from the data of the element
+                                        $(".delete-po").each(function () {
                                             $(this).modalForm({
                                                 formURL: $(this).data("form-url"), 
                                                 isDeleteForm: true,
                                                 modalID: "#delete-modal"
                                                 });
                                         });
-                                        
-                                        // Create book button opens form in modal with id="create-modal"
-                                        $("#create-customer").modalForm({
-                                            formURL: "{% url 'create_customer' %}",
-                                            modalID: "#create-modal"
-                                        });
                                     });
-                                </script> {% endcomment %}
+                                </script>
                             </div>
                         </div>
                     </div>

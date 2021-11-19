@@ -1,0 +1,55 @@
+{% load widget_tweaks %}
+
+<form method="post" action="" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div class="modal-header">
+    {% if object.status == 0 %}
+      <h3 class="modal-title">Production Done Confirmation</h3>
+    {% elif object.status == 1 %}
+      <h3 class="modal-title">Order Sended Confirmation</h3>
+    {% elif object.status == 2 %}
+      {% if return == 1 %}
+        <h3 class="modal-title">Order Returned Confirmation</h3>
+      {% else %}
+        <h3 class="modal-title">Purchase Order Closing Confirmation</h3>
+      {% endif %}
+    {% endif %}
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    {% if object.status == 0 %}
+      <p>Did you finish the production for the Sales Order with id <b class="text-danger">{{ object.id }} </b>?</p>
+    {% elif object.status == 1 %}
+      <p>Did you Send the products for the Sales Order with id <b class="text-danger">{{ object.id }} </b>?</p>
+    {% elif object.status == 2 %}
+      {% if return == 1 %}
+        <p>Do you want to Return the Sales Order with id <b class="text-danger">{{ object.id }} </b>?</p>
+      {% else %}
+        <p>Do you want to close Sales Order with id <b class="text-danger">{{ object.id }} </b>?</p>
+      {% endif %}
+    {% endif %}
+  </div>
+  
+  <div class="modal-footer">
+    <form method="post" action="">
+      {% csrf_token %}
+      {{ form.id.as_hidden }}
+      {% if object.status == 0 %}
+        <button type="submit" class="btn btn-success">Confirm</button>
+      {% elif object.status == 1 %}
+        <button type="submit" class="btn btn-warning">Confirm</button>
+      {% elif object.status == 2 %}
+        {% if return == 1 %}
+          <button type="submit" class="btn btn-danger">Confirm</button>
+        {% else %}
+          <button type="submit" class="btn btn-primary">Confirm</button>
+        {% endif %}
+      {% endif %}
+    </form>
+  </div>
+
+</form>

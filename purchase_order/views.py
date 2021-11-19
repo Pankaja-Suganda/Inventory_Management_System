@@ -77,7 +77,7 @@ def create_po(request):
     # create = 1 for preview window
     context['create'] = 0
 
-    return redirect('/purchase-order/', context)
+    return redirect('/sales-order/', context)
 
 class po_view(generic.TemplateView):
     template_name = 'documents/purchase-order-doc.html'
@@ -90,7 +90,6 @@ class po_view(generic.TemplateView):
             context['other_count'] = range(context['Order'].material_ids.count()+1, (10+context['Order'].material_ids.count()) - context['Order'].material_ids.count())
         context['segment'] = 'purchase-order'
         context['user'] = self.request.user
-        
 
         # create = 1 for preview window
         context['create'] = 1

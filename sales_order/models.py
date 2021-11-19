@@ -31,7 +31,7 @@ class SalesOrder(models.Model):
     Returned_date = models.DateTimeField(blank=True, null=True)
     closed_date = models.DateTimeField(blank=True, null=True)
     status = models.IntegerField(choices=STATUS_CHOICES, default=0)
-    so_pdf = models.FileField(null=True, blank=True, upload_to='core/static/assets/documents/purchase order/')
+    so_pdf = models.FileField(null=True, blank=True, upload_to='core/static/assets/documents/sales order/')
     description = models.TextField(blank=True)
 
     def get_id(self):
@@ -40,35 +40,35 @@ class SalesOrder(models.Model):
     def class_name(self):
         return self.__class__.__name__
     
-    # def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
         
-    #     if self.status == 0:
-    #         # calculations
-    #         for material in self.material_ids.all():
-    #             self.sub_total_price += material.total_price
-    #         self.total_price = self.sub_total_price - (self.sub_total_price*(self.discount_persentage/100))
+        if self.status == 0:
+            # calculations
+            for product in self.product_ids.all():
+                self.sub_total_price += product.total_price
+            self.total_price = self.sub_total_price - (self.sub_total_price*(self.discount_persentage/100))
 
-    #         # supplier po count increment
-    #         self.supplier_id.po_count += 1
-    #         # assigning supplier last po date
-    #         self.supplier_id.last_order_date = self.issued_date
-    #         self.supplier_id.save()
+            # customer po count increment
+            self.customer_id.orders_count += 1
+            # assigning customer last po date
+            self.customer_id.last_order_date = self.issued_date
+            self.customer_id.save()
 
-    #     super(SalesOrder, self).save(*args, **kwargs)
+        super(SalesOrder, self).save(*args, **kwargs)
 
-    # def delete(self, *args, **kwargs):
-    #     # decrease the po_count of the supplier 
-    #     self.supplier_id.po_count -= 1
-    #     self.supplier_id.save()
+    def delete(self, *args, **kwargs):
+        # decrease the po_count of the supplier 
+        self.customer_id.orders_count -= 1
+        self.customer_id.save()
 
-    #     if self.status == 2:
-    #         for cmaterial in self.material_ids.all():
-    #             material = cmaterial.material_id
-    #             material.quatity -= cmaterial.quantity
-    #             material.save()
-    #             material.make_stock_status()
-    #             material.save()
-    #     super(SalesOrder, self).delete(*args, **kwargs)
+        if self.status == 1 or self.status == 3:
+            for cproduct in self.product_ids.all():
+                product = cproduct.product_id
+                product.quatity -= cproduct.quantity
+                product.save()
+                product.make_stock_status()
+                product.save()
+        super(SalesOrder, self).delete(*args, **kwargs)
     
     @staticmethod
     def so_id():

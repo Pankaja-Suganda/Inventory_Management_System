@@ -5,6 +5,9 @@ from .filters import CustomerFilter
 
 from django.urls import reverse_lazy
 from django.views import generic
+from django.http import HttpResponse
+from django.core import serializers
+import json
 
 from django.core.paginator import Paginator
 
@@ -108,5 +111,10 @@ class CustomerDeleteView(BSModalDeleteView):
     success_message = 'Success: Selected Customer was deleted.'
     success_url = reverse_lazy('customers')
     failure_url = reverse_lazy('customers')
+
+# customer Details for documents
+def CustomerDetailsAdd(request, pk):
+    customer = Customer.objects.get(pk=pk)
+    return HttpResponse(serializers.serialize("json", [customer]), content_type="application/json")
 
 
