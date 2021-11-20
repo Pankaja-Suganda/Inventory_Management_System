@@ -1,9 +1,45 @@
 from django import forms
 from .models import Color, Size, Product, ProductCategories
 from customer.models import Customer
+from stock.models import Product_Material
+from materials.models import Materials
 from authentication.models import BaseUser
+from django.forms.models import  inlineformset_factory
 import shortuuid
 from bootstrap_modal_forms.forms import BSModalModelForm
+
+class ProductMaterialForm(forms.ModelForm):
+    material_id = forms.ModelChoiceField(
+        queryset = Materials.objects.all(),
+        label='Select Material',
+        widget=forms.Select(
+            attrs={
+                "placeholder" : "Material",                
+                "class": "form-control"
+            }
+        ))
+
+    quantity = forms.IntegerField(
+        label='Enter Quatity of Material',
+        widget=forms.NumberInput(
+            attrs={
+                "placeholder" : "Quantity",                
+                "class": "form-control",
+                "value" : 0
+            }
+        ))
+
+    class Meta:
+        model = Product_Material
+        fields = ('material_id', 'quantity')
+
+MaterialFormSet = inlineformset_factory(
+                        Product,
+                        Product_Material,
+                        form=ProductMaterialForm,
+                        can_delete=True,
+                        extra=10
+                    )
 
 class CategoryForm(BSModalModelForm):
 

@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'materials',
     'purchase_order',
     'stock',
-    'sales_order'
+    'sales_order',
+    'pre_sales_order',
 
     # Enable the inner app 
 ]

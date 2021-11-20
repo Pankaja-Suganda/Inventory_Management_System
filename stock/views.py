@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.core.paginator import Paginator
-from .models import Product, ProductCategories, Color, Size
+from .models import Product, ProductCategories, Color, Size, Product_Material
+from materials.models import Materials
 from .filters import CategoryFilter, SizeFilter, ColorFilter, ProductFilter
-from .forms import CategoryForm, SizeForm, ColorForm, ProductForm, ProductUpdateForm
+from .forms import CategoryForm, SizeForm, ColorForm, ProductForm, ProductUpdateForm, MaterialFormSet, ProductMaterialForm
 import json
+import datetime
 
 from bootstrap_modal_forms.generic import (
   BSModalCreateView,
@@ -185,13 +187,52 @@ class ProductCreateView(BSModalCreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['generated_id'] = Product.prodcut_id()
+        context['form_set'] = MaterialFormSet() 
         return context
+
+    def save(self, *args, **kwargs):
+        return redirect(self.success_url)
+
+    def form_valid(self, form):
+
+        if self.request.method == 'POST':
+            product = ProductForm(self.request.POST)
+            form_set = MaterialFormSet(self.request.POST or None)
+
+            if product.is_valid():
+                product = Product(
+                    id = product.cleaned_data['id'],
+                    name = product.cleaned_data['name'],
+                    description = product.cleaned_data['description'],
+                    unit_price = float(product.cleaned_data['unit_price']),
+                    stock_margin = int(product.cleaned_data['stock_margin']),
+                    category_id = ProductCategories.objects.filter(name=product.cleaned_data['category_id']).first(),
+                    color_id = Color.objects.filter(name=product.cleaned_data['color_id']).first(),
+                    Size_id = Size.objects.filter(name=product.cleaned_data['Size_id']).first(),
+                    added_date = datetime.datetime.now()
+                )
+                product.save()
+
+            for form_material in form_set:
+                if form_material.is_valid():
+                    # material = form_material.save(commit=False)
+                    material_id = Materials.objects.filter(name=form_material.cleaned_data['material_id']).first()
+                    quantity = int(form_material.cleaned_data['quantity'])
+                    p_material = Product_Material(material_id=material_id, quantity=quantity, product_id=product)
+                    p_material.save()
+                    product.material_ids.add(p_material)
+                    # product.save()
+            
+            return redirect(self.success_url)
+
+        return redirect(self.success_url)
 
 # Product Update
 class ProductUpdateView(BSModalUpdateView):
     model = Product
     template_name = 'pages/modals/product/product-update.html'
     form_class = ProductUpdateForm
+    form_set = MaterialFormSet() 
     success_message = 'Success: Selected Product was updated.'
     success_url = reverse_lazy('items')
     failure_url = reverse_lazy('items')

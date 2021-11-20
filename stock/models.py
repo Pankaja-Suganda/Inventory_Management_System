@@ -2,6 +2,7 @@ from os import name
 from django.db import models
 from colorfield.fields import ColorField
 from authentication.models import BaseUser
+from materials.models import Materials
 from customer.models import Customer
 import shortuuid
 
@@ -106,10 +107,11 @@ class Product(models.Model):
     unit_price =models.FloatField(blank=False)
     quatity = models.PositiveIntegerField( blank=False, default=0)
     stock_margin = models.PositiveIntegerField( blank=False, default=0)
-    status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=0)
+    status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=1)
     category_id = models.ForeignKey(ProductCategories, blank=True, null=True, on_delete=models.SET_NULL)
     color_id = models.ForeignKey(Color, blank=True, null=True, on_delete=models.SET_NULL)
     Size_id = models.ForeignKey(Size, blank=True, null=True, on_delete=models.SET_NULL)
+    material_ids = models.ManyToManyField('Product_Material', blank=True, null=True)
     # shell_id = models.ForeignKey(Shell, blank=True, null=True, on_delete=models.SET_NULL)
     customers_id = models.ManyToManyField(Customer, blank=True, null=True)
     user_id = models.ForeignKey(BaseUser, blank=True, null=True, on_delete=models.SET_NULL)
@@ -142,3 +144,11 @@ class Product(models.Model):
 
     class Meta:
         __name__ = 'Product'
+
+# Prodct Material Supportive model
+class Product_Material(models.Model):
+    id = models.AutoField(primary_key=True)
+    product_id = models.ForeignKey(Product, blank=True, null=True, on_delete=models.CASCADE)
+    material_id = models.ForeignKey(Materials, blank=True, null=True, on_delete=models.SET_NULL)
+    quantity = models.PositiveIntegerField(blank=False, null=False, default=0)
+    
