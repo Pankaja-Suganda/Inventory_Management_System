@@ -199,29 +199,19 @@ class ProductCreateView(BSModalCreateView):
             product = ProductForm(self.request.POST)
             form_set = MaterialFormSet(self.request.POST or None)
 
-            if product.is_valid():
-                product = Product(
-                    id = product.cleaned_data['id'],
-                    name = product.cleaned_data['name'],
-                    description = product.cleaned_data['description'],
-                    unit_price = float(product.cleaned_data['unit_price']),
-                    stock_margin = int(product.cleaned_data['stock_margin']),
-                    category_id = ProductCategories.objects.filter(name=product.cleaned_data['category_id']).first(),
-                    color_id = Color.objects.filter(name=product.cleaned_data['color_id']).first(),
-                    Size_id = Size.objects.filter(name=product.cleaned_data['Size_id']).first(),
-                    added_date = datetime.datetime.now()
-                )
-                product.save()
+            if form.is_valid():
+                product = form.save()
+                print('product : ', type(product))
 
             for form_material in form_set:
                 if form_material.is_valid():
-                    # material = form_material.save(commit=False)
                     material_id = Materials.objects.filter(name=form_material.cleaned_data['material_id']).first()
                     quantity = int(form_material.cleaned_data['quantity'])
-                    p_material = Product_Material(material_id=material_id, quantity=quantity, product_id=product)
+                    p_material = Product_Material(material_id=material_id, quantity=quantity)
+                    # p_material.product_id = product
                     p_material.save()
                     product.material_ids.add(p_material)
-                    # product.save()
+            product.save()
             
             return redirect(self.success_url)
 

@@ -175,7 +175,7 @@
                                                         </a>
                                                     </div>
                                                     <div class="col-1">
-                                                        {% if PurchaseOrder.status != 3 %}
+                                                        {% if SalesOrder.status != 3 %}
                                                             <a type="button" class="delete-po bs-modal delete" title="Delete" data-form-url="{% url 'delete-sales-order' SalesOrder.id %}">
                                                                 <span class="material-icons delete">delete</span>
                                                             </a>

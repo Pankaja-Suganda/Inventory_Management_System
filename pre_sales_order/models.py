@@ -61,13 +61,14 @@ class PreSalesOrder(models.Model):
         self.customer_id.orders_count -= 1
         self.customer_id.save()
 
-        # if self.status == 1 or self.status == 3:
-        #     for cproduct in self.product_ids.all():
-        #         product = cproduct.product_id
-        #         product.quatity -= cproduct.quantity
-        #         product.save()
-        #         product.make_stock_status()
-        #         product.save()
+        if self.status == 3:
+            for cproduct in self.product_ids.all():
+                product = cproduct.product_id
+                product.quatity -= cproduct.quantity
+                product.save()
+                product.make_stock_status()
+                product.save()
+
         super(PreSalesOrder, self).delete(*args, **kwargs)
     
     @staticmethod
@@ -94,3 +95,4 @@ class PProduct(models.Model):
     def save(self, *args, **kwargs):
         self.total_price = abs(self.quantity) * abs(self.product_id.unit_price)
         super(PProduct, self).save(*args, **kwargs)
+
