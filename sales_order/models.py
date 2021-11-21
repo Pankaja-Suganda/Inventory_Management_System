@@ -54,6 +54,18 @@ class SalesOrder(models.Model):
             self.customer_id.last_order_date = self.issued_date
             self.customer_id.save()
 
+            # material deduction
+            # iterate over CProducts
+            for product in self.product_ids.all():
+                # cProduct (-cProduct object-)
+                print('product ; ', product)
+                for material in product.product_id.material_ids.all():
+                    material.material_id.quatity = material.material_id.quatity - material.quantity 
+                    print('name ; ', material.material_id.name, 'quantity : ', material.material_id.quatity, "required : ", material.quantity)
+                    material.material_id.save()
+                    material.material_id.make_stock_status()
+                    material.material_id.save()
+
         super(SalesOrder, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
@@ -68,6 +80,20 @@ class SalesOrder(models.Model):
                 product.save()
                 product.make_stock_status()
                 product.save()
+
+        if self.status == 0 :
+            # material deduction
+            # iterate over CProducts
+            for product in self.product_ids.all():
+                # cProduct (-cProduct object-)
+                print('product ; ', product)
+                for material in product.product_id.material_ids.all():
+                    material.material_id.quatity = material.material_id.quatity + material.quantity 
+                    print('name ; ', material.material_id.name, 'quantity : ', material.material_id.quatity, "required : ", material.quantity)
+                    material.material_id.save()
+                    material.material_id.make_stock_status()
+                    material.material_id.save()
+
         super(SalesOrder, self).delete(*args, **kwargs)
     
     @staticmethod

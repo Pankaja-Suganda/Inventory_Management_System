@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.core.paginator import Paginator
+from customer.models import Customer
 from .models import Product, ProductCategories, Color, Size, Product_Material
-from materials.models import Materials
+from materials.models import Categories, Materials
 from .filters import CategoryFilter, SizeFilter, ColorFilter, ProductFilter
 from .forms import CategoryForm, SizeForm, ColorForm, ProductForm, ProductUpdateForm, MaterialFormSet, ProductMaterialForm
 import json
@@ -190,30 +191,37 @@ class ProductCreateView(BSModalCreateView):
         context['form_set'] = MaterialFormSet() 
         return context
 
-    def save(self, *args, **kwargs):
-        return redirect(self.success_url)
+    def post(self, request, *args, **kwargs):
+        form = ProductForm(self.request.POST or None)
+        form_set = MaterialFormSet(self.request.POST or None)
 
-    def form_valid(self, form):
-
-        if self.request.method == 'POST':
-            product = ProductForm(self.request.POST)
-            form_set = MaterialFormSet(self.request.POST or None)
-
-            if form.is_valid():
-                product = form.save()
-                print('product : ', type(product))
-
+        if form.is_valid():
+            product = Product(
+                id = form.cleaned_data['id'],
+                name = form.cleaned_data['name'],
+                description = form.cleaned_data['description'],
+                unit_price = form.cleaned_data['unit_price'],
+                stock_margin = form.cleaned_data['stock_margin'],
+                category_id = ProductCategories.objects.filter(name=form.cleaned_data['category_id']).first(),
+                color_id = Color.objects.filter(name=form.cleaned_data['color_id']).first(),
+                Size_id = Size.objects.filter(name=form.cleaned_data['Size_id']).first(),
+                added_date = datetime.datetime.now()
+            )
+            product.make_stock_status()
+            product.save()
+            print('product id : ', product, product.id, form.cleaned_data['category_id'])
+            
             for form_material in form_set:
                 if form_material.is_valid():
                     material_id = Materials.objects.filter(name=form_material.cleaned_data['material_id']).first()
                     quantity = int(form_material.cleaned_data['quantity'])
-                    p_material = Product_Material(material_id=material_id, quantity=quantity)
-                    # p_material.product_id = product
-                    p_material.save()
-                    product.material_ids.add(p_material)
+                    if material_id != None and quantity > 0:
+                        p_material = Product_Material(material_id=material_id, quantity=quantity)
+                        p_material.product_id = product
+                        p_material.save()
+                        product.material_ids.add(p_material)
+
             product.save()
-            
-            return redirect(self.success_url)
 
         return redirect(self.success_url)
 
