@@ -4,6 +4,7 @@ from django.views import generic
 from django.core.paginator import Paginator
 from .models import Materials
 from .filters import CategoryFilter, MaterialFilter, ShellFilter
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
 import json
 
@@ -15,7 +16,7 @@ from bootstrap_modal_forms.generic import (
 )
 
 # materials list wth pagination
-class ShellsList(generic.ListView):
+class ShellsList(LoginRequiredMixin, generic.ListView):
     model = Shell
     context_object_name = "shells"
     template_name = 'pages/shells.html'
@@ -93,7 +94,7 @@ def count_persentage(obj, value):
     return persentage
 
 # materials list wth pagination
-class MaterialsList(generic.ListView):
+class MaterialsList(LoginRequiredMixin, generic.ListView):
     model = Materials
     paginate_by = 6
     context_object_name = "materials"
@@ -125,7 +126,7 @@ class MaterialsList(generic.ListView):
         return context
 
 # material Details
-class MaterialsDetails(generic.detail.DetailView):
+class MaterialsDetails(LoginRequiredMixin, generic.detail.DetailView):
     model = Materials
     context_object_name = "c_material"
     template_name = 'pages/materials.html'
@@ -165,7 +166,7 @@ class MaterialsDetails(generic.detail.DetailView):
         return context
 
 # material Details
-class CategoriesDetails(generic.detail.DetailView):
+class CategoriesDetails(LoginRequiredMixin, generic.detail.DetailView):
     model = Categories
     context_object_name = "c_category"
     template_name = 'pages/materials.html'
@@ -204,7 +205,7 @@ class CategoriesDetails(generic.detail.DetailView):
         return context
 
 # material Create
-class MaterialCreateView(BSModalCreateView):
+class MaterialCreateView(LoginRequiredMixin, BSModalCreateView):
     template_name = 'pages/modals/materials/material-create.html'
     form_class = MaterialsCreate
     success_message = 'Success: New Materials was created.'
@@ -217,7 +218,7 @@ class MaterialCreateView(BSModalCreateView):
         return context
 
 # material Update
-class MaterialUpdateView(BSModalUpdateView):
+class MaterialUpdateView(LoginRequiredMixin, BSModalUpdateView):
     model = Materials
     template_name = 'pages/modals/materials/material-update.html'
     form_class = MaterialsUpdate
@@ -226,7 +227,7 @@ class MaterialUpdateView(BSModalUpdateView):
     failure_url = reverse_lazy('materials')
 
 # material Delete
-class MaterialDeleteView(BSModalDeleteView):
+class MaterialDeleteView(LoginRequiredMixin, BSModalDeleteView):
     model = Materials
     template_name = 'pages/modals/materials/material-delete.html'
     success_message = 'Success: Selected Category was deleted.'
@@ -234,7 +235,7 @@ class MaterialDeleteView(BSModalDeleteView):
     failure_url = reverse_lazy('materials')
 
 # category Create
-class CategoryCreateView(BSModalCreateView):
+class CategoryCreateView(LoginRequiredMixin, BSModalCreateView):
     template_name = 'pages/modals/materials/category-create.html'
     form_class = CategoryCreate
     success_message = 'Success: New Category was created.'
@@ -247,7 +248,7 @@ class CategoryCreateView(BSModalCreateView):
         return context
 
 # category Update
-class CategoryUpdateView(BSModalUpdateView):
+class CategoryUpdateView(LoginRequiredMixin, BSModalUpdateView):
     model = Categories
     template_name = 'pages/modals/materials/category-update.html'
     form_class = CategoryUpdate
@@ -256,7 +257,7 @@ class CategoryUpdateView(BSModalUpdateView):
     failure_url = reverse_lazy('materials')
 
 # category Delete
-class CategoryDeleteView(BSModalDeleteView):
+class CategoryDeleteView(LoginRequiredMixin, BSModalDeleteView):
     model = Categories
     template_name = 'pages/modals/materials/category-delete.html'
     success_message = 'Success: Selected Material was deleted.'
@@ -264,7 +265,7 @@ class CategoryDeleteView(BSModalDeleteView):
     failure_url = reverse_lazy('materials')
 
 # shell Create
-class ShellCreateView(BSModalCreateView):
+class ShellCreateView(LoginRequiredMixin, BSModalCreateView):
     template_name = 'pages/modals/materials/shell-create.html'
     form_class = ShellCreate
     success_message = 'Success: New Shell was created.'
@@ -277,7 +278,7 @@ class ShellCreateView(BSModalCreateView):
         return context
 
 # shell Update
-class ShellUpdateView(BSModalUpdateView):
+class ShellUpdateView(LoginRequiredMixin, BSModalUpdateView):
     model = Shell
     template_name = 'pages/modals/materials/shell-update.html'
     form_class = ShellUpdate
@@ -286,7 +287,7 @@ class ShellUpdateView(BSModalUpdateView):
     failure_url = reverse_lazy('shells')
 
 # shell Delete
-class ShellDeleteView(BSModalDeleteView):
+class ShellDeleteView(LoginRequiredMixin, BSModalDeleteView):
     model = Shell
     template_name = 'pages/modals/materials/shell-delete.html'
     success_message = 'Success: Selected Shell was deleted.'

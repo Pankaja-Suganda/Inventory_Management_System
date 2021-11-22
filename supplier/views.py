@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Supplier
 from .forms import SupplierRegister, SupplierUpdate
 from .filters import SupplierFilter
@@ -22,7 +23,7 @@ from bootstrap_modal_forms.generic import (
 
 
 # supplier list with pagination
-class SuppliersList(generic.ListView):
+class SuppliersList(LoginRequiredMixin, generic.ListView):
     model = Supplier
     paginate_by = 7
     context_object_name = "suppliers"
@@ -44,7 +45,7 @@ def SupplierDetailsAdd(request, pk):
     return HttpResponse(serializers.serialize("json", [supplier]), content_type="application/json")
 
 # supplier Details
-class SupplierDetails(generic.detail.DetailView):
+class SupplierDetails(LoginRequiredMixin, generic.detail.DetailView):
     model = Supplier
     context_object_name = "c_supplier"
     template_name = 'pages/suppliers.html'
@@ -71,7 +72,7 @@ class SupplierDetails(generic.detail.DetailView):
         return context
 
 # Customer Create
-class SupplierCreateView(BSModalCreateView):
+class SupplierCreateView(LoginRequiredMixin, BSModalCreateView):
     template_name = 'pages/modals/supplier/supplier-create.html'
     form_class = SupplierRegister
     success_message = 'Success: New Supplier was created.'
@@ -83,7 +84,7 @@ class SupplierCreateView(BSModalCreateView):
         return context
 
 # Customer Update
-class SupplierUpdateView(BSModalUpdateView):
+class SupplierUpdateView(LoginRequiredMixin, BSModalUpdateView):
     model = Supplier
     template_name = 'pages/modals/supplier/supplier-update.html'
     form_class = SupplierUpdate
@@ -91,7 +92,7 @@ class SupplierUpdateView(BSModalUpdateView):
     success_url = reverse_lazy('suppliers')
 
 # Customer Delete
-class SupplierDeleteView(BSModalDeleteView):
+class SupplierDeleteView(LoginRequiredMixin, BSModalDeleteView):
     model = Supplier
     template_name = 'pages/modals/supplier/supplier-delete.html'
     success_message = 'Success: Selected Supplier was deleted.'

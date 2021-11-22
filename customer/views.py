@@ -3,6 +3,7 @@ from .models import Customer
 from .form import CustomerRegister, CustomerUpdate
 from .filters import CustomerFilter
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from django.http import HttpResponse
@@ -20,7 +21,7 @@ from bootstrap_modal_forms.generic import (
 )
 
 # customer list wth pagination
-class CustomersList(generic.ListView):
+class CustomersList(LoginRequiredMixin, generic.ListView):
     model = Customer
     paginate_by = 7
     context_object_name = "customers"
@@ -46,7 +47,7 @@ class CustomersList(generic.ListView):
         return context
 
 # customer Details
-class CustomerDetails(generic.detail.DetailView):
+class CustomerDetails(LoginRequiredMixin, generic.detail.DetailView):
     model = Customer
     context_object_name = "c_customer"
     template_name = 'pages/customers.html'
@@ -83,7 +84,7 @@ class CustomerDetails(generic.detail.DetailView):
 
 
 # Customer Create
-class CustomerCreateView(BSModalCreateView):
+class CustomerCreateView(LoginRequiredMixin, BSModalCreateView):
     template_name = 'pages/modals/customer/customer-create.html'
     form_class = CustomerRegister
     success_message = 'Success: New Customer was created.'
@@ -96,7 +97,7 @@ class CustomerCreateView(BSModalCreateView):
         return context
 
 # Customer Update
-class CustomerUpdateView(BSModalUpdateView):
+class CustomerUpdateView(LoginRequiredMixin, BSModalUpdateView):
     model = Customer
     template_name = 'pages/modals/customer/customer-update.html'
     form_class = CustomerUpdate
@@ -105,7 +106,7 @@ class CustomerUpdateView(BSModalUpdateView):
     failure_url = reverse_lazy('customers')
 
 # Customer Delete
-class CustomerDeleteView(BSModalDeleteView):
+class CustomerDeleteView(LoginRequiredMixin, BSModalDeleteView):
     model = Customer
     template_name = 'pages/modals/customer/customer-delete.html'
     success_message = 'Success: Selected Customer was deleted.'

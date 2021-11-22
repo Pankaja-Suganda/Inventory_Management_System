@@ -7,6 +7,7 @@ from .models import Product, ProductCategories, Color, Size, Product_Material
 from materials.models import Categories, Materials
 from .filters import CategoryFilter, SizeFilter, ColorFilter, ProductFilter
 from .forms import CategoryForm, SizeForm, ColorForm, ProductForm, ProductUpdateForm, MaterialFormSet, ProductMaterialForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 import datetime
 
@@ -18,7 +19,7 @@ from bootstrap_modal_forms.generic import (
 )
 
 # materials list wth pagination
-class ProdcutsList(generic.ListView):
+class ProdcutsList(LoginRequiredMixin, generic.ListView):
     model = Product
     template_name = 'pages/items.html'
 
@@ -83,7 +84,7 @@ class ProdcutsList(generic.ListView):
 
 
 # Category Create
-class ProductCategoryCreateView(BSModalCreateView):
+class ProductCategoryCreateView(LoginRequiredMixin, BSModalCreateView):
     model = ProductCategories
     template_name = 'pages/modals/product/category-create.html'
     form_class = CategoryForm
@@ -97,7 +98,7 @@ class ProductCategoryCreateView(BSModalCreateView):
         return context
 
 # Category Update
-class ProductCategoryUpdateView(BSModalUpdateView):
+class ProductCategoryUpdateView(LoginRequiredMixin, BSModalUpdateView):
     model = ProductCategories
     template_name = 'pages/modals/product/category-update.html'
     form_class = CategoryForm
@@ -106,7 +107,7 @@ class ProductCategoryUpdateView(BSModalUpdateView):
     failure_url = reverse_lazy('items')
 
 # Category Delete
-class ProductCategoryDeleteView(BSModalDeleteView):
+class ProductCategoryDeleteView(LoginRequiredMixin, BSModalDeleteView):
     model = ProductCategories
     template_name = 'pages/modals/product/category-delete.html'
     success_message = 'Success: Selected Shell was deleted.'
@@ -114,7 +115,7 @@ class ProductCategoryDeleteView(BSModalDeleteView):
     failure_url = reverse_lazy('items')
 
 # size Create
-class SizeCreateView(BSModalCreateView):
+class SizeCreateView(LoginRequiredMixin, BSModalCreateView):
     model = Size
     template_name = 'pages/modals/product/size-create.html'
     form_class = SizeForm
@@ -128,7 +129,7 @@ class SizeCreateView(BSModalCreateView):
         return context
 
 # size Update
-class SizeUpdateView(BSModalUpdateView):
+class SizeUpdateView(LoginRequiredMixin, BSModalUpdateView):
     model = Size
     template_name = 'pages/modals/product/size-update.html'
     form_class = SizeForm
@@ -137,7 +138,7 @@ class SizeUpdateView(BSModalUpdateView):
     failure_url = reverse_lazy('items')
 
 # size Delete
-class SizeDeleteView(BSModalDeleteView):
+class SizeDeleteView(LoginRequiredMixin, BSModalDeleteView):
     model = Size
     template_name = 'pages/modals/product/size-delete.html'
     success_message = 'Success: Selected Size was deleted.'
@@ -146,7 +147,7 @@ class SizeDeleteView(BSModalDeleteView):
 
 
 # Color Create
-class ColorCreateView(BSModalCreateView):
+class ColorCreateView(LoginRequiredMixin, BSModalCreateView):
     model = Color
     template_name = 'pages/modals/product/color-create.html'
     form_class = ColorForm
@@ -160,7 +161,7 @@ class ColorCreateView(BSModalCreateView):
         return context
 
 # Color Update
-class ColorUpdateView(BSModalUpdateView):
+class ColorUpdateView(LoginRequiredMixin, BSModalUpdateView):
     model = Color
     template_name = 'pages/modals/product/color-update.html'
     form_class = ColorForm
@@ -169,7 +170,7 @@ class ColorUpdateView(BSModalUpdateView):
     failure_url = reverse_lazy('items')
 
 # Color Delete
-class ColorDeleteView(BSModalDeleteView):
+class ColorDeleteView(LoginRequiredMixin, BSModalDeleteView):
     model = Color
     template_name = 'pages/modals/product/color-delete.html'
     success_message = 'Success: Selected Color was deleted.'
@@ -177,7 +178,7 @@ class ColorDeleteView(BSModalDeleteView):
     failure_url = reverse_lazy('items')
 
 # Product Create
-class ProductCreateView(BSModalCreateView):
+class ProductCreateView(LoginRequiredMixin, BSModalCreateView):
     model = Product
     template_name = 'pages/modals/product/product-create.html'
     form_class = ProductForm
@@ -226,7 +227,7 @@ class ProductCreateView(BSModalCreateView):
         return redirect(self.success_url)
 
 # Product Update
-class ProductUpdateView(BSModalUpdateView):
+class ProductUpdateView(LoginRequiredMixin, BSModalUpdateView):
     model = Product
     template_name = 'pages/modals/product/product-update.html'
     form_class = ProductUpdateForm
@@ -236,7 +237,7 @@ class ProductUpdateView(BSModalUpdateView):
     failure_url = reverse_lazy('items')
 
 # Product Delete
-class ProductDeleteView(BSModalDeleteView):
+class ProductDeleteView(LoginRequiredMixin, BSModalDeleteView):
     model = Product
     template_name = 'pages/modals/product/product-delete.html'
     success_message = 'Success: Selected Product was deleted.'
