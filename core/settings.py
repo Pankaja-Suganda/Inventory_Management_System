@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'stock',
     'sales_order',
     'pre_sales_order',
+    'quotation'
 
     # Enable the inner app 
 ]

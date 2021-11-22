@@ -33,7 +33,7 @@ class PreSalesOrderList(LoginRequiredMixin, generic.ListView):
         context['returned'] = PreSalesOrder.objects.filter(status=3).count()
         context['closed'] = PreSalesOrder.objects.filter(status=4).count()
         context['create'] = 1
-        context['segment'] = 'pre-sales-order'
+        context['segment'] = 'pre-sale-order'
         return context
 
 # sales order Details
@@ -52,7 +52,7 @@ class PreSalesOrderDetails(LoginRequiredMixin, generic.detail.DetailView):
         context['delivered'] = PreSalesOrder.objects.filter(status=2).count()
         context['returned'] = PreSalesOrder.objects.filter(status=3).count()
         context['closed'] = PreSalesOrder.objects.filter(status=4).count()
-        context['segment'] = 'pre-sales-order'
+        context['segment'] = 'pre-sale-order'
         context['create'] = 0
         return context
 
@@ -109,7 +109,7 @@ class pso_view(generic.TemplateView):
             po_id = self.request.path.rsplit('/', 1)[-1]
             context['Order'] = PreSalesOrder.objects.filter(id=po_id)[0]
             context['other_count'] = range(context['Order'].product_ids.count()+1, (10+context['Order'].product_ids.count()) - context['Order'].product_ids.count())
-        context['segment'] = 'pre-sales-order'
+        context['segment'] = 'pre-sale-order'
         context['user'] = self.request.user
 
         # create = 1 for preview window
@@ -122,7 +122,7 @@ class PreStatusUpdateView(LoginRequiredMixin, BSModalUpdateView):
     template_name = 'pages/modals/sales-order/so-info.html'
     form_class  = PreSalesOrderStatusForm
     success_message = 'Success: Selected Pre Sales Order\' status was updated.'
-    success_url = reverse_lazy('sales-order')
+    success_url = reverse_lazy('pre-sales-order')
 
     def post(self, request, *args, **kwargs):
 

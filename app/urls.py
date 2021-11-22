@@ -21,6 +21,7 @@ urlpatterns = [
     path('items/', ItemsTemplate.as_view(), name="items"),
     path('sales-order/', SalesOrderTemplate.as_view(), name="sales-order"),
     path('pre-sales-order/', PreSalesOrderTemplate.as_view(), name="pre-sales-order"),
+    path('quatation/', QuotationTemplate.as_view(), name="quatation"),
     
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
