@@ -20,6 +20,7 @@ urlpatterns = [
     path('purchase-order/', PurchaseOrderTemplate.as_view(), name="purchase-order"),
     path('items/', ItemsTemplate.as_view(), name="items"),
     path('sales-order/', SalesOrderTemplate.as_view(), name="sales-order"),
+    path('billing/', BillingTemplate.as_view(), name="billing"),
     path('pre-sales-order/', PreSalesOrderTemplate.as_view(), name="pre-sales-order"),
     path('quatation/', QuotationTemplate.as_view(), name="quatation"),
     

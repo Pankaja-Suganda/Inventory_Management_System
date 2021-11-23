@@ -8,6 +8,9 @@ from .forms import PreSalesOrderForm, PProductForm, PProductlFormSet, PreSalesOr
 from django.contrib.auth.mixins import LoginRequiredMixin
 import datetime
 
+from django.http import HttpResponse
+from django.core import serializers
+
 from bootstrap_modal_forms.generic import (
   BSModalCreateView,
   BSModalUpdateView,
@@ -189,4 +192,10 @@ class PreSalesOrderDeleteView(LoginRequiredMixin, BSModalDeleteView):
     template_name = 'pages/modals/sales-order/so-delete.html'
     success_message = 'Success: Selected Pre Sales Order was deleted.'
     success_url = reverse_lazy('pre-sales-order')
+
+
+# Pre Sales Order Details for documents
+def PreSalesOrderDetailsAdd(request, pk):
+    customer = PreSalesOrder.objects.get(pk=pk)
+    return HttpResponse(serializers.serialize("json", [customer]), content_type="application/json")
 

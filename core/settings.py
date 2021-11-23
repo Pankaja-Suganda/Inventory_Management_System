@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django_htmx',
     'phonenumber_field',
     'bootstrap_modal_forms',
+    'bootstrap_datepicker_plus',
     'widget_tweaks',
     'django_filters',
     'colorfield',
@@ -45,7 +46,8 @@ INSTALLED_APPS = [
     'stock',
     'sales_order',
     'pre_sales_order',
-    'quotation'
+    'quotation',
+    'invoice'
 
     # Enable the inner app 
 ]

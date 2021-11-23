@@ -8,6 +8,9 @@ from .forms import SalesOrderForm,  CProductForm, CProductlFormSet, SalesOrderSt
 from django.contrib.auth.mixins import LoginRequiredMixin
 import datetime
 
+from django.http import HttpResponse
+from django.core import serializers
+
 from bootstrap_modal_forms.generic import (
   BSModalCreateView,
   BSModalUpdateView,
@@ -189,3 +192,8 @@ class SalesOrderDeleteView(LoginRequiredMixin, BSModalDeleteView):
     template_name = 'pages/modals/sales-order/so-delete.html'
     success_message = 'Success: Selected Sales Order was deleted.'
     success_url = reverse_lazy('sales-order')
+
+# Sales Order Details for documents
+def SalesOrderDetailsAdd(request, pk):
+    customer = SalesOrder.objects.get(pk=pk)
+    return HttpResponse(serializers.serialize("json", [customer]), content_type="application/json")

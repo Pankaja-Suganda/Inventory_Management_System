@@ -169,5 +169,11 @@ class QuotationTemplate(TemplateView):
         context['segment'] = 'quatation'
         return context
 
+class BillingTemplate(TemplateView):
+    template_name = 'billing.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'billing'
+        return context
     

@@ -10,6 +10,7 @@ urlpatterns = [
     path('delete-sales-order/<str:pk>', SalesOrderDeleteView.as_view(), name="delete-sales-order"),
 
     # documents
+    path('detail_sales_order/<str:pk>', SalesOrderDetailsAdd, name="detail_sales_order"),
     path('sales-order-doc/', SalesOrderDocTemplate.as_view(), name="sales-order-doc"),
     
 ]

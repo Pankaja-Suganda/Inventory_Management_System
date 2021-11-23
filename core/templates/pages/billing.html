@@ -27,11 +27,368 @@
         <!-- [ breadcrumb ] end -->
         <div class="main-body">
             <!-- Page content -->
+            <style>
+                .produced{
+                    color: #5cb85c;
+                    cursor: pointer;
+                }
+                .sended {
+                    color: #f0ad4e;
+                    cursor: pointer;
+                }
+                .returned {
+                    color: #f0ad4e;
+                    cursor: pointer;
+                }
+                .closed {
+                    color: #d9534f;
+                    cursor: pointer;
+                }
+                .view {
+                    color: #2196F3;
+                    cursor: pointer;
+                }
+                .update {
+                    color: #2196F3;
+                    cursor: pointer;
+                }
+                .delete {
+                    color: #F44336;
+                    cursor: pointer;
+                }
+                .Scroll {
+                    height:650px;
+                    overflow-y: scroll;
+                }
+                .cat-card{
+                    margin: 10px;
+                    {% comment %} background: #F44336; {% endcomment %}
+                }
+            </style>
+            <div class="page-wrapper">
+                <div class = "row">
+                    <div class="col-sm-12 col-md-12 col-xl-4">
+                        <div class="card text-center">
+                            <div class="card-header">
+                                Invoices
+                                <hr>
+                                <div class="list-title">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <form role="form" method="get" action=""class="form-horizontal">
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="search-box col-4">
+                                                        <i class="material-icons">&#xE8B6;</i>
+                                                        {{ filter.form.id }}
+                                                    </div>
+                                                    <div class="search-box col-4">
+                                                        <i class="material-icons">&#xE8B6;</i>
+                                                        {{ filter.form.customer_id }}
+                                                    </div>
+                                                    <div class="search-box col-4">
+                                                        <i class="material-icons">&#xE8B6;</i>
+                                                        {{ filter.form.issued_date }}
+                                                    </div>                          
+                                                    <button style="display: none;" type="submit"></button>
+                                                     
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-2">
+                                            <a type="button" class="btn bg-success w-40 text-light" title="Create Sales Order"  href="{% url 'create-invoice' %}">
+                                                <span class="material-icons" style="font-size:18px">library_add</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body" style="height:650px;">
+                                <div class="overflow-auto Scroll" style="height:810px;">
+                                    {% for Invoice_ in Invoices %}
+                                        <div class = "card cat-card border-left" >
+                                            <div class = "card-header">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <div class="row">
+                                                            {% if Invoice_.status == 1 %}
+                                                                <div class="text-left font-weight-bold text-success"><span class="badge badge-pill badge-primary">Issued</span></div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class=" mt-2">
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <div class="card-title">Id : {{ Invoice_.id }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <p class="card-text text-left mb-1 mt-3">  Customer ID : {{Invoice_.customer_id.id}}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
 
+                                                    <div class="col-10 text-left text-muted">
+                                                        <p class="card-text text-left mb-1 ">
+                                                            Issued Date  : {{Invoice_.issued_date}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-1">
+                                                        <a type="button" class="view" title="view"  href="{% url 'billing' Invoice_.id %}">
+                                                            <i class="material-icons update">visibility</i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-1">
+                                                        {% if Invoice_.status != 3 %}
+                                                            <a type="button" class="delete-po bs-modal delete" title="Delete" data-form-url="{% url 'delete-invoice' Invoice_.id %}">
+                                                                <span class="material-icons delete">delete</span>
+                                                            </a>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="card-footer text-muted">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-xl-8">
+                        <div class = "row">
+                            <div class="col-xl-4 col-md-4 col-sm-6">
+                                <div class="card yearly-sales ">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">Total</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-layers text-c-blue f-30 m-r-10"></i>{{total}}</h3>
+                                            </div>
+                                        </div>
+                                        <div class=" m-t-30" style="height: 5px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-xl-4 col-md-4 col-sm-6">
+                                <div class="card yearly-sales ">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">Accepted</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-file-text text-c-yellow f-30 m-r-10"></i>{{accepted}}</h3>
+                                            </div>
+                                        </div>
+                                        <div class=" m-t-30" style="height: 5px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-4 col-sm-6">
+                                <div class="card yearly-sales ">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">Rejected</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-anchor text-c-green f-30 m-r-10"></i>{{rejected}}</h3>
+                                            </div>
+                                        </div>
+                                        <div class=" m-t-30" style="height: 5px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <style>
+                            .table-responsive {
+                                margin: 30px 0;
+                            }
+                            .table-wrapper {
+                                min-width: 1000px;
+                                background: #fff;
+                                padding: 20px;
+                                box-shadow: 0 1px 1px rgba(0,0,0,.05);
+                            }
+                            .table-title {
+                                padding-bottom: 15px;
+                                color: #000;
+                                padding: 16px 30px;
+                                margin: -20px -25px 10px;
+                                border-radius: 10px;
+                            }
+                            .table-title h2 {
+                                margin: 5px 0 0;
+                                font-size: 24px;
+                            }
+                            .search-box {
+                                position: relative;        
+                                float: right;
+                            }
+                            .search-box .in{
+                                height: 44px;
+                                border-radius: 20px;
+                                padding-left: 30px;
+                                border-color: #ddd;
+                                box-shadow: none;
+                            }
+                            .search-box .in:focus {
+                                border-color: #3FBAE4;
+                            }
+                            .search-box i {
+                                color: #a0a5b1;
+                                position: absolute;
+                                font-size: 19px;
+                                top: 15px;
+                                left: 25px;
+                            }
+                            table.table tr th, table.table tr td {
+                                border-color: #e9e9e9;
+                                vertical-align: middle;
+                                padding: 12px 15px;
+                            }
+                            table.table-striped tbody tr:nth-of-type(odd) {
+                                background-color: #fcfcfc;
+                            }
+                            table.table-striped.table-hover tbody tr:hover {
+                                background: #f5f5f5;
+                            }
+                            table.table th i {
+                                font-size: 13px;
+                                margin: 0 5px;
+                                cursor: pointer;
+                            }
+                            table.table td:last-child {
+                                width: 130px;
+                            }
+                            table.table td a {
+                                color: #a0a5b1;
+                                display: inline-block;
+                                margin: 0 5px;
+                                cursor: pointer;
+                            }
+                            table.table td a.settings {
+                                color: #2196F3;
+                            }
+                            table.table td a.delete {
+                                color: #F44336;
+                            }
+                            table.table td i {
+                                font-size: 19px;
+                            }    
+                            .pagination {
+                                float: right;
+                                margin: 0 0 5px;
+                            }
+                            .pagination li a {
+                                border: none;
+                                font-size: 95%;
+                                width: 30px;
+                                height: 30px;
+                                color: #999;
+                                margin: 0 2px;
+                                line-height: 30px;
+                                border-radius: 30px !important;
+                                text-align: center;
+                                padding: 0;
+                            }
+                            .pagination li a:hover {
+                                color: #666;
+                            }	
+                            .pagination li.active a {
+                                background: #03A9F4;
+                            }
+                            .pagination li.active a:hover {        
+                                background: #0397d6;
+                            }
+                            .pagination li.disabled i {
+                                color: #ccc;
+                            }
+                            .pagination li i {
+                                font-size: 16px;
+                                padding-top: 6px
+                            }
+                            .hint-text {
+                                float: left;
+                                margin-top: 6px;
+                                font-size: 95%;
+                            }
+                        </style>
+
+                        <div class = "row">
+                            <div class="col-12">
+                                <div class="card yearly-sales ">
+                                   <div class="table-responsive ">
+                                        <div class="table-wrapper">
+                                            <div class="table-title"> 
+                                                <div class="row">
+                                                    <div class="col ">
+                                                        {% if create == 0 %}
+                                                            <button onclick="print_click();" class="btn btn-primary float-right"><i class="material-icons md-36">local_printshop</i></button>
+                                                        {% endif %}
+                                                        <div class="embed-responsive embed-responsive-16by9">
+                                                            <iframe id="printf" name="printf" class="embed-responsive-item" src=" {% if create == 0 %} {% url 'preview-invoice' Invoice_selected.id %} {% else %} {% url 'invoice-doc'%} {% endif %} "></iframe>
+                                                        </div>
+                                                        <script type="text/javascript">
+                                                            function print_click(event) {
+                                                                window.frames["printf"].focus();
+                                                                window.frames["printf"].print();
+                                                            }
+                                                        </script>
+                                                    </div>                                                  
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>    
+                                </div> 
+
+                                <!-- Modal 1 with id="create-modal" -->
+                                <div class="modal fade bd-example-modal-lg" id="create-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal 1 with id="update-modal" -->
+                                <div class="modal fade bd-example-modal-lg" id="update-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal 3 with id="delete-modal" -->
+                                <div class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" id="delete-modal">
+                                    <div class="modal-dialog modal-md" role="document">
+                                        <div class="modal-content"></div>
+                                    </div>
+                                </div>
+
+                                <script src="/static/assets/plugins/jquery/js/jquery.min.js" type="text/javascript"></script>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+
+                                        // Delete Purchase Order buttons - formURL is retrieved from the data of the element
+                                        $(".delete-po").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"), 
+                                                isDeleteForm: true,
+                                                modalID: "#delete-modal"
+                                                });
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 
 {% endblock content %}
 
