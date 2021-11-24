@@ -13,6 +13,8 @@ from sales_order.models import SalesOrder
 from stock.models import Product
 from pre_sales_order.models import PreSalesOrder
 
+from django.db.models import Sum
+
 from bootstrap_modal_forms.generic import BSModalDeleteView
 
 
@@ -29,11 +31,21 @@ class InvoiceList(LoginRequiredMixin, generic.ListView):
         context['filter'] = InvoiceFilter(self.request.GET, queryset=Invoice.objects.all())
         context['Invoices'] = context['filter'].qs
         context['total'] = Invoice.objects.all().count()
-        # context['issued'] = PreSalesOrder.objects.filter(status=0).count()
-        # context['produced'] = PreSalesOrder.objects.filter(status=1).count()
-        # context['delivered'] = PreSalesOrder.objects.filter(status=2).count()
-        # context['returned'] = PreSalesOrder.objects.filter(status=3).count()
-        # context['closed'] = PreSalesOrder.objects.filter(status=4).count()
+
+        date = datetime.date.today()
+        this_month = PreSalesOrder.objects.filter(issued_date__month=date.month, issued_date__year=date.year)
+        context['this_month'] = "Rs. " + str(this_month.aggregate(Sum('total_price'))['total_price__sum'])
+
+        if date.month == 12:
+            last_month = PreSalesOrder.objects.filter(issued_date__month=1, issued_date__year=date.year + 1).aggregate(Sum('total_price'))['total_price__sum']
+        else:
+            last_month = PreSalesOrder.objects.filter(issued_date__month=date.month + 1, issued_date__year=date.year).aggregate(Sum('total_price'))['total_price__sum']
+        
+        if str(last_month) != 'None':
+            context['last_month'] = "Rs. " +  str(last_month)
+        else:
+            context['last_month'] = "Rs. 0.00"
+
         context['create'] = 1
         context['segment'] = 'billing'
         return context
@@ -95,8 +107,8 @@ class InvoiceDocTemplate(LoginRequiredMixin, generic.CreateView):
                 )
                 product.save()
                 invoice.product_ids.add(product)
-                print(ref_product, product, invoice, product.product_id, ref_product.quantity, product.total_price)
             invoice.customer_id = so.customer_id
+            invoice.status = 1
             invoice.save()
 
         elif option == 1:
@@ -110,17 +122,26 @@ class InvoiceDocTemplate(LoginRequiredMixin, generic.CreateView):
                 )
                 product.save()
                 invoice.product_ids.add(product)
-                print(ref_product, product, invoice, product.product_id, ref_product.quantity, product.total_price)
             invoice.customer_id = pso.customer_id
+            invoice.status = 2
             invoice.save()
 
         elif option == 2:
             # generating invoice from manual formset
-            # if formset_form.is_valid():
-            #     for form_product in formset_form:
-            #         if form_product.is_valid():
-            #             form_product.save()
-            print("looping")
+            if formset_form.is_valid():
+                for form_product in formset_form:
+                    if form_product.is_valid() and form_product.cleaned_data != {}:
+                        if form_product.cleaned_data['product_id'] != None and form_product.cleaned_data['quantity'] != None:
+                            product = Invoice_Product(
+                                invoice_id = invoice,
+                                product_id = Product.objects.filter(name=form_product.cleaned_data['product_id']).first(),
+                                quantity = int(form_product.cleaned_data['quantity'])
+                            )
+                            product.save()
+                            invoice.product_ids.add(product)
+                            print(form_product.cleaned_data['product_id'], form_product.cleaned_data['quantity'],form_product.is_valid())
+                invoice.status = 0
+                invoice.save()
 
         return redirect('invoice-doc')
 

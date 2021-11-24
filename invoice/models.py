@@ -12,6 +12,12 @@ from authentication.models import BaseUser
 # Quotation Model
 class Invoice(models.Model):
 
+    STATUS_CHOICES = (
+        (0, 'Manual'),
+        (1, 'From Sales Order'),
+        (2, 'From Pre Sales Order')
+    )
+
     id = models.CharField(max_length=9, primary_key=True, blank=False)
     user_id = models.ForeignKey(BaseUser, blank=True, null=True, on_delete=models.SET_NULL)
     customer_id = models.ForeignKey(Customer, blank=True, null=True, on_delete=models.SET_NULL)
@@ -20,7 +26,7 @@ class Invoice(models.Model):
     sub_total_price = models.FloatField(blank=False, default=0.0)
     discount_persentage = models.FloatField(blank=False, default=0.0)
     issued_date = models.DateTimeField(auto_now=True, blank=True, null=True)
-    status = models.BooleanField(default=1)
+    status = models.IntegerField(choices=STATUS_CHOICES,default=0)
     po_no = models.CharField(max_length=12, blank=True)
     related_so = models.ForeignKey(SalesOrder, blank=True, null=True, on_delete=models.SET_NULL)
     related_pso = models.ForeignKey(PreSalesOrder, blank=True, null=True, on_delete=models.SET_NULL)
@@ -32,7 +38,6 @@ class Invoice(models.Model):
 
     def save(self, *args, **kwargs):
         # calculations
-        print('calculations')
         for product in self.product_ids.all():
             self.sub_total_price += product.total_price
         self.total_price = self.sub_total_price - (self.sub_total_price*(self.discount_persentage/100))

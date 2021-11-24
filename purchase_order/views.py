@@ -77,7 +77,7 @@ def create_po(request):
     # create = 1 for preview window
     context['create'] = 0
 
-    return redirect('/sales-order/', context)
+    return redirect('/purchase-order/', context)
 
 class po_view(generic.TemplateView):
     template_name = 'documents/purchase-order-doc.html'

@@ -103,17 +103,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body" style="height:650px;">
-                                <div class="overflow-auto Scroll" style="height:810px;">
+                            <div class="card-body" style="height:703px;">
+                                <div class="overflow-auto Scroll" style="height:710px;">
                                     {% for Invoice_ in Invoices %}
                                         <div class = "card cat-card border-left" >
                                             <div class = "card-header">
                                                 <div class="row">
                                                     <div class="col-7">
                                                         <div class="row">
-                                                            {% if Invoice_.status == 1 %}
-                                                                <div class="text-left font-weight-bold text-success"><span class="badge badge-pill badge-primary">Issued</span></div>
-                                                            {% endif %}
+                                                            <div class="text-left font-weight-bold text-success"><span class="badge badge-pill badge-primary">Issued</span></div>
                                                         </div>
                                                         <div class=" mt-2">
                                                             
@@ -131,6 +129,15 @@
                                                 <div class="row">
 
                                                     <div class="col-10 text-left text-muted">
+                                                        <div class="text-left font-weight-bold text-success">
+                                                        {% if Invoice_.status == 0 %}
+                                                            Manually Added
+                                                        {% elif Invoice_.status == 1%}
+                                                            From Sales Order : {{Invoice_.related_so.id}}
+                                                        {% elif Invoice_.status == 2%}
+                                                            From Pre Sales Order : {{Invoice_.related_pso.id}}
+                                                        {% endif %}
+                                                        </div>
                                                         <p class="card-text text-left mb-1 ">
                                                             Issued Date  : {{Invoice_.issued_date}}
                                                         </p>
@@ -162,7 +169,7 @@
                             <div class="col-xl-4 col-md-4 col-sm-6">
                                 <div class="card yearly-sales ">
                                     <div class="card-block">
-                                        <h6 class="mb-4">Total</h6>
+                                        <h6 class="mb-4">Total Invoices</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-9">
                                                 <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-layers text-c-blue f-30 m-r-10"></i>{{total}}</h3>
@@ -176,10 +183,10 @@
                              <div class="col-xl-4 col-md-4 col-sm-6">
                                 <div class="card yearly-sales ">
                                     <div class="card-block">
-                                        <h6 class="mb-4">Accepted</h6>
+                                        <h6 class="mb-4">This Month</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-9">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-file-text text-c-yellow f-30 m-r-10"></i>{{accepted}}</h3>
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-file-text text-c-yellow f-30 m-r-10"></i>{{this_month}}</h3>
                                             </div>
                                         </div>
                                         <div class=" m-t-30" style="height: 5px;">
@@ -190,10 +197,10 @@
                             <div class="col-xl-4 col-md-4 col-sm-6">
                                 <div class="card yearly-sales ">
                                     <div class="card-block">
-                                        <h6 class="mb-4">Rejected</h6>
+                                        <h6 class="mb-4">Last Month</h6>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-9">
-                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-anchor text-c-green f-30 m-r-10"></i>{{rejected}}</h3>
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-anchor text-c-green f-30 m-r-10"></i>{{last_month}}</h3>
                                             </div>
                                         </div>
                                         <div class=" m-t-30" style="height: 5px;">
