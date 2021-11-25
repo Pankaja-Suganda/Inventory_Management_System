@@ -20,6 +20,7 @@
     <body>
         <div class="my-0 {% if create == 1%}page{% endif %}" size="{% if create == 1%}A4{% endif %}">
             <div class="p-5">
+            
             {% if create == 0%}
                 <form class="" method="POST" action="" hx-post="{% url 'purchase-order-doc'%}">
                     {% csrf_token %}
@@ -111,23 +112,13 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="card-text pl-2 head-detail" style="font-weight:900;">SHIP TO</div>
-                                    {% if create == 1 %}
-                                        <div class="card-text pl-2 mt-2" style="font-weight:900;">{{user.first_name}} {{user.last_name}}</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">[Company Name]</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">[Address 1]</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">[Address 2]</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">[City]</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">[Phone]</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">[Fax]</div>
-                                    {% else %}
-                                        <div class="card-text pl-2 mt-2" style="font-weight:900;">{{user.first_name}} {{user.last_name}}</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">[Company Name]</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">[Address 1]</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">[Address 2]</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">[City]</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">[Phone]</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">[Fax]</div>
-                                    {% endif %}
+                                    <div class="card-text pl-2 mt-2" style="font-weight:900;">{{user.first_name}} {{user.last_name}}</div>
+                                    <div class="card-text pl-2 mt-0" style="font-weight:900;">{{company.company}}</div>
+                                    <div class="card-text pl-2 mt-0" style="font-weight:900;">{{company.Postal_Address_1}},</div>
+                                    <div class="card-text pl-2 mt-0" style="font-weight:900;">{{company.Postal_Address_2}},</div>
+                                    <div class="card-text pl-2 mt-0" style="font-weight:900;">{{company.Postal_city}}.</div>
+                                    <div class="card-text pl-2 mt-0" style="font-weight:900;">Mobile : {{company.mobile_number}}</div>
+                                    <div class="card-text pl-2 mt-0" style="font-weight:900;">E mail : {{company.email}}</div>
                                 </div>
                             </div>
                         </div>

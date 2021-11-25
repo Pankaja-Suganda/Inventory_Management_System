@@ -5,6 +5,8 @@ from django.views.generic.base import TemplateView
 from .models import PurchaseOrder, CMaterial
 from .filters import PurchaseOrderFilter
 from .forms import PurchaseOrderForm,  CMaterialForm, CMaterialFormSet, PurchaseOrderStatusForm
+
+from app.models import Company
 from django.contrib.auth.mixins import LoginRequiredMixin
 import datetime
 
@@ -86,6 +88,7 @@ class po_view(generic.TemplateView):
         context = super().get_context_data(**kwargs)
         if self.request.method == 'GET':
             po_id = self.request.path.rsplit('/', 1)[-1]
+            context['company'] = Company.objects.first()
             context['Order'] = PurchaseOrder.objects.filter(id=po_id)[0]
             context['other_count'] = range(context['Order'].material_ids.count()+1, (10+context['Order'].material_ids.count()) - context['Order'].material_ids.count())
         context['segment'] = 'purchase-order'
@@ -109,6 +112,7 @@ class PurchaseOrderDocTemplate(LoginRequiredMixin, generic.CreateView):
         context['po_id'] = PurchaseOrder.po_id()
         context['date'] = datetime.datetime.now()
         context['form_set'] = CMaterialFormSet() 
+        context['company'] = Company.objects.first()
 
         return context
 

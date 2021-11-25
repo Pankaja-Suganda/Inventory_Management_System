@@ -363,7 +363,7 @@
                                                 <div class="row">
                                                     <div class="col ">
                                                         {% if create == 0 %}
-                                                            <button onclick="print_click();" class="btn btn-primary float-right"><i class="material-icons md-36">local_printshop</i></button>
+                                                            <button onclick="document.title = 'My new title';print_click();" class="btn btn-primary float-right"><i class="material-icons md-36">local_printshop</i></button>
                                                         {% endif %}
                                                         <div class="embed-responsive embed-responsive-16by9">
                                                             <iframe id="printf" name="printf" class="embed-responsive-item" src=" {% if create == 0 %} {% url 'preview-po' PO_selected.id %} {% else %} {% url 'purchase-order-doc'%} {% endif %} "></iframe>
