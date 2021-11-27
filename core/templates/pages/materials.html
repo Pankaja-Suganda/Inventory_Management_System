@@ -86,18 +86,20 @@
                             <div class="list-title">
                                 <div class="row">
                                     <div class="col-8">
-                                        <form role="form" method="get" action="{% url 'categorys' c_category.id %}"class="form-horizontal">
-                                            {% csrf_token %}
-                                            <div class="row">
-                                                <div class="search-box col-8">
-                                                    <i class="material-icons">&#xE8B6;</i>
-                                                    {{ category_filter.form.name }}
+                                        {% if c_category %}
+                                            <form role="form" method="get" action="{% url 'categorys' c_category.id %}"class="form-horizontal">
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="search-box col-8">
+                                                        <i class="material-icons">&#xE8B6;</i>
+                                                        {{ category_filter.form.name }}
+                                                    </div>
+                                                    <div class="search-box col-1">
+                                                        <button style="display: none;" type="submit"></button>
+                                                    </div> 
                                                 </div>
-                                                <div class="search-box col-1">
-                                                    <button style="display: none;" type="submit"></button>
-                                                </div> 
-                                            </div>
-                                        </form>
+                                            </form>
+                                        {% endif %}
                                     </div>
                                     <div class="col-4">
                                         <button id ="create-category" class="btn btn-sm bg-success float-right text-light search-box"  title="Add New Category" type="button" name="button" >
@@ -332,26 +334,28 @@
                                             <div class="table-title">
                                                 <div class="row">
                                                     <div class="col-8">
-                                                        <form role="form" method="get" action="{% url 'detail_material' c_material.id%}"class="form-horizontal">
-                                                            {% csrf_token %}
-                                                            <div class="row">
-                                                                <div class="search-box col-3">
-                                                                    <i class="material-icons">&#xE8B6;</i>
-                                                                    {{ material_filter.form.id }}
+                                                        {% if c_material%}
+                                                            <form role="form" method="get" action="{% url 'detail_material' c_material.id%}"class="form-horizontal">
+                                                                {% csrf_token %}
+                                                                <div class="row">
+                                                                    <div class="search-box col-3">
+                                                                        <i class="material-icons">&#xE8B6;</i>
+                                                                        {{ material_filter.form.id }}
+                                                                    </div>
+                                                                    <div class="search-box col-3">
+                                                                        <i class="material-icons">&#xE8B6;</i>
+                                                                        {{ material_filter.form.name }}
+                                                                    </div>
+                                                                    <div class="search-box col-3">
+                                                                        <i class="material-icons">&#xE8B6;</i>
+                                                                        {{ material_filter.form.state }}
+                                                                    </div>
+                                                                    <div class="search-box col-4">
+                                                                        <button style="display: none;" type="submit"></button>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="search-box col-3">
-                                                                    <i class="material-icons">&#xE8B6;</i>
-                                                                    {{ material_filter.form.name }}
-                                                                </div>
-                                                                <div class="search-box col-3">
-                                                                    <i class="material-icons">&#xE8B6;</i>
-                                                                    {{ material_filter.form.state }}
-                                                                </div>
-                                                                <div class="search-box col-4">
-                                                                    <button style="display: none;" type="submit"></button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
+                                                            </form>
+                                                        {% endif %}
                                                     </div>
                                                     <div class="col-4">
                                                         <button id ="create-material" class="btn btn-md bg-success float-right text-light search-box"  title="Add New Material" type="button" name="button" >
@@ -388,7 +392,7 @@
                                                                 <td class="card-title text-danger">Out Stock</td> 
                                                             {% endif %}
 
-                                                            <td><a  href="{% url 'detail_supplier' material.supplier_id.id %}">{{ material.supplier_id.company }}</a></td>
+                                                            <td><a  href="{% if material.supplier_id %}{% url 'detail_supplier' material.supplier_id.id %}{% endif %}">{{ material.supplier_id.company }}</a></td>
                                                             <td>{{ material.shell_id.id }}</td>
                                                             <td>{{ material.category_id.name }}</td>
                                                             <td>

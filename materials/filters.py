@@ -94,6 +94,7 @@ class MaterialFilter(FilterSet):
 
     shell_id = django_filters.ChoiceFilter(choices=Shell.objects.all(),
         field_name='shell_id',
+        required=False, 
         widget=forms.Select(
             attrs={
                 "placeholder" : "By Shell",                

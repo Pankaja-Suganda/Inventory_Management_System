@@ -253,6 +253,7 @@ class MaterialsCreate(BSModalModelForm):
     shell_id = forms.ModelChoiceField(
         queryset = Shell.objects.all(),
         label='Select Shell',
+        required=False, 
         widget=forms.Select(
             attrs={
                 "placeholder" : "Shell",                
@@ -330,7 +331,7 @@ class MaterialsUpdate(BSModalModelForm):
     shell_id = forms.ModelChoiceField(
         queryset = Shell.objects.all(),
         label='Select Shell',
-        help_text='Required',
+        required=False, 
         widget=forms.Select(
             attrs={
                 "placeholder" : "Shell",                
