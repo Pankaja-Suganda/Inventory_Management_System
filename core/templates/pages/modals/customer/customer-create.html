@@ -27,8 +27,8 @@
             <hr>
             <div class="row">
                 <div class="form-group col-md-6">
-
                     {{form.id.label}} :
+                    {{form.id.as_hidden}}
                     <div class="input-group">
                         <input type="text" value="{{generated_id}}" name={{form.id.name}} class="form-control" required="" readonly='True' id="{{form.id.id_for_label  }}">
                     </div>

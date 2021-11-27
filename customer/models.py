@@ -49,12 +49,12 @@ class Customer(models.Model):
         id_no = shortuuid.ShortUUID(alphabet="0123456789")
         full_id = 'C'+ str( id_no.random(length=6))
         check_id = Customer.objects.filter(id=full_id)
-
+        print(full_id)
         while(check_id.exists()):
             id = shortuuid.ShortUUID(alphabet="0123456789")
             full_id = 'C'+ str( id_no.random(length=6))
             check_id = Customer.objects.filter(id=full_id)
-
+            print(full_id)
         return full_id
     
     class Meta:

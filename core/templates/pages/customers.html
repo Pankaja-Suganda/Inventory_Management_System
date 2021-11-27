@@ -57,7 +57,7 @@
                                     <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
                                     data-parent="#accordionEx">
                                         <div class="card-body ">
-                                            {% if customers %}
+                                            {% if c_customer %}
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="fs-6 text-muted">First Name :</div>
@@ -123,7 +123,7 @@
                                     <div id="collapseTwo2" class="collapse" role="tabpanel" aria-labelledby="headingTwo2"
                                     data-parent="#accordionEx">
                                         <div class="card-body">
-                                            {% if customer %}
+                                            {% if c_customer %}
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="fs-6 text-muted">Mobile Number :</div>
@@ -358,7 +358,7 @@
                                             <div class="table-title">
                                                 <div class="row">
                                                     <div class="col-8">
-                                                        {% if customers %}
+                                                        {% if c_customer %}
                                                             <form role="form" method="get" action="{% url 'detail_customer' c_customer.id%}"class="form-horizontal">
                                                                 {% csrf_token %}
                                                                 <div class="row">
@@ -388,16 +388,16 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            {% if customers %}
-                                                <table class="table table-striped table-hover " style="table-layout:fixed;">
+                                            {% if c_customer %}
+                                                <table class="table table-striped table-hover " style="table-layout:fixed; min-width:500px;">
                                                     <thead>
                                                         <tr>
-                                                            <th>#</th>
+                                                            <th style="width: 10%" >#</th>
                                                             <th>Company </th>
                                                             <th>Contact</th>
                                                             <th>Status </th>
                                                             <th>Orders </th>
-                                                            <th>Last Order </th>
+                                                            <th style="width: 20%">Last Order </th>
                                                             <th>Actions</th>
                                                         </tr>
                                                     </thead>
@@ -451,7 +451,8 @@
                                                 <div class="card-body media align-items-center">
                                                     <img src="/static/assets/images/customer/customer-unavailable.png" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
                                                 </div>
-                                                <h3 class="text-center text-muted">No any registered customers here</h3>
+                                                <h3 class="text-center text-muted">There are no registered customers here</h3>
+                                                <p class="text-center text-muted">Hey, you can register a new customer</p>
                                             {% endif %}
                                         </div>
                                     </div>  
