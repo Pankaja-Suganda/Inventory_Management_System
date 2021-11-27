@@ -31,7 +31,11 @@ class CustomersList(LoginRequiredMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
         count = Customer.objects.count()
         context['num_of_objects'] = count
-        context['c_customer'] = Customer.objects.first()
+        if count >= 0:
+            context['c_customer'] = Customer.objects.first()
+        else:
+            context['c_customer'] = None
+
         context['filter'] = CustomerFilter(self.request.GET, queryset=Customer.objects.all())
         context['segment'] = 'customers'
         if not count == 0:

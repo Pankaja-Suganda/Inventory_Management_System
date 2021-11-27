@@ -72,8 +72,8 @@ class Shell(models.Model):
 # Materials Model
 class Materials(models.Model):
     STATUS_CHOICES = (
-        (0, 'In Stock'),
-        (1, 'Out Stock'),
+        (1, 'In Stock'),
+        (0, 'Out Stock'),
     )
 
     id = models.CharField(max_length=12, primary_key=True, blank=False)
@@ -82,7 +82,7 @@ class Materials(models.Model):
     unit_price =models.FloatField(blank=False)
     quatity = models.PositiveIntegerField( blank=False, default=0)
     stock_margin = models.IntegerField( blank=False, default=0)
-    status = models.IntegerField(choices=STATUS_CHOICES, default=0)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=1)
     category_id = models.ForeignKey(Categories, blank=True, null=True, on_delete=models.SET_NULL)
     shell_id = models.ForeignKey(Shell, blank=True, null=True, on_delete=models.SET_NULL)
     supplier_id = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.SET_NULL)
