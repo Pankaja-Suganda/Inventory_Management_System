@@ -17,7 +17,7 @@
                             <h5 class="m-b-10">Materials</h5>
                         </div>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/dashboard/"><i class="feather icon-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="javascript:">Inventory</a></li>
                             <li class="breadcrumb-item"><a href="javascript:">Materials</a></li>
                         </ul>
@@ -82,7 +82,206 @@
             <div class="page-wrapper">
                 <div class = "row">
                     <div class="col-sm-12 col-md-12 col-xl-3" style="height:100px">
-                        <div class = "card">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link {% if tab == 0 %} active {% endif %}" id="category-tab" data-toggle="tab" href="#category" role="tab" aria-controls="category" aria-selected="true">Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if tab == 1 %} active {% endif %}" id="size-tab" data-toggle="tab" href="#size" role="tab" aria-controls="size" aria-selected="false">Sizes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if tab == 2 %} active {% endif %}" id="color-tab" data-toggle="tab" href="#color" role="tab" aria-controls="color" aria-selected="false">Colors</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane {% if tab == 0 %} active {% endif %}" id="category" role="tabpanel" aria-labelledby="category-tab">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <form role="form" method="get" action="" class="form-horizontal">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="value" value="0">
+                                            <div class="row">
+                                                <div class="search-box col-8">
+                                                    <i class="material-icons">&#xE8B6;</i>
+                                                    {{ Category_filter.form.name }}
+                                                </div>
+                                                <div class="search-box col-1">
+                                                    <button style="display: none;" type="submit"></button>
+                                                </div> 
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-4">
+                                        <button id ="create-category" class="btn btn-sm bg-success float-right text-light"  title="Add New Category" type="button" name="button" >
+                                            <span class="material-icons" style="font-size:18px">category</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class = "">
+                                    <div class="overflow-auto Scroll">
+                                        {% for category in Categories %}
+                                            <div class = "card cat-card border-left" >
+                                                <div class = "card-header">
+                                                    <div class="row">
+                                                        <div class="col-7">
+                                                            <div class="card-title">Name :  {{ category.name }}</div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <div class="card-title">Id : {{ category.id }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="card-text">  {{category.description}} </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-9"></div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="update-category bs-modal settings" title="Update"  data-form-url="{% url 'update_product_category' category.id %}">
+                                                                <i class="material-icons update">update</i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="delete-category bs-modal delete" title="Delete" data-form-url="{% url 'delete_product_category' category.id %}">
+                                                                <span class="material-icons delete">delete</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane {% if tab == 1 %} active {% endif %}" id="size" role="tabpanel" aria-labelledby="size-tab">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <form role="form" method="get" action=""class="form-horizontal">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="value" value="1">
+                                            <div class="row">
+                                                <div class="search-box col-8">
+                                                    <i class="material-icons">&#xE8B6;</i>
+                                                    {{ Size_filter.form.name }}
+                                                </div>
+                                                <div class="search-box col-1">
+                                                    <button style="display: none;" type="submit"></button>
+                                                </div> 
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-4">
+                                        <button id ="create-size" class="btn btn-sm bg-success float-right text-light"  title="Add New Size" type="button" name="button" >
+                                            <span class="material-icons" style="font-size:18px">photo_size_select_small</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class = "">
+                                    <div class="overflow-auto Scroll">
+                                        {% for size in Sizes %}
+                                            <div class = "card cat-card border-left" >
+                                                <div class = "card-header">
+                                                    <div class="row">
+                                                        <div class="col-7">
+                                                            <div class="card-title">Name :  {{ size.name }}</div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <div class="card-title">Id : {{ size.id }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="card-text">  {{size.description}} </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-9"></div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="update-size bs-modal settings" title="Update"  data-form-url="{% url 'update_size' size.id %}">
+                                                                <i class="material-icons update">update</i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="delete-size bs-modal delete" title="Delete" data-form-url="{% url 'delete_size' size.id %}">
+                                                                <span class="material-icons delete">delete</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane {% if tab == 2 %} active {% endif %}" id="color" role="tabpanel" aria-labelledby="color-tab">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <form role="form" method="get" action="" class="form-horizontal">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="value" value="2">
+                                            <div class="row">
+                                                <div class="search-box col-8">
+                                                    <i class="material-icons">&#xE8B6;</i>
+                                                    {{ Color_filter.form.name }}
+                                                </div>
+                                                <div class="search-box col-1">
+                                                    <button style="display: none;" type="submit"></button>
+                                                </div> 
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-4">
+                                        <button id ="create-color" class="btn btn-sm bg-success float-right text-light"  title="Add New Color" type="button" name="button" >
+                                            <span class="material-icons" style="font-size:18px">palette</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class = "">
+                                    <div class="overflow-auto Scroll">
+                                        {% for color in Colors %}
+                                            <div class = "card cat-card border-left" >
+                                                <div class = "card-header">
+                                                    <div class="row">
+                                                        <div class="col-7">
+                                                            <div class="card-title">Name :  {{ color.name }}</div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <div class="card-title">Id : {{ color.id }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <span class="dot text-center" style="background-color:{{ color.color}}"></span>
+                                                        </div>
+                                                        <div class="col-9">
+                                                            <p class="card-text">  {{color.description}} </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-9"><div class="font-weight-bold">{{ color.color}}</div></div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="update-color bs-modal settings" title="Update"  data-form-url="{% url 'update_color' color.id %}">
+                                                                <i class="material-icons update">update</i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="delete-color bs-modal delete" title="Delete" data-form-url="{% url 'delete_color' color.id %}">
+                                                                <span class="material-icons delete">delete</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% comment %} <div class = "card">
                             <div class="list-title">
                                 <div class="row">
                                     <div class="col-8">
@@ -142,7 +341,7 @@
                                     </div>
                                 {% endfor %}
                             </div>
-                        </div>
+                        </div> {% endcomment %}
                     </div>
                     <div class="col-sm-12 col-md-12 col-xl-9">
                         <div class = "row">

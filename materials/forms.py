@@ -1,9 +1,93 @@
 from django import forms
-from .models import Shell, Categories, Materials
+from .models import Shell, Categories, Materials, Color, Size
 from supplier.models import Supplier
 from authentication.models import BaseUser
 import shortuuid
 from bootstrap_modal_forms.forms import BSModalModelForm
+
+class SizeForm(BSModalModelForm):
+
+    id = forms.CharField(
+        label='Size Id',
+        widget=forms.TextInput(
+            attrs={               
+                "class": "form-control",
+                "readonly": True
+            }
+        ))
+
+    name = forms.CharField(
+        label='Enter the Size',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "Name of the Size ",                
+                "class": "form-control"
+            }
+        ))
+
+    description = forms.CharField(
+        label='Enter the Description of Size',
+        help_text='Required',
+        widget=forms.Textarea(
+            attrs={
+                "placeholder" : "Description of size",                
+                "class": "form-control"
+            }
+        ))
+
+    class Meta:
+        model = Size
+        fields = ('id', 'name', 'description')
+
+class ColorForm(BSModalModelForm):
+
+    id = forms.CharField(
+        label='Color Id',
+        widget=forms.TextInput(
+            attrs={               
+                "class": "form-control",
+                "readonly": True
+            }
+        ))
+
+    name = forms.CharField(
+        label='Enter the Color Name',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "Name of the Color ",                
+                "class": "form-control"
+            }
+        ))
+
+    color = forms.CharField(
+        label='Select the Color Name',
+        help_text='Required',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "Name of the Color ",                
+                "class": "form-control",
+                "type" : "color",
+                "height" : "50px"
+
+            }
+        ))
+
+
+    description = forms.CharField(
+        label='Enter the Description of Color',
+        help_text='Required',
+        widget=forms.Textarea(
+            attrs={
+                "placeholder" : "Description of Color",                
+                "class": "form-control"
+            }
+        ))
+
+    class Meta:
+        model = Color
+        fields = ('id', 'name', 'color', 'description')
 
 class CategoryCreate(BSModalModelForm):
 
@@ -271,9 +355,31 @@ class MaterialsCreate(BSModalModelForm):
             }
         ))
 
+    color_id = forms.ModelChoiceField(
+        queryset = Color.objects.all(),
+        label='Select Color',
+        help_text='Required',
+        widget=forms.Select(
+            attrs={
+                "placeholder" : "Product Color",                
+                "class": "form-control"
+            }
+        ))
+
+    Size_id = forms.ModelChoiceField(
+        queryset = Size.objects.all(),
+        label='Select Size',
+        help_text='Required',
+        widget=forms.Select(
+            attrs={
+                "placeholder" : "Product Size",                
+                "class": "form-control"
+            }
+        ))
+
     class Meta:
         model = Materials
-        fields = ('id', 'name', 'description', 'unit_price', 'stock_margin', 'category_id', 'shell_id', 'supplier_id')
+        fields = ('id', 'name', 'description', 'unit_price', 'stock_margin', 'category_id', 'shell_id', 'supplier_id', 'color_id', 'Size_id')
 
 class MaterialsUpdate(BSModalModelForm):
 
@@ -350,8 +456,29 @@ class MaterialsUpdate(BSModalModelForm):
             }
         ))
 
+    color_id = forms.ModelChoiceField(
+        queryset = Color.objects.all(),
+        label='Select Color',
+        help_text='Required',
+        widget=forms.Select(
+            attrs={
+                "placeholder" : "Product Color",                
+                "class": "form-control"
+            }
+        ))
+
+    Size_id = forms.ModelChoiceField(
+        queryset = Size.objects.all(),
+        label='Select Size',
+        help_text='Required',
+        widget=forms.Select(
+            attrs={
+                "placeholder" : "Product Size",                
+                "class": "form-control"
+            }
+        ))
 
     class Meta:
         model = Materials
         fields = ('name', 'description', 'unit_price', 'category_id', 'shell_id',
-         'supplier_id', 'stock_margin')
+         'supplier_id', 'stock_margin', 'color_id', 'Size_id')

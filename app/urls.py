@@ -11,6 +11,7 @@ urlpatterns = [
 
     # The home page
     path('', views.index, name='home'),
+    path('dashboard/', DashboardTemplate.as_view(), name="dashboard"),
     path('customers/', CustomerTemplate.as_view(), name="customers"),
     path('suppliers/', SupplierTemplate.as_view(), name="suppliers"),
     path('settings/', SettingsTemplate.as_view(), name="settings"),

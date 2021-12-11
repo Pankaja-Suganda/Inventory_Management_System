@@ -17,6 +17,7 @@ urlpatterns = [
     path("", include("pre_sales_order.urls")),     # pre_sales_order url
     path("", include("quotation.urls")),     # quotation url
     path("", include("invoice.urls")),     # invoice url
+    path("", include("dashboard.urls")),     # Dashboard url
     path("", include("stock.urls")),             # stock urls
     
     path("", include("app.urls")),          # UI Kits Html files  

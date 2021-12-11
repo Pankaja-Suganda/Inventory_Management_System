@@ -1,0 +1,246 @@
+{% extends "layouts/base.html" %} {% block title %} Materials {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/assets/plugins/chart-morris/css/morris.css"> {% endblock stylesheets %} {% block content %}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Dashboard</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/dashboard/"><i class="feather icon-home"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <div class="main-body">
+            <!-- Page content -->
+            <div class="page-wrapper">
+                <div class="row">
+                    <script src="/static/assets/plugins/jquery/js/jquery.min.js" type="text/javascript"></script>
+                    <script src="/static/assets/plugins/chart-morris/js/raphael.min.js"></script>
+                    <script src="/static/assets/plugins/chart-morris/js/morris.min.js"></script>
+                    <div class="col-sm-12 col-md-6 col-xl-9">
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6 col-sm-12">
+                                <div class="card text-center">
+                                    <div class="card-header" style="height: 60px;">
+                                        <div class="card-text"><a href="/items/" title="see your stocks here" class="nav-link text-dark">Stocks</a></div>
+                                    </div>
+                                    <div class="card-body align-items-center">
+                                        <div class="row text-center">
+                                            <div class="col d-flex justify-content-center m-0">{{ donut_chart_1.as_html }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row ">
+                                            <div class="col-6 border-right">
+                                                <h4 class="f-w-300 d-flex text-center align-items-center  m-b-0">
+                                                    <i class="feather icon-trending-up text-c-green f-20 m-r-10"></i>12
+                                                </h4>
+                                                <div class="text-center text-success" style="font-size: 12px">In Stock</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <h4 class="f-w-300 d-flex text-center align-items-center  m-b-0">
+                                                    <i class="feather icon-trending-down text-c-red f-20 m-r-10"></i>8
+                                                </h4>
+                                                <div class="text-center text-danger" style="font-size: 12px">Out Stock</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-sm-12">
+                                <div class="card text-center">
+                                    <div class="card-header" style="height: 60px;">
+                                        <div class="card-text"><a href="/materials/" title="see your materials here" class="nav-link text-dark">Materials</a></div>
+                                    </div>
+                                    <div class="card-body align-items-center">
+                                        <div class="row text-center">
+                                            <div class="col d-flex justify-content-center m-0">{{ donut_chart_2.as_html }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col-6 border-right">
+                                                <h4 class="f-w-300 d-flex text-center align-items-center  m-b-0">
+                                                    <i class="feather icon-trending-up text-c-green f-20 m-r-10"></i>10
+                                                </h4>
+                                                <div class="text-center text-success" style="font-size: 12px">In Stock</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <h4 class="f-w-300 d-flex text-center align-items-center  m-b-0">
+                                                    <i class="feather icon-trending-down text-c-red f-20 m-r-10"></i>8
+                                                </h4>
+                                                <div class="text-center text-danger" style="font-size: 12px">Out Stock</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-sm-12">
+                                <div class="card text-center">
+                                    <div class="card-header" style="height: 60px;">
+                                        <div class="card-text "><a href="/purchase-order/" title="see your purchase orders here" class="nav-link text-dark">Purchase Orders</a></div>
+                                    </div>
+                                    <div class="card-body align-items-center">
+                                        <div class="row text-center">
+                                            <div class="col d-flex justify-content-center">{{ donut_chart_3.as_html }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col-6 border-right">
+                                                <h4 class="f-w-300 d-flex text-center align-items-center  m-b-0">
+                                                    <i class="feather icon-file-text text-c-blue f-20 m-r-10"></i>10
+                                                </h4>
+                                                <div class="text-center text-primary" style="font-size: 12px">Issued</div>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <h4 class="f-w-300 d-flex text-center align-items-center  m-b-0">
+                                                    <i class="feather icon-file text-c-yellow  text-c-red f-20 m-r-10"></i>8
+                                                </h4>
+                                                <div class="text-center text-warning" style="font-size: 12px">Received</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-sm-12">
+                                <div class="card text-center ">
+                                    <div class="card-header" style="height: 60px;">
+                                        <div class="card-text"><a href="/sales-order/" title="see your sales orders here" class="nav-link text-dark">Sales Orders</a></div>
+                                    </div>
+                                    <div class="card-body align-items-center">
+                                        <div class="row text-center">
+                                            <div class="col d-flex justify-content-center m-0">{{ donut_chart_4.as_html }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col-6 border-right">
+                                                <h4 class="f-w-300 d-flex text-center align-items-center  m-b-0">
+                                                    <i class="feather icon-file-text text-c-green f-20 m-r-10"></i>10
+                                                </h4>
+                                                <div class="text-center text-success" style="font-size: 12px">Issued</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <h4 class="f-w-300 d-flex text-center align-items-center  m-b-0">
+                                                    <i class="feather icon-file text-c-yellow f-20 m-r-10"></i>8
+                                                </h4>
+                                                <div class="text-center text-warning" style="font-size: 12px">Produced</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <strong>Summery Details</strong>
+                                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="pills-overall-tab" data-toggle="pill" href="#pills-overall" role="tab" aria-controls="pills-overall" aria-selected="true">Overall</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-invoices-tab" data-toggle="pill" href="#pills-invoices" role="tab" aria-controls="pills-invoices" aria-selected="false">Invoices</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-stocks-tab" data-toggle="pill" href="#pills-stocks" role="tab" aria-controls="pills-stocks" aria-selected="false">Stocks</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-materials-tab" data-toggle="pill" href="#pills-materials" role="tab" aria-controls="pills-materials" aria-selected="false">Materials</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-purchases-tab" data-toggle="pill" href="#pills-purchases" role="tab" aria-controls="pills-purchases" aria-selected="false">Purchase Orders</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-sales-tab" data-toggle="pill" href="#pills-sales" role="tab" aria-controls="pills-sales" aria-selected="false">Sales Orders</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="pills-tabContent">
+                                    <div class="tab-pane fade show active" id="pills-overall" role="tabpanel" aria-labelledby="pills-overall-tab">
+                                        {{line_chart.as_html}}
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-invoices" role="tabpanel" aria-labelledby="pills-invoices-tab">
+                                        Invoices
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-stocks" role="tabpanel" aria-labelledby="pills-stocks-tab">
+                                        {{bar_chart.as_html}}
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-materials" role="tabpanel" aria-labelledby="pills-materials-tab">
+                                        Materials
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-purchases" role="tabpanel" aria-labelledby="pills-purchases-tab">
+                                        Purchases
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-sales" role="tabpanel" aria-labelledby="pills-sales-tab">
+                                        Sales
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-xl-3">
+                        <div class="card mt-1">
+                            <div class="card-header text-center" style="height: 60px;">
+                                User
+                            </div>
+                            <div class="card-body">
+                                <!-- Current User Details  -->
+                                <div class="card-body media align-items-center">
+                                    <img id='img-profile' src="{{ user.profile_img.url }}" width="200px" alt="" class="d-block rounded-circle mx-auto img-responsive">
+                                </div>
+
+                                <div class="text-center text-capitalize">{{ user.role }}</div>
+                                <h3 class="text-center text-primary ">{{ user.first_name }} {{ user.last_name }}</h3>
+
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header text-center" style="height: 60px;">
+                                Notifications
+                            </div>
+                            <div class="card-body">
+                                {% if messages %}
+                                    {% for msg in messages %}
+                                        {% if messages.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                                            <div role="alert" class="alert alert-info"><strong>Info! </strong>{{ msg  }}</div>
+                                        {% endif %}
+                                        {% if messages.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                            <div role="alert" class="alert alert-success"><strong>Success! </strong>{{ msg  }}</div>
+                                        {% endif %}
+                                        {% if messages.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                            <div role="alert" class="alert alert-error"><strong>Error! </strong>{{ msg  }}</div>
+                                        {% endif %}
+                                        {% if messages.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                                            <div role="alert" class="alert alert-warning"><strong>Warning! </strong>{{ msg  }}</div>
+                                        {% endif %}
+                                    {% endfor %} 
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script src="/static/assets/plugins/jquery/js/jquery.min.js" type="text/javascript"></script>
+                <script src="/static/assets/plugins/chart-morris/js/raphael.min.js"></script>
+                <script src="/static/assets/plugins/chart-morris/js/morris.min.js"></script>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %} {% endblock javascripts %}
