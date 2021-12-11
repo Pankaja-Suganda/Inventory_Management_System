@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.core.paginator import Paginator
 from .models import Materials
-from .filters import CategoryFilter, MaterialFilter, ShellFilter
+from .filters import CategoryFilter, MaterialFilter, ShellFilter, SizeFilter, ColorFilter
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
 import json
@@ -117,12 +117,49 @@ class MaterialsList(LoginRequiredMixin, generic.ListView):
 
 
         context['segment'] = 'materials'
+        context['tab'] = 0
+
+        if self.request.method == 'GET':
+            if self.request.GET.get('tab') != None:
+                context['tab'] = int(self.request.GET.get('tab'))
+            elif self.request.GET.get('value') != None:
+                context['tab'] = int(self.request.GET.get('value'))
+        
+        if self.request.GET.get('material-filter') == None :
+            context['material_filter'] = MaterialFilter(None, queryset=Materials.objects.all())
+            if context['tab'] == 0:
+                context['Category_filter'] = CategoryFilter(self.request.GET or None, queryset=Categories.objects.all())
+                context['Color_filter'] = ColorFilter(None, queryset=Color.objects.all())
+                context['Size_filter'] = SizeFilter( None, queryset=Size.objects.all())
+
+            elif context['tab'] == 1:
+                context['Category_filter'] = CategoryFilter(None, queryset=Categories.objects.all())
+                context['Color_filter'] = ColorFilter(None, queryset=Color.objects.all())
+                context['Size_filter'] = SizeFilter(self.request.GET or None, queryset=Size.objects.all())
+
+            elif context['tab'] == 2:
+                context['Category_filter'] = CategoryFilter(None, queryset=Categories.objects.all())
+                context['Color_filter'] = ColorFilter(self.request.GET or None, queryset=Color.objects.all())
+                context['Size_filter'] = SizeFilter(None, queryset=Size.objects.all())
+        else:
+            context['material_filter'] = MaterialFilter(self.request.GET or None, queryset=Materials.objects.all())
+            context['Category_filter'] = CategoryFilter(None, queryset=Categories.objects.all())
+            context['Color_filter'] = ColorFilter(None, queryset=Color.objects.all())
+            context['Size_filter'] = SizeFilter(None, queryset=Size.objects.all())
+
+
+
+
+
+
         context['num_of_objects'] = count
         context['c_material'] = Materials.objects.first()
         context['c_category'] = Categories.objects.first()
-        context['material_filter'] = MaterialFilter(self.request.GET, queryset=Materials.objects.all())
-        context['category_filter'] = CategoryFilter()
-        context['categories'] = Categories.objects.all()
+        # context['material_filter'] = MaterialFilter(self.request.GET, queryset=Materials.objects.all())
+        # context['category_filter'] = CategoryFilter()
+        context['Categories'] = context['Category_filter'].qs
+        context['Colors'] = context['Color_filter'].qs
+        context['Sizes'] = context['Size_filter'].qs
         return context
 
 # material Details
@@ -221,7 +258,7 @@ class MaterialCreateView(LoginRequiredMixin, BSModalCreateView):
 class MaterialUpdateView(LoginRequiredMixin, BSModalUpdateView):
     model = Materials
     template_name = 'pages/modals/materials/material-update.html'
-    form_class = MaterialsUpdate
+    form_class = MaterialsCreate
     success_message = 'Success: Selected Material was updated.'
     success_url = reverse_lazy('materials')
     failure_url = reverse_lazy('materials')
@@ -236,6 +273,7 @@ class MaterialDeleteView(LoginRequiredMixin, BSModalDeleteView):
 
 # category Create
 class CategoryCreateView(LoginRequiredMixin, BSModalCreateView):
+    model = Categories
     template_name = 'pages/modals/materials/category-create.html'
     form_class = CategoryCreate
     success_message = 'Success: New Category was created.'
@@ -266,6 +304,7 @@ class CategoryDeleteView(LoginRequiredMixin, BSModalDeleteView):
 
 # shell Create
 class ShellCreateView(LoginRequiredMixin, BSModalCreateView):
+    model = Shell
     template_name = 'pages/modals/materials/shell-create.html'
     form_class = ShellCreate
     success_message = 'Success: New Shell was created.'
@@ -293,3 +332,65 @@ class ShellDeleteView(LoginRequiredMixin, BSModalDeleteView):
     success_message = 'Success: Selected Shell was deleted.'
     success_url = reverse_lazy('shells')
     failure_url = reverse_lazy('shells')
+
+# Color Create
+class ColorCreateView(LoginRequiredMixin, BSModalCreateView):
+    model = Color
+    template_name = 'pages/modals/materials/color-create.html'
+    form_class = ColorForm
+    success_message = 'Success: New Color was created.'
+    success_url = '/materials/?tab=2'
+    failure_url = reverse_lazy('materials')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['generated_id'] = Color.color_id()
+        return context
+
+# Color Update
+class ColorUpdateView(LoginRequiredMixin, BSModalUpdateView):
+    model = Color
+    template_name = 'pages/modals/materials/color-update.html'
+    form_class = ColorForm
+    success_message = 'Success: Selected Color was updated.'
+    success_url = '/materials/?tab=2'
+    failure_url = reverse_lazy('materials')
+
+# Color Delete
+class ColorDeleteView(LoginRequiredMixin, BSModalDeleteView):
+    model = Color
+    template_name = 'pages/modals/materials/color-delete.html'
+    success_message = 'Success: Selected Color was deleted.'
+    success_url = '/materials/?tab=2'
+    failure_url = reverse_lazy('materials')
+
+# size Create
+class SizeCreateView(LoginRequiredMixin, BSModalCreateView):
+    model = Size
+    template_name = 'pages/modals/materials/size-create.html'
+    form_class = SizeForm
+    success_message = 'Success: New Size was created.'
+    success_url = '/materials/?tab=1'
+    failure_url = reverse_lazy('materials')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['generated_id'] = Size.size_id()
+        return context
+
+# size Update
+class SizeUpdateView(LoginRequiredMixin, BSModalUpdateView):
+    model = Size
+    template_name = 'pages/modals/materials/size-update.html'
+    form_class = SizeForm
+    success_message = 'Success: Selected Size was updated.'
+    success_url = '/materials/?tab=1'
+    failure_url = reverse_lazy('materials')
+
+# size Delete
+class SizeDeleteView(LoginRequiredMixin, BSModalDeleteView):
+    model = Size
+    template_name = 'pages/modals/materials/size-delete.html'
+    success_message = 'Success: Selected Size was deleted.'
+    success_url = '/materials/?tab=1'
+    failure_url = reverse_lazy('materials')

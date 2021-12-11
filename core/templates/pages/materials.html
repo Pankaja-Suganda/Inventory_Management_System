@@ -59,7 +59,6 @@
                 .search-box {
                     position: relative;        
                     float: right;
-                    margin-top: 30px;
                 }
                 .search-box .in{
                     height: 44px;
@@ -77,6 +76,12 @@
                     font-size: 19px;
                     top: 15px;
                     left: 25px;
+                }
+                .dot{
+                    height: 15px;
+                    width: 15px;
+                    border-radius: 50%;
+                    display: inline-block;
                 }
             </style>
             <div class="page-wrapper">
@@ -141,12 +146,12 @@
                                                     <div class="row">
                                                         <div class="col-9"></div>
                                                         <div class="col-1">
-                                                            <a type="button" class="update-category bs-modal settings" title="Update"  data-form-url="{% url 'update_product_category' category.id %}">
+                                                            <a type="button" class="update-category bs-modal settings" title="Update"  data-form-url="{% url 'update_category' category.id %}">
                                                                 <i class="material-icons update">update</i>
                                                             </a>
                                                         </div>
                                                         <div class="col-1">
-                                                            <a type="button" class="delete-category bs-modal delete" title="Delete" data-form-url="{% url 'delete_product_category' category.id %}">
+                                                            <a type="button" class="delete-category bs-modal delete" title="Delete" data-form-url="{% url 'delete_category' category.id %}">
                                                                 <span class="material-icons delete">delete</span>
                                                             </a>
                                                         </div>
@@ -201,12 +206,12 @@
                                                     <div class="row">
                                                         <div class="col-9"></div>
                                                         <div class="col-1">
-                                                            <a type="button" class="update-size bs-modal settings" title="Update"  data-form-url="{% url 'update_size' size.id %}">
+                                                            <a type="button" class="update-size bs-modal settings" title="Update"  data-form-url="{% url 'material_update_size' size.id %}">
                                                                 <i class="material-icons update">update</i>
                                                             </a>
                                                         </div>
                                                         <div class="col-1">
-                                                            <a type="button" class="delete-size bs-modal delete" title="Delete" data-form-url="{% url 'delete_size' size.id %}">
+                                                            <a type="button" class="delete-size bs-modal delete" title="Delete" data-form-url="{% url 'material_delete_size' size.id %}">
                                                                 <span class="material-icons delete">delete</span>
                                                             </a>
                                                         </div>
@@ -264,12 +269,12 @@
                                                     <div class="row">
                                                         <div class="col-9"><div class="font-weight-bold">{{ color.color}}</div></div>
                                                         <div class="col-1">
-                                                            <a type="button" class="update-color bs-modal settings" title="Update"  data-form-url="{% url 'update_color' color.id %}">
+                                                            <a type="button" class="update-color bs-modal settings" title="Update"  data-form-url="{% url 'material_update_color' color.id %}">
                                                                 <i class="material-icons update">update</i>
                                                             </a>
                                                         </div>
                                                         <div class="col-1">
-                                                            <a type="button" class="delete-color bs-modal delete" title="Delete" data-form-url="{% url 'delete_color' color.id %}">
+                                                            <a type="button" class="delete-color bs-modal delete" title="Delete" data-form-url="{% url 'material_delete_color' color.id %}">
                                                                 <span class="material-icons delete">delete</span>
                                                             </a>
                                                         </div>
@@ -281,67 +286,6 @@
                                 </div>
                             </div>
                         </div>
-                        {% comment %} <div class = "card">
-                            <div class="list-title">
-                                <div class="row">
-                                    <div class="col-8">
-                                        {% if c_category %}
-                                            <form role="form" method="get" action="{% url 'categorys' c_category.id %}"class="form-horizontal">
-                                                {% csrf_token %}
-                                                <div class="row">
-                                                    <div class="search-box col-8">
-                                                        <i class="material-icons">&#xE8B6;</i>
-                                                        {{ category_filter.form.name }}
-                                                    </div>
-                                                    <div class="search-box col-1">
-                                                        <button style="display: none;" type="submit"></button>
-                                                    </div> 
-                                                </div>
-                                            </form>
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-4">
-                                        <button id ="create-category" class="btn btn-sm bg-success float-right text-light search-box"  title="Add New Category" type="button" name="button" >
-                                            <span class="material-icons" style="font-size:18px">library_add</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="overflow-auto Scroll">
-                                {% for category in categories %}
-                                    <div class = "card cat-card" >
-                                        <div class = "card-header">
-                                            <div class="row">
-                                                <div class="col-7">
-                                                    <div class="card-title">Name :  {{ category.name }}</div>
-                                                </div>
-                                                <div class="col-5">
-                                                    <div class="card-title">Id : {{ category.id }}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <p class="card-text">  {{category.description}} </p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-9"></div>
-                                                <div class="col-1">
-                                                    <a type="button" class="update-material bs-modal settings" title="Update"  data-form-url="{% url 'update_category' category.id %}">
-                                                        <i class="material-icons update">update</i>
-                                                    </a>
-                                                </div>
-                                                <div class="col-1">
-                                                    <a type="button" class="delete-material bs-modal delete" title="Delete" data-form-url="{% url 'delete_category' category.id %}">
-                                                        <span class="material-icons delete">delete</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div> {% endcomment %}
                     </div>
                     <div class="col-sm-12 col-md-12 col-xl-9">
                         <div class = "row">
@@ -421,7 +365,7 @@
                                 padding-bottom: 15px;
                                 color: #000;
                                 padding: 16px 30px;
-                                margin: -50px -15px -5px;
+                                margin: -30px -15px -5px;
                                 border-radius: 10px;
                             }
                             .table-title h2 {
@@ -530,12 +474,13 @@
                                 <div class="card yearly-sales table-card ">
                                     <div class="table-responsive ">
                                         <div class="table-wrapper">
-                                            <div class="table-title">
+                                            <div class="table-title" >
                                                 <div class="row">
                                                     <div class="col-8">
                                                         {% if c_material%}
                                                             <form role="form" method="get" action="{% url 'detail_material' c_material.id%}"class="form-horizontal">
                                                                 {% csrf_token %}
+                                                                <input type="hidden" name="material-filter" value="2">
                                                                 <div class="row">
                                                                     <div class="search-box col-3">
                                                                         <i class="material-icons">&#xE8B6;</i>
@@ -680,10 +625,69 @@
                                             formURL: "{% url 'create_material' %}",
                                             modalID: "#create-modal"
                                         });
-
+                                        
+                                        //category ceartings
                                         $("#create-category").modalForm({
                                             formURL: "{% url 'create_category' %}",
                                             modalID: "#create-modal"
+                                        });
+
+                                        // Category Updating
+                                        $(".update-category").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"),
+                                                 modalID: "#update-modal"
+                                                });
+                                        });
+                                        // Category Deletion
+                                        $(".delete-category").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"), 
+                                                isDeleteForm: true,
+                                                modalID: "#delete-modal"
+                                                });
+                                        });
+
+                                        // Size Creation
+                                        $("#create-size").modalForm({
+                                            formURL: "{% url 'material_create_size' %}",
+                                            modalID: "#create-modal"
+                                        });
+                                        // Size Updating
+                                        $(".update-size").each(function () {
+                                            $(this).modalForm({
+                                                 formURL: $(this).data("form-url"),
+                                                 modalID: "#update-modal"
+                                                });
+                                        });
+                                        // Size Deletion
+                                        $(".delete-size").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"), 
+                                                isDeleteForm: true,
+                                                modalID: "#delete-modal"
+                                                });
+                                        });
+
+                                        // color Creation
+                                        $("#create-color").modalForm({
+                                            formURL: "{% url 'material_create_color' %}",
+                                            modalID: "#create-modal"
+                                        });
+                                        // color Updating
+                                        $(".update-color").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"),
+                                                    modalID: "#update-modal"
+                                                });
+                                        });
+                                        // color Deletion
+                                        $(".delete-color").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"), 
+                                                isDeleteForm: true,
+                                                modalID: "#delete-modal"
+                                                });
                                         });
                                     });
                                 </script>

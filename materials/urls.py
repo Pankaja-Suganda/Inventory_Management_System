@@ -17,7 +17,16 @@ urlpatterns = [
     path('shells/', ShellsList.as_view(), name='shells'),
     path('create_shell/', ShellCreateView.as_view(), name='create_shell'),
     path('update_shell/<str:pk>', ShellUpdateView.as_view(), name='update_shell'),
-    path('delete_shell/<str:pk>', ShellDeleteView.as_view(), name='delete_shell')
+    path('delete_shell/<str:pk>', ShellDeleteView.as_view(), name='delete_shell'),
     
+    # Size functions
+    path('material_create_size/', SizeCreateView.as_view(), name='material_create_size'),
+    path('material_update_size/<str:pk>', SizeUpdateView.as_view(), name='material_update_size'),
+    path('material_delete_size/<str:pk>', SizeDeleteView.as_view(), name='material_delete_size'),
+
+    # color functions
+    path('material_create_color/', ColorCreateView.as_view(), name='material_create_color'),
+    path('material_update_color/<str:pk>', ColorUpdateView.as_view(), name='material_update_color'),
+    path('material_delete_color/<str:pk>', ColorDeleteView.as_view(), name='material_delete_color'),
 
 ]

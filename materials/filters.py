@@ -2,8 +2,60 @@ from django_filters import fields, FilterSet
 import django_filters
 from django import forms
 
-from .models import Shell, Categories, Materials
+from .models import Shell, Categories, Materials, Size, Color
 from supplier.models import Supplier
+
+class SizeFilter(FilterSet):
+    id = django_filters.CharFilter(
+        field_name='id',
+        lookup_expr = 'icontains',
+        widget=forms.TextInput(
+            attrs={           
+                "placeholder" : "By ID..",         
+                "class": "form-control in"
+            }
+        ))
+
+    name = django_filters.CharFilter(
+        field_name='name',
+        lookup_expr = 'icontains',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "By Name..",                
+                "class": "form-control in "
+            }
+        ))
+
+    class Meta:
+        model = Size
+        fields = ('id', 'name')
+
+class ColorFilter(FilterSet):
+    id = django_filters.CharFilter(
+        field_name='id',
+        lookup_expr = 'icontains',
+        widget=forms.TextInput(
+            attrs={           
+                "placeholder" : "By ID..",         
+                "class": "form-control in"
+            }
+        ))
+
+    name = django_filters.CharFilter(
+        field_name='name',
+        lookup_expr = 'icontains',
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "By Name..",                
+                "class": "form-control in "
+            }
+        ))
+
+    class Meta:
+        model = Color
+        fields = ('id', 'name')
+
+
 
 class CategoryFilter(FilterSet):
     id = django_filters.CharFilter(
