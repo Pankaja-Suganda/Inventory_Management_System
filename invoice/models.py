@@ -25,7 +25,7 @@ class Invoice(models.Model):
     total_price = models.FloatField(blank=False, default=0.0)
     sub_total_price = models.FloatField(blank=False, default=0.0)
     discount_persentage = models.FloatField(blank=False, default=0.0)
-    issued_date = models.DateTimeField(auto_now=True, blank=True, null=True)
+    issued_date = models.DateTimeField( blank=True, null=True) #auto_now=True,
     status = models.IntegerField(choices=STATUS_CHOICES,default=0)
     po_no = models.CharField(max_length=12, blank=True)
     related_so = models.ForeignKey(SalesOrder, blank=True, null=True, on_delete=models.SET_NULL)
@@ -38,6 +38,8 @@ class Invoice(models.Model):
 
     def save(self, *args, **kwargs):
         # calculations
+        self.sub_total_price = 0
+        self.total_price = 0
         for product in self.product_ids.all():
             self.sub_total_price += product.total_price
         self.total_price = self.sub_total_price - (self.sub_total_price*(self.discount_persentage/100))

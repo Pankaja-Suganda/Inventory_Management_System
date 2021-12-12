@@ -168,23 +168,184 @@
                                     </li>
                                 </ul>
                                 <div class="tab-content" id="pills-tabContent">
-                                    <div class="tab-pane fade show active" id="pills-overall" role="tabpanel" aria-labelledby="pills-overall-tab">
+                                    <div class="tab-pane fade show active mt-0" id="pills-overall" role="tabpanel" aria-labelledby="pills-overall-tab">
+
                                         {{line_chart.as_html}}
                                     </div>
                                     <div class="tab-pane fade" id="pills-invoices" role="tabpanel" aria-labelledby="pills-invoices-tab">
-                                        Invoices
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <h5>Invoice Summery Chart</h5>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <select class="form-control input-group" name="select" id="invoice-select">
+                                                            <option value="1" selected>Last 7 Days</option>
+                                                            <option value="2">Last Month</option>
+                                                            <option value="3">Last Year</option>
+                                                        </select>
+                                                        <script src="/static/assets/js/pages/custom-chart.js"></script>
+                                                        <script type="text/javascript">
+                                                            $('#invoice-select').change(function() {
+                                                                $.ajax({
+                                                                    url: "/invoice_dataset/" + $('#invoice-select').val(),
+                                                                    type: 'GET',
+                                                                    dataType: "json",
+                                                                    success: function(res) {
+                                                                        console.log("index : ", res);
+                                                                        invoice_chart(res);
+                                                                    }
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-block">
+                                                <div id="chart-invoice" class="ChartShadow" style="height:350px;"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="pills-stocks" role="tabpanel" aria-labelledby="pills-stocks-tab">
-                                        {{bar_chart.as_html}}
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <h5>Invoice Summery Chart</h5>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <select class="form-control input-group" name="select" id="stock-select">
+                                                            <option value="1" selected>Last 7 Days</option>
+                                                            <option value="2">Last Month</option>
+                                                            <option value="3">Last Year</option>
+                                                        </select>
+                                                        <script src="/static/assets/js/pages/custom-chart.js"></script>
+                                                        <script type="text/javascript">
+                                                            $('#stock-select').change(function() {
+                                                                $.ajax({
+                                                                    url: "/stock_dataset/" + $('#stock-select').val(),
+                                                                    type: 'GET',
+                                                                    dataType: "json",
+                                                                    success: function(res) {
+                                                                        console.log("index : ", res);
+                                                                        stock_chart(res);
+                                                                    }
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-block">
+                                                <div id="chart-stock" class="ChartShadow" style="height:350px;"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="pills-materials" role="tabpanel" aria-labelledby="pills-materials-tab">
-                                        Materials
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <h5>Material Summery Chart</h5>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <select class="form-control input-group" name="select" id="material-select">
+                                                            <option value="1" selected>Last 7 Days</option>
+                                                            <option value="2">Last Month</option>
+                                                            <option value="3">Last Year</option>
+                                                        </select>
+                                                        <script src="/static/assets/js/pages/custom-chart.js"></script>
+                                                        <script type="text/javascript">
+                                                            $('#material-select').change(function() {
+                                                                $.ajax({
+                                                                    url: "/material_dataset/" + $('#material-select').val(),
+                                                                    type: 'GET',
+                                                                    dataType: "json",
+                                                                    success: function(res) {
+                                                                        console.log("index : ", res);
+                                                                        material_chart(res);
+                                                                    }
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-block">
+                                                <div id="chart-material" class="ChartShadow" style="height:350px;"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="pills-purchases" role="tabpanel" aria-labelledby="pills-purchases-tab">
-                                        Purchases
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <h5>Purchases Summery Chart</h5>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <select class="form-control input-group" name="select" id="purchase-select">
+                                                            <option value="1" selected>Last 7 Days</option>
+                                                            <option value="2">Last Month</option>
+                                                            <option value="3">Last Year</option>
+                                                        </select>
+                                                        <script src="/static/assets/js/pages/custom-chart.js"></script>
+                                                        <script type="text/javascript">
+                                                            $('#purchase-select').change(function() {
+                                                                $.ajax({
+                                                                    url: "/purchase_dataset/" + $('#purchase-select').val(),
+                                                                    type: 'GET',
+                                                                    dataType: "json",
+                                                                    success: function(res) {
+                                                                        console.log("index : ", res);
+                                                                        purchase_chart(res);
+                                                                    }
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-block">
+                                                <div id="chart-purchase" class="ChartShadow" style="height:350px;"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="pills-sales" role="tabpanel" aria-labelledby="pills-sales-tab">
-                                        Sales
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <h5>Sales Summery Chart</h5>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <select class="form-control input-group" name="select" id="sales-select">
+                                                            <option value="1" selected>Last 7 Days</option>
+                                                            <option value="2">Last Month</option>
+                                                            <option value="3">Last Year</option>
+                                                        </select>
+                                                        <script src="/static/assets/js/pages/custom-chart.js"></script>
+                                                        <script type="text/javascript">
+                                                            $('#sales-select').change(function() {
+                                                                $.ajax({
+                                                                    url: "/sales_dataset/" + $('#sales-select').val(),
+                                                                    type: 'GET',
+                                                                    dataType: "json",
+                                                                    success: function(res) {
+                                                                        console.log("index : ", res);
+                                                                        sales_chart(res);
+                                                                    }
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-block">
+                                                <div id="chart-sales" class="ChartShadow" style="height:350px;"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -211,22 +372,15 @@
                                 Notifications
                             </div>
                             <div class="card-body">
-                                {% if messages %}
-                                    {% for msg in messages %}
-                                        {% if messages.level == DEFAULT_MESSAGE_LEVELS.INFO %}
-                                            <div role="alert" class="alert alert-info"><strong>Info! </strong>{{ msg  }}</div>
-                                        {% endif %}
-                                        {% if messages.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                                            <div role="alert" class="alert alert-success"><strong>Success! </strong>{{ msg  }}</div>
-                                        {% endif %}
-                                        {% if messages.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                                            <div role="alert" class="alert alert-error"><strong>Error! </strong>{{ msg  }}</div>
-                                        {% endif %}
-                                        {% if messages.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
-                                            <div role="alert" class="alert alert-warning"><strong>Warning! </strong>{{ msg  }}</div>
-                                        {% endif %}
-                                    {% endfor %} 
-                                {% endif %}
+                                {% if messages %} {% for msg in messages %} {% if messages.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                                <div role="alert" class="alert alert-info"><strong>Info! </strong>{{ msg }}</div>
+                                {% endif %} {% if messages.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                <div role="alert" class="alert alert-success"><strong>Success! </strong>{{ msg }}</div>
+                                {% endif %} {% if messages.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                <div role="alert" class="alert alert-error"><strong>Error! </strong>{{ msg }}</div>
+                                {% endif %} {% if messages.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                                <div role="alert" class="alert alert-warning"><strong>Warning! </strong>{{ msg }}</div>
+                                {% endif %} {% endfor %} {% endif %}
                             </div>
                         </div>
                     </div>
@@ -235,6 +389,7 @@
                 <script src="/static/assets/plugins/jquery/js/jquery.min.js" type="text/javascript"></script>
                 <script src="/static/assets/plugins/chart-morris/js/raphael.min.js"></script>
                 <script src="/static/assets/plugins/chart-morris/js/morris.min.js"></script>
+                <script src="/static/assets/js/pages/custom-chart.js"></script>
             </div>
         </div>
     </div>

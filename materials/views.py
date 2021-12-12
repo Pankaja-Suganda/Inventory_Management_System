@@ -147,11 +147,6 @@ class MaterialsList(LoginRequiredMixin, generic.ListView):
             context['Color_filter'] = ColorFilter(None, queryset=Color.objects.all())
             context['Size_filter'] = SizeFilter(None, queryset=Size.objects.all())
 
-
-
-
-
-
         context['num_of_objects'] = count
         context['c_material'] = Materials.objects.first()
         context['c_category'] = Categories.objects.first()
@@ -191,15 +186,45 @@ class MaterialsDetails(LoginRequiredMixin, generic.detail.DetailView):
             page_number = int(page_number)
         else:
             page_number = 1
+        context['segment'] = 'materials'
+        context['tab'] = 0
+
+        if self.request.method == 'GET':
+            if self.request.GET.get('tab') != None:
+                context['tab'] = int(self.request.GET.get('tab'))
+            elif self.request.GET.get('value') != None:
+                context['tab'] = int(self.request.GET.get('value'))
+        
+        if self.request.GET.get('material-filter') == None :
+            context['material_filter'] = MaterialFilter(None, queryset=Materials.objects.all())
+            if context['tab'] == 0:
+                context['Category_filter'] = CategoryFilter(self.request.GET or None, queryset=Categories.objects.all())
+                context['Color_filter'] = ColorFilter(None, queryset=Color.objects.all())
+                context['Size_filter'] = SizeFilter( None, queryset=Size.objects.all())
+
+            elif context['tab'] == 1:
+                context['Category_filter'] = CategoryFilter(None, queryset=Categories.objects.all())
+                context['Color_filter'] = ColorFilter(None, queryset=Color.objects.all())
+                context['Size_filter'] = SizeFilter(self.request.GET or None, queryset=Size.objects.all())
+
+            elif context['tab'] == 2:
+                context['Category_filter'] = CategoryFilter(None, queryset=Categories.objects.all())
+                context['Color_filter'] = ColorFilter(self.request.GET or None, queryset=Color.objects.all())
+                context['Size_filter'] = SizeFilter(None, queryset=Size.objects.all())
+        else:
+            context['material_filter'] = MaterialFilter(self.request.GET or None, queryset=Materials.objects.all())
+            context['Category_filter'] = CategoryFilter(None, queryset=Categories.objects.all())
+            context['Color_filter'] = ColorFilter(None, queryset=Color.objects.all())
+            context['Size_filter'] = SizeFilter(None, queryset=Size.objects.all())
 
         count = Materials.objects.count()
-        context['categories'] = Categories.objects.all()
+        context['Categories'] = context['Category_filter'].qs
+        context['Colors'] = context['Color_filter'].qs
+        context['Sizes'] = context['Size_filter'].qs
         context['page_obj'] = material_paginator.get_page(page_number)
         context['materials'] = material_paginator.page(page_number)
         context['c_category'] = Categories.objects.first()
         context['num_of_objects'] = context['material_filter'].qs.count()
-        context['segment'] = "materials"                  
-
         return context
 
 # material Details

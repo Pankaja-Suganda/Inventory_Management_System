@@ -107,7 +107,7 @@
                                     <div class="col-8">
                                         <form role="form" method="get" action="" class="form-horizontal">
                                             {% csrf_token %}
-                                            <input type="hidden" name="value" value="0">
+                                            <input type="hidden" name="tab" value="0">
                                             <div class="row">
                                                 <div class="search-box col-8">
                                                     <i class="material-icons">&#xE8B6;</i>
@@ -167,7 +167,7 @@
                                     <div class="col-8">
                                         <form role="form" method="get" action=""class="form-horizontal">
                                             {% csrf_token %}
-                                            <input type="hidden" name="value" value="1">
+                                            <input type="hidden" name="tab" value="1">
                                             <div class="row">
                                                 <div class="search-box col-8">
                                                     <i class="material-icons">&#xE8B6;</i>
@@ -227,7 +227,7 @@
                                     <div class="col-8">
                                         <form role="form" method="get" action="" class="form-horizontal">
                                             {% csrf_token %}
-                                            <input type="hidden" name="value" value="2">
+                                            <input type="hidden" name="tab" value="2">
                                             <div class="row">
                                                 <div class="search-box col-8">
                                                     <i class="material-icons">&#xE8B6;</i>
@@ -518,7 +518,7 @@
                                                         <th>Quatity </th>
                                                         <th>Status </th>
                                                         <th>Supplier </th>
-                                                        <th>Shell</th>
+                                                        <th>Size</th>
                                                         <th>Category</th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -537,7 +537,7 @@
                                                             {% endif %}
 
                                                             <td><a  href="{% if material.supplier_id %}{% url 'detail_supplier' material.supplier_id.id %}{% endif %}">{{ material.supplier_id.company }}</a></td>
-                                                            <td>{{ material.shell_id.id }}</td>
+                                                            <td>{{ material.Size_id.name }}</td>
                                                             <td>{{ material.category_id.name }}</td>
                                                             <td>
                                                                 <a type="button" class="update-material bs-modal settings" title="Update" data-form-url="{% url 'update_material' material.id %}">
