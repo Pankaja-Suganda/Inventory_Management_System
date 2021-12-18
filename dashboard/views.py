@@ -17,50 +17,80 @@ from purchase_order.models import PurchaseOrder
 from invoice.models import Invoice
 
 import json
+from calendar import month_abbr, day_abbr
 
 LAST_WEEK = 1
 LAST_MONTH = 2
 LAST_YEAR = 3
 
-def get_weekly(objects):
-    dataset = []
-    today = datetime.now()
-    sample = objects.objects.filter(issued_date__year=today.year, issued_date__month= 12 if (today.month==1) else today.month-1)
-    dayly_aggregate = sample.annotate(day=ExtractDay('issued_date')).values('day').annotate(sum=Sum('total_price'), date=F('issued_date'))
+YEAR_PAST = 10
 
-    # dataset.append([
-    #     'Day', 'Date', 'Total Price'
-    # ])
+def get_weekly(object, day_selected):
+    options = []
+    data = []
+    month = datetime.now().weekday()
+    months = list(day_abbr)
 
-    for i in range(0, 30):
-        if dayly_aggregate.filter(id=i):
-            data = dayly_aggregate.filter(id=i)
-            dataset.append([
-               i, data[0]['sum']#, #i #str(object['date'].date()), 
-            ])
-        else:
-            dataset.append([
-               i,  0.0#, i #str(object['date'].date()), 
-            ])
-    # print(dayly_aggregate)
+    for month_ in months:
+        options.append({'option': str(month_)})
+
     data = [
-        ['Day', 'Date', 'Total Price'],
-        ['2004', 1000, 400],
-        ['2005', 1170, 460],
-        ['2006', 660, 1120],
-        ['2007', 1030, 540],
-        ['2004', 1000, 400],
-        ['2005', 1170, 460],
-        ['2006', 660, 1120],
-        ['2007', 1030, 540],
+        {'y': '2006', 'a': 100, 'b': 90 },
+        {'y': '2007', 'a': 75, 'b': 65 },
+        {'y': '2008', 'a': 50, 'b': 40 },
+        {'y': '2009', 'a': 75, 'b': 65 },
+        {'y': '2010', 'a': 50, 'b': 40 },
+        {'y': '2011', 'a': 75, 'b': 65 },
+        {'y': '2012', 'a': 100, 'b': 90 }
     ]
-    return data
+    return data, options
 
-def get_monthly():
-    return 0
+def get_monthly(object, month_selected):
+    options = []
+    data = []
+    month = datetime.now().month
+    months = list(month_abbr)[1:]
 
-def get_yearly():
-    return 0
+    for month_ in months:
+        options.append({'option': str(month_)})
+
+    data = [
+        {'y': '2006', 'a': 100, 'b': 90 },
+        {'y': '2007', 'a': 75, 'b': 65 },
+        {'y': '2008', 'a': 50, 'b': 40 },
+        {'y': '2009', 'a': 75, 'b': 65 },
+        {'y': '2010', 'a': 50, 'b': 40 },
+        {'y': '2011', 'a': 75, 'b': 65 },
+        {'y': '2012', 'a': 100, 'b': 90 }
+    ]
+
+    return data, options
+
+def get_yearly(object, year_selected):
+    options = []
+    data = []
+    year = datetime.now().year
+
+    for i in range(0, YEAR_PAST):
+        options.append({'option': year})
+        year = year - 1
+
+    sample = object.objects.filter(issued_date__year=year_selected)
+    d = sample.values('issued_date__month').annotate(Sum('total_price'))
+    
+    # print("options : ", options)
+
+    data = [
+        {'y': '2006', 'a': 100, 'b': 90 },
+        {'y': '2007', 'a': 75, 'b': 65 },
+        {'y': '2008', 'a': 50, 'b': 40 },
+        {'y': '2009', 'a': 75, 'b': 65 },
+        {'y': '2010', 'a': 50, 'b': 40 },
+        {'y': '2011', 'a': 75, 'b': 65 },
+        {'y': '2012', 'a': 100, 'b': 90 }
+    ]
+    
+    return data, options
 
 class MorrisDemo(TemplateView):
     template_name = 'dashboard.html'
@@ -123,9 +153,9 @@ class MorrisDemo(TemplateView):
 
         # invoice graph
         # invoice_data = get_weekly(Invoice)
-        Invoice_data = SimpleDataSource(get_weekly(Invoice))
+        Invoice_data = SimpleDataSource(get_weekly(Invoice, 1))
         context['Invoice_chart'] = LineChart(Invoice_data, width=600, height=300)
-        print(get_weekly(Invoice), Invoice.objects.all())
+        # print(get_weekly(Invoice), Invoice.objects.all())
         # print(Invoice_data)
         # queryset = Account.objects.all()
         # data_source = ModelDataSource(queryset,
@@ -164,120 +194,37 @@ class MorrisDemo(TemplateView):
 
 
 def invoice_dataset(request, index):
-    dataset = {}
+
+    data = []
     if(index == LAST_WEEK):
-            data = [{
-                'y': '2006',
-                'a': 100,
-                'b': 90
-            },
+        data_set, options = get_weekly(Invoice, 1)
+        data = [
             {
-                'y': '2007',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2008',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2009',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2010',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2011',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2012',
-                'a': 100,
-                'b': 90
+                'data': data_set, 
+                'options': options
             }
         ]
     elif (index == LAST_MONTH):
-            data = [{
-                'y': '2006',
-                'a': 100,
-                'b': 90
-            },
+        data_set, options = get_monthly(Invoice, 1)
+        data = [
             {
-                'y': '2007',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2008',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2009',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2010',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2011',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2012',
-                'a': 100,
-                'b': 90
+                'data': data_set, 
+                'options': options
             }
         ]
+
     elif (index == LAST_YEAR):
-            data = [{
-                'y': '2006',
-                'a': 100,
-                'b': 90
-            },
+        data_set, options = get_yearly(Invoice, 2021)
+        data = [
             {
-                'y': '2007',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2008',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2009',
-                'a': 100,
-                'b': 90
-            },
-            {
-                'y': '2010',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2011',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2012',
-                'a': 50,
-                'b': 40
+                'data': data_set, 
+                'options': options
             }
         ]
 
-
+    dump = json.dumps(data)
+    print("dump : ",dump)
+    
     dump = json.dumps(data)
     return HttpResponse(dump, content_type='application/json')
 
@@ -285,116 +232,35 @@ def invoice_dataset(request, index):
 def stock_dataset(request, index):
     dataset = {}
     if(index == LAST_WEEK):
-            data = [{
-                'y': '2006',
-                'a': 100,
-                'b': 90
-            },
-            {
-                'y': '2007',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2008',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2009',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2010',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2011',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2012',
-                'a': 100,
-                'b': 90
-            }
+        data = [
+            {'y': '2006', 'a': 100, 'b': 90 },
+            {'y': '2007', 'a': 75, 'b': 65 },
+            {'y': '2008', 'a': 22, 'b': 40 },
+            {'y': '2009', 'a': 0, 'b': 65 },
+            {'y': '2010', 'a': 1, 'b': 40 },
+            {'y': '2011', 'a': 75, 'b': 65 },
+            {'y': '2012', 'a': 65, 'b': 90 }
         ]
     elif (index == LAST_MONTH):
-            data = [{
-                'y': '2006',
-                'a': 100,
-                'b': 90
-            },
-            {
-                'y': '2007',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2008',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2009',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2010',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2011',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2012',
-                'a': 100,
-                'b': 90
-            }
-        ]
+            data = [
+                {'y': '2006', 'a': 100, 'b': 90 },
+                {'y': '2007', 'a': 75, 'b': 65 },
+                {'y': '2008', 'a': 50, 'b': 40 },
+                {'y': '2009', 'a': 75, 'b': 65 },
+                {'y': '2010', 'a': 50, 'b': 40 },
+                {'y': '2011', 'a': 75, 'b': 65 },
+                {'y': '2012', 'a': 100, 'b': 90 }
+            ]
     elif (index == LAST_YEAR):
-            data = [{
-                'y': '2006',
-                'a': 100,
-                'b': 90
-            },
-            {
-                'y': '2007',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2008',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2009',
-                'a': 100,
-                'b': 90
-            },
-            {
-                'y': '2010',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2011',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2012',
-                'a': 50,
-                'b': 40
-            }
-        ]
+            data = [
+                {'y': '2006', 'a': 100, 'b': 90 },
+                {'y': '2007', 'a': 75, 'b': 65 },
+                {'y': '2008', 'a': 50, 'b': 40 },
+                {'y': '2009', 'a': 75, 'b': 65 },
+                {'y': '2010', 'a': 50, 'b': 40 },
+                {'y': '2011', 'a': 75, 'b': 65 },
+                {'y': '2012', 'a': 100, 'b': 90 }
+            ]
 
 
     dump = json.dumps(data)
@@ -514,8 +380,17 @@ def material_dataset(request, index):
             }
         ]
 
+    data = []
+    data_set, options = get_yearly(Invoice, 2021)
+    data = [
+        {
+            'data': data_set, 
+            'options': options
+        }
+    ]
 
     dump = json.dumps(data)
+    print("dump : ",dump)
     return HttpResponse(dump, content_type='application/json')
 
 def purchase_dataset(request, index):

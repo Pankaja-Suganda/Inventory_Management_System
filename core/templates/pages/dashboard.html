@@ -1,4 +1,4 @@
-{% extends "layouts/base.html" %} {% block title %} Materials {% endblock %}
+{% extends "layouts/base.html" %} {% block title %} Dashboard {% endblock %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
@@ -170,20 +170,20 @@
                                 <div class="tab-content" id="pills-tabContent">
                                     <div class="tab-pane fade show active mt-0" id="pills-overall" role="tabpanel" aria-labelledby="pills-overall-tab">
 
-                                        {{line_chart.as_html}}
+                                        {{bar_chart.as_html}}
                                     </div>
                                     <div class="tab-pane fade" id="pills-invoices" role="tabpanel" aria-labelledby="pills-invoices-tab">
                                         <div class="card">
                                             <div class="card-header">
                                                 <div class="row">
-                                                    <div class="col-10">
+                                                    <div class="col-8">
                                                         <h5>Invoice Summery Chart</h5>
                                                     </div>
                                                     <div class="col-2">
                                                         <select class="form-control input-group" name="select" id="invoice-select">
-                                                            <option value="1" selected>Last 7 Days</option>
-                                                            <option value="2">Last Month</option>
-                                                            <option value="3">Last Year</option>
+                                                            <option value="1" selected>Weekly</option>
+                                                            <option value="2">Monthly</option>
+                                                            <option value="3">Yearly</option>
                                                         </select>
                                                         <script src="/static/assets/js/pages/custom-chart.js"></script>
                                                         <script type="text/javascript">
@@ -193,12 +193,24 @@
                                                                     type: 'GET',
                                                                     dataType: "json",
                                                                     success: function(res) {
-                                                                        console.log("index : ", res);
-                                                                        invoice_chart(res);
+                                                                        var options = "";
+                                                                        var res_options = res[0]['options'];
+                                                                        for (var i = 0; i < res_options.length; i++) {
+                                                                            options += "<option>" + res_options[i]['option'] + "</option>";
+                                                                        }
+                                                                        $('#invoice-option-select').html(options);
+                                                                        console.log("res : ", res);
+                                                                        console.log("res[0] : ", res[0]);
+                                                                        console.log("data : ", res[0]['data']);
+                                                                        console.log("options : ", res[0]['options']);
+                                                                        invoice_chart(res[0]['data']);
                                                                     }
                                                                 });
                                                             });
                                                         </script>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <select class="form-control input-group" name="select" id="invoice-option-select"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -216,9 +228,9 @@
                                                     </div>
                                                     <div class="col-2">
                                                         <select class="form-control input-group" name="select" id="stock-select">
-                                                            <option value="1" selected>Last 7 Days</option>
-                                                            <option value="2">Last Month</option>
-                                                            <option value="3">Last Year</option>
+                                                            <option value="1" selected>Weekly</option>
+                                                            <option value="2">Monthly</option>
+                                                            <option value="3">Yearly</option>
                                                         </select>
                                                         <script src="/static/assets/js/pages/custom-chart.js"></script>
                                                         <script type="text/javascript">
