@@ -9,19 +9,21 @@ $(document).ready(function() {
     chart_invoice = Morris.Line({
         element: 'chart-invoice',
         // data: dataset,
+        parseTime: false,
         xkey: 'y',
         redraw: true,
         resize: true,
         ykeys: ['a', 'b'],
         hideHover: 'auto',
         responsive: true,
-        labels: ['Series A', 'Series B'],
+        labels: ['Total Price (Rs.)', 'Series B'],
         lineColors: ['#1de9b6', '#A389D4']
     });
 
     chart_stock = Morris.Line({
         element: 'chart-stock',
         // data: dataset,
+        parseTime: false,
         xkey: 'y',
         redraw: true,
         resize: true,
@@ -35,6 +37,7 @@ $(document).ready(function() {
     chart_material = Morris.Line({
         element: 'chart-material',
         // data: dataset,
+        parseTime: false,
         xkey: 'y',
         redraw: true,
         resize: true,
@@ -48,6 +51,7 @@ $(document).ready(function() {
     chart_purchase = Morris.Line({
         element: 'chart-purchase',
         // data: dataset,
+        parseTime: false,
         xkey: 'y',
         redraw: true,
         resize: true,
@@ -61,6 +65,7 @@ $(document).ready(function() {
     chart_sales = Morris.Line({
         element: 'chart-sales',
         // data: dataset,
+        parseTime: false,
         xkey: 'y',
         redraw: true,
         resize: true,
