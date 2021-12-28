@@ -96,6 +96,40 @@
                     {% endif %}
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group col-md-6 py-0">
+
+                    {{form.supplier_id.label}} :
+                    <div class="input-group"> {{ form.supplier_id }}</div>
+
+                    {% if form.supplier_id.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.supplier_id.errors }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-6 py-0">
+
+                    {{form.color_id.label}} :
+                    <div class="input-group"> {{ form.color_id }}</div>
+
+                    {% if form.color_id.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.color_id.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6 py-0">
+
+                    {{form.Size_id.label}} :
+                    <div class="input-group"> {{ form.Size_id }}</div>
+
+                    {% if form.Size_id.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.Size_id.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
         </div>
 
     </div>

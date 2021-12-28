@@ -132,6 +132,26 @@ def get_yearly(object, year_selected, field, x_field):
 
     return data, options
 
+def create_data_source(sample):
+    data = [['Label', 'Quantity']]
+    for _sample in sample.objects.all():
+        data.append([
+            _sample.name, _sample.quatity
+        ])
+    
+    print('data : ', data)
+    return data
+
+def create_data_source_sm(sample):
+    data = [['Label', 'Stock Margin', 'Quantity']]
+    for _sample in sample.objects.all():
+        data.append([
+            _sample.name, _sample.stock_margin, _sample.quatity
+        ])
+    
+    print('data : ', data)
+    return data
+
 class MorrisDemo(TemplateView):
     template_name = 'dashboard.html'
     renderer = None
@@ -217,6 +237,11 @@ class MorrisDemo(TemplateView):
         context['bar_chart'] = bar_chart
         context['area_chart'] = area_chart
 
+        stock_overall_data_source = SimpleDataSource(data = create_data_source_sm(Product))
+        materials_overall_data_source = SimpleDataSource(data = create_data_source_sm(Materials))
+
+        context['chart_stock'] = BarChart(stock_overall_data_source, height=350, width=650)
+        context['chart_materials'] = BarChart(materials_overall_data_source, height=350, width=650)
         # context = {
         #         "line_chart": line_chart,
         #        'bar_chart': bar_chart,

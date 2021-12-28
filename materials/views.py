@@ -283,7 +283,7 @@ class MaterialCreateView(LoginRequiredMixin, BSModalCreateView):
 class MaterialUpdateView(LoginRequiredMixin, BSModalUpdateView):
     model = Materials
     template_name = 'pages/modals/materials/material-update.html'
-    form_class = MaterialsCreate
+    form_class = MaterialsUpdate
     success_message = 'Success: Selected Material was updated.'
     success_url = reverse_lazy('materials')
     failure_url = reverse_lazy('materials')

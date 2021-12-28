@@ -385,7 +385,6 @@ class MaterialsUpdate(BSModalModelForm):
 
     name = forms.CharField(
         label='Enter Material Name',
-        help_text='Required',
         widget=forms.TextInput(
             attrs={
                 "placeholder" : "Material Name",                
@@ -426,7 +425,6 @@ class MaterialsUpdate(BSModalModelForm):
     category_id = forms.ModelChoiceField(
         queryset = Categories.objects.all(),
         label='Select Category',
-        help_text='Required',
         widget=forms.Select(
             attrs={
                 "placeholder" : "Category",                
@@ -448,7 +446,7 @@ class MaterialsUpdate(BSModalModelForm):
     supplier_id = forms.ModelChoiceField(
         queryset = Supplier.objects.all(),
         label='Select Supplier',
-        help_text='Required',
+        required=False, 
         widget=forms.Select(
             attrs={
                 "placeholder" : "Supplier",                
@@ -459,7 +457,7 @@ class MaterialsUpdate(BSModalModelForm):
     color_id = forms.ModelChoiceField(
         queryset = Color.objects.all(),
         label='Select Color',
-        help_text='Required',
+        required=False, 
         widget=forms.Select(
             attrs={
                 "placeholder" : "Product Color",                
@@ -470,7 +468,7 @@ class MaterialsUpdate(BSModalModelForm):
     Size_id = forms.ModelChoiceField(
         queryset = Size.objects.all(),
         label='Select Size',
-        help_text='Required',
+        required=False, 
         widget=forms.Select(
             attrs={
                 "placeholder" : "Product Size",                

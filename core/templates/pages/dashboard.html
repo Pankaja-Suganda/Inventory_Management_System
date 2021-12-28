@@ -148,9 +148,9 @@
                             <div class="col">
                                 <strong>Summery Details</strong>
                                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a class="nav-link active" id="pills-overall-tab" data-toggle="pill" href="#pills-overall" role="tab" aria-controls="pills-overall" aria-selected="true">Overall</a>
-                                    </li>
+                                    </li> -->
                                     <li class="nav-item">
                                         <a class="nav-link" id="pills-invoices-tab" data-toggle="pill" href="#pills-invoices" role="tab" aria-controls="pills-invoices" aria-selected="false">Invoices</a>
                                     </li>
@@ -168,10 +168,10 @@
                                     </li>
                                 </ul>
                                 <div class="tab-content" id="pills-tabContent">
-                                    <div class="tab-pane fade show active mt-0" id="pills-overall" role="tabpanel" aria-labelledby="pills-overall-tab">
+                                    <!-- <div class="tab-pane fade show active mt-0" id="pills-overall" role="tabpanel" aria-labelledby="pills-overall-tab">
 
                                         {{bar_chart.as_html}}
-                                    </div>
+                                    </div> -->
                                     <div class="tab-pane fade" id="pills-invoices" role="tabpanel" aria-labelledby="pills-invoices-tab">
                                         <div class="card">
                                             <div class="card-header">
@@ -181,11 +181,12 @@
                                                     </div>
                                                     <div class="col-2">
                                                         <select class="form-control input-group" name="select" id="invoice-select">
-                                                            <option value="2" selected>Monthly</option>
+                                                            <option value="0" selected>Select Options</option>
+                                                            <option value="2">Monthly</option>
                                                             <option value="3">Yearly</option>
                                                             <option value="1" >Year Range</option>
                                                         </select>
-                                                        <script src="/static/assets/js/pages/custom-chart.js"></script>
+                                                        <!-- <script src="/static/assets/js/pages/custom-chart.js"></script> -->
                                                         <script type="text/javascript">
                                                             $('#invoice-select').change(function() {
                                                                 const value = $('#invoice-select').val();
@@ -244,61 +245,12 @@
                                                     <div class="col-8">
                                                         <h5>Stock Summary Chart</h5>
                                                     </div>
-                                                    <div class="col-2">
-                                                        <select class="form-control input-group" name="select" id="stock-select">
-                                                            <option value="2" selected>Monthly</option>
-                                                            <option value="3">Yearly</option>
-                                                            <option value="1" >Year Range</option>
-                                                        </select>
-                                                        <script src="/static/assets/js/pages/custom-chart.js"></script>
-                                                        <script type="text/javascript">
-                                                            $('#stock-select').change(function() {
-                                                                const value = $('#stock-select').val();
-                                                                $.ajax({
-                                                                    url: "/stock_dataset/" + $('#stock-select').val() + "/none",
-                                                                    type: 'GET',
-                                                                    dataType: "json",
-                                                                    success: function(res) {
-                                                                        var options = "";
-                                                                        var res_options = res[0]['options'];
-                                                                        for (var i = 0; i < res_options.length; i++) {
-                                                                            options += "<option value= " + res_options[i]['index'] + ">" + res_options[i]['option'] + " </option>";
-                                                                            console.log("options : ", res_options[i]['index']);
-                                                                        }
-                                                                        $('#stock-option-select').html(options);
-                                                                        console.log("res : ", res);
-                                                                        // console.log("res[0] : ", res[0]);
-                                                                        // console.log("data : ", res[0]['data']);
-                                                                        // console.log("options : ", res_options[i]['index']);
-                                                                        stock_chart(res[0]['data']);
-                                                                    }
-                                                                });
-                                                            });
-                                                        </script>
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <select class="form-control input-group" name="select" id="invoice-option-select"></select>
-                                                        <script type="text/javascript">
-                                                            $('#invoice-option-select').change(function() {
-                                                                $.ajax({
-                                                                    url: "/invoice_dataset/" + $('#invoice-select').val() + "/" + $('#invoice-option-select').val(),
-                                                                    type: 'GET',
-                                                                    dataType: "json",
-                                                                    success: function(res) {
-                                                                        // console.log("res : ", res);
-                                                                        // console.log("res[0] : ", res[0]);
-                                                                        // console.log("data : ", res[0]['data']);
-                                                                        // console.log("options : ", res[0]['options']);
-                                                                        invoice_chart(res[0]['data']);
-                                                                    }
-                                                                });
-                                                            });
-                                                        </script>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="card-block">
-                                                <div id="chart-stock" class="ChartShadow" style="height:350px;"></div>
+                                                <!-- <script src="/static/assets/js/pages/custom-chart.js"></script> -->
+                                                <!-- <div id="chart-stock" class="ChartShadow" style="height:350px;"></div> -->
+                                                {{chart_stock.as_html}}
                                             </div>
                                         </div>
                                     </div>
@@ -307,33 +259,12 @@
                                             <div class="card-header">
                                                 <div class="row">
                                                     <div class="col-10">
-                                                        <h5>Material Summery Chart</h5>
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <select class="form-control input-group" name="select" id="material-select">
-                                                            <option value="1" selected>Last 7 Days</option>
-                                                            <option value="2">Last Month</option>
-                                                            <option value="3">Last Year</option>
-                                                        </select>
-                                                        <script src="/static/assets/js/pages/custom-chart.js"></script>
-                                                        <script type="text/javascript">
-                                                            $('#material-select').change(function() {
-                                                                $.ajax({
-                                                                    url: "/material_dataset/" + $('#material-select').val(),
-                                                                    type: 'GET',
-                                                                    dataType: "json",
-                                                                    success: function(res) {
-                                                                        console.log("index : ", res);
-                                                                        material_chart(res);
-                                                                    }
-                                                                });
-                                                            });
-                                                        </script>
+                                                        <h5>Material Summary Chart</h5>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-block">
-                                                <div id="chart-material" class="ChartShadow" style="height:350px;"></div>
+                                                {{chart_materials.as_html}}
                                             </div>
                                         </div>
                                     </div>
@@ -346,11 +277,12 @@
                                                     </div>
                                                     <div class="col-2">
                                                         <select class="form-control input-group" name="select" id="purchase-select">
-                                                            <option value="2" selected>Monthly</option>
+                                                            <option value="0" selected>Select Option..</option>
+                                                            <option value="2">Monthly</option>
                                                             <option value="3">Yearly</option>
                                                             <option value="1" >Year Range</option>
                                                         </select>
-                                                        <script src="/static/assets/js/pages/custom-chart.js"></script>
+                                                        <!-- <script src="/static/assets/js/pages/custom-chart.js"></script> -->
                                                         <script type="text/javascript">
                                                             $('#purchase-select').change(function() {
                                                                 const value = $('#purchase-select').val();
@@ -367,10 +299,8 @@
                                                                         }
                                                                         $('#purchase-option-select').html(options);
                                                                         console.log("res : ", res);
-                                                                        // console.log("res[0] : ", res[0]);
-                                                                        // console.log("data : ", res[0]['data']);
-                                                                        // console.log("options : ", res_options[i]['index']);
                                                                         purchase_chart(res[0]['data']);
+                                                                        console.log("res ok : ", res);
                                                                     }
                                                                 });
                                                             });
@@ -378,27 +308,27 @@
                                                     </div>
                                                     <div class="col-2">
                                                         <select class="form-control input-group" name="select" id="purchase-option-select"></select>
-                                                        <script type="text/javascript">
-                                                            $('#purchase-option-select').change(function() {
-                                                                $.ajax({
-                                                                    url: "/purchase_dataset/" + $('#purchase-select').val() + "/" + $('#purchase-option-select').val(),
-                                                                    type: 'GET',
-                                                                    dataType: "json",
-                                                                    success: function(res) {
-                                                                        console.log("res : ", res);
-                                                                        // console.log("res[0] : ", res[0]);
-                                                                        // console.log("data : ", res[0]['data']);
-                                                                        // console.log("options : ", res[0]['options']);
-                                                                        purchase_chart(res[0]['data']);
-                                                                    }
-                                                                });
-                                                            });
-                                                        </script>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-block">
                                                 <div id="chart-purchase" class="ChartShadow" style="height:350px;"></div>
+                                                <script type="text/javascript">
+                                                    $('#purchase-option-select').change(function() {
+                                                        $.ajax({
+                                                            url: "/purchase_dataset/" + $('#purchase-select').val() + "/" + $('#purchase-option-select').val(),
+                                                            type: 'GET',
+                                                            dataType: "json",
+                                                            success: function(res) {
+                                                                console.log("res : ", res);
+                                                                // console.log("res[0] : ", res[0]);
+                                                                // console.log("data : ", res[0]['data']);
+                                                                // console.log("options : ", res[0]['options']);
+                                                                purchase_chart(res[0]['data']);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
                                             </div>
                                         </div>
                                     </div>
@@ -411,11 +341,12 @@
                                                     </div>
                                                     <div class="col-2">
                                                         <select class="form-control input-group" name="select" id="sales-select">
-                                                            <option value="2" selected>Monthly</option>
+                                                            <option value="0" selected>Select Option..</option>
+                                                            <option value="2" >Monthly</option>
                                                             <option value="3">Yearly</option>
                                                             <option value="1" >Year Range</option>
                                                         </select>
-                                                        <script src="/static/assets/js/pages/custom-chart.js"></script>
+                                                        <!-- <script src="/static/assets/js/pages/custom-chart.js"></script> -->
                                                         <script type="text/javascript">
                                                             $('#sales-select').change(function() {
                                                                 const value = $('#sales-select').val();
@@ -432,9 +363,6 @@
                                                                         }
                                                                         $('#sales-option-select').html(options);
                                                                         console.log("res : ", res);
-                                                                        // console.log("res[0] : ", res[0]);
-                                                                        // console.log("data : ", res[0]['data']);
-                                                                        // console.log("options : ", res_options[i]['index']);
                                                                         sales_chart(res[0]['data']);
                                                                     }
                                                                 });
@@ -443,27 +371,27 @@
                                                     </div>
                                                     <div class="col-2">
                                                         <select class="form-control input-group" name="select" id="sales-option-select"></select>
-                                                        <script type="text/javascript">
-                                                            $('#sales-option-select').change(function() {
-                                                                $.ajax({
-                                                                    url: "/sales_dataset/" + $('#sales-select').val() + "/" + $('#sales-option-select').val(),
-                                                                    type: 'GET',
-                                                                    dataType: "json",
-                                                                    success: function(res) {
-                                                                        console.log("res : ", res);
-                                                                        // console.log("res[0] : ", res[0]);
-                                                                        // console.log("data : ", res[0]['data']);
-                                                                        // console.log("options : ", res[0]['options']);
-                                                                        sales_chart(res[0]['data']);
-                                                                    }
-                                                                });
-                                                            });
-                                                        </script>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-block">
                                                 <div id="chart-sales" class="ChartShadow" style="height:350px;"></div>
+                                                <script type="text/javascript">
+                                                    $('#sales-option-select').change(function() {
+                                                        $.ajax({
+                                                            url: "/sales_dataset/" + $('#sales-select').val() + "/" + $('#sales-option-select').val(),
+                                                            type: 'GET',
+                                                            dataType: "json",
+                                                            success: function(res) {
+                                                                console.log("res : ", res);
+                                                                // console.log("res[0] : ", res[0]);
+                                                                // console.log("data : ", res[0]['data']);
+                                                                // console.log("options : ", res[0]['options']);
+                                                                sales_chart(res[0]['data']);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
                                             </div>
                                         </div>
                                     </div>
