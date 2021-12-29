@@ -7,6 +7,43 @@ var chart_sales;
 var data;
 
 $(document).ready(function() {
+    setTimeout(function() {
+        $.ajax({
+            url: "/stock_material_dataset/",
+            type: 'GET',
+            dataType: "json",
+            success: function(res) {
+                console.log("res : ", res);
+                chart_stock = Morris.Bar({
+                    element: 'chart-stock',
+                    data: res[0]['data_stock'],
+                    parseTime: false,
+                    xkey: 'Label',
+                    barSizeRatio: 0.70,
+                    barGap: 3,
+                    resize: true,
+                    responsive: true,
+                    ykeys: ['Quantity', 'Stock Margin'],
+                    labels: ['Quantity', 'Stock Margin'],
+                    barColors: ["0-#1de9b6-#1dc4e9", "#bd0013"]
+                });
+
+                chart_stock = Morris.Bar({
+                    element: 'chart-material',
+                    data: res[0]['data_material'],
+                    parseTime: false,
+                    xkey: 'Label',
+                    barSizeRatio: 0.70,
+                    barGap: 3,
+                    resize: true,
+                    responsive: true,
+                    ykeys: ['Quantity', 'Stock Margin'],
+                    labels: ['Quantity', 'Stock Margin'],
+                    barColors: ["0-#1de9b6-#1dc4e9", "#bd0013"]
+                });
+            }
+        });
+    }, 700);
 
     chart_purchase = Morris.Line({
         element: 'chart-purchase',
@@ -18,7 +55,7 @@ $(document).ready(function() {
         ykeys: ['a', 'b'],
         hideHover: 'auto',
         responsive: true,
-        labels: ['Series A', 'Series B'],
+        labels: ['Total Price (Rs.)', 'PO Count'],
         lineColors: ['#1de9b6', '#A389D4']
     });
 
@@ -32,7 +69,7 @@ $(document).ready(function() {
         ykeys: ['a', 'b'],
         hideHover: 'auto',
         responsive: true,
-        labels: ['Total Price (Rs.)', 'Series B'],
+        labels: ['Total Price (Rs.)', 'Invoice Count'],
         lineColors: ['#1de9b6', '#A389D4']
     });
 
@@ -46,7 +83,7 @@ $(document).ready(function() {
         ykeys: ['a', 'b'],
         hideHover: 'auto',
         responsive: true,
-        labels: ['Series A', 'Series B'],
+        labels: ['Total Price (Rs.)', 'SO Count'],
         lineColors: ['#1de9b6', '#A389D4']
     });
 

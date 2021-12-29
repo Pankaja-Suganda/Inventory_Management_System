@@ -53,19 +53,22 @@ def get_weekly(object, range_, field, x_field):
             })
 
     sample = object.objects.filter(issued_date__range=[datetime(year=year-(int(range_)*5), month=12, day=31), datetime(year=year, month=12, day=31)])
-    d = sample.values(x_field+'__year').annotate(Sum(field))
-    
+    d = sample.values(x_field+'__year').annotate(Sum(field), Count(field))#.annotate(Count(field))
+    # c = sample.values(x_field+'__year').annotate(Count(field))
+    # print('c : ', c)
     for year_ in range(0, int(range_)*5):
         total_price_sum = 0.0
+        object_count = 0
         for data_ in d:
             _year_ = data_[x_field+'__year']
             if year == _year_:
                 total_price_sum = data_[field+'__sum']
+                object_count = data_[field+'__count']
 
         data.append({
             'y' : str(year),
             'a': total_price_sum,
-            'b': 1,
+            'b': object_count,
         })
         year = year - 1
 
@@ -82,23 +85,25 @@ def get_monthly(object, month_selected, field, x_field):
         options.append({'option': i, 'index': i})
 
     sample = object.objects.filter(issued_date__year=year, issued_date__month=months.index(month_selected))
-    d = sample.values(x_field+'__day').annotate(Sum(field))
+    d = sample.values(x_field+'__day').annotate(Sum(field), Count(field))
 
     print("d : ", d)
     print("sample : ", sample)
 
     for monthly in range(1,days+1):
         total_price_sum = 0.0
+        object_count = 0
         for data_ in d:
             month = data_[x_field+'__day']
             
             if monthly == month:
                 total_price_sum = data_[field+'__sum']
+                object_count = data_[field+'__count']
 
         data.append({
             'y': monthly,
             'a': total_price_sum,
-            'b': 1,
+            'b': object_count,
         })
 
     return data, options
@@ -114,20 +119,22 @@ def get_yearly(object, year_selected, field, x_field):
         year = year - 1
 
     sample = object.objects.filter(issued_date__year=year_selected)
-    d = sample.values(x_field+'__month').annotate(Sum(field))
+    d = sample.values(x_field+'__month').annotate(Sum(field), Count(field))
 
     
     for monthly in range(1,13):
         total_price_sum = 0.0
+        object_count = 0
         for data_ in d:
             month = data_[x_field+'__month']
             
             if monthly == month:
                 total_price_sum = data_[field+'__sum']
+                object_count = data_[field+'__count']
         data.append({
             'y' : months[monthly],
             'a': total_price_sum,
-            'b': 1,
+            'b': object_count,
         })
 
     return data, options
@@ -143,12 +150,14 @@ def create_data_source(sample):
     return data
 
 def create_data_source_sm(sample):
-    data = [['Label', 'Stock Margin', 'Quantity']]
+    data = []
     for _sample in sample.objects.all():
-        data.append([
-            _sample.name, _sample.stock_margin, _sample.quatity
-        ])
-    
+        data.append({
+            'Label' : _sample.name, 
+            'Stock Margin' : _sample.stock_margin, 
+            'Quantity' : _sample.quatity, 
+        })
+
     print('data : ', data)
     return data
 
@@ -237,11 +246,11 @@ class MorrisDemo(TemplateView):
         context['bar_chart'] = bar_chart
         context['area_chart'] = area_chart
 
-        stock_overall_data_source = SimpleDataSource(data = create_data_source_sm(Product))
-        materials_overall_data_source = SimpleDataSource(data = create_data_source_sm(Materials))
+        # stock_overall_data_source = SimpleDataSource(data = create_data_source_sm(Product))
+        # materials_overall_data_source = SimpleDataSource(data = create_data_source_sm(Materials))
 
-        context['chart_stock'] = BarChart(stock_overall_data_source, height=350, width=650)
-        context['chart_materials'] = BarChart(materials_overall_data_source, height=350, width=650)
+        # context['chart_stock'] = BarChart(stock_overall_data_source, height=350)
+        # context['chart_materials'] = BarChart(materials_overall_data_source, height=350, width=780)
         # context = {
         #         "line_chart": line_chart,
         #        'bar_chart': bar_chart,
@@ -292,161 +301,17 @@ def invoice_dataset(request, index, value):
     return HttpResponse(dump, content_type='application/json')
 
 
-def stock_dataset(request, index, value):
-    if(index == LAST_WEEK):
-        if(value != 'none'):
-            data_set, options = get_weekly(Product, value, 'total_price', 'issued_date')
-        else:
-            data_set, options = get_weekly(Product, 5, 'total_price', 'issued_date')
-
-    elif (index == LAST_MONTH):
-        months = list(month_abbr)
-        if(value!='none'):
-            data_set, options = get_monthly(Product, value, 'total_price', 'issued_date')
-        else:
-            data_set, options = get_monthly(Product, months[datetime.now().month], 'total_price', 'issued_date')
-
-    elif (index == LAST_YEAR):
-        if(value!='none'):
-            data_set, options = get_yearly(Product, value, 'total_price', 'issued_date')
-        else:
-            data_set, options = get_yearly(Product, datetime.now().year, 'total_price', 'issued_date')
-
+def stock_material_dataset(request):
+    data_stock = create_data_source_sm(Product)
+    data_material = create_data_source_sm(Materials)
     data = [
         {
-            'data': data_set, 
-            'options': options
+            'data_stock': data_stock,
+            'data_material': data_material
         }
     ]
 
     dump = json.dumps(data)
-    return HttpResponse(dump, content_type='application/json')
-
-def material_dataset(request, index):
-    dataset = {}
-    if(index == LAST_WEEK):
-            data = [{
-                'y': '2006',
-                'a': 100,
-                'b': 90
-            },
-            {
-                'y': '2007',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2008',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2009',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2010',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2011',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2012',
-                'a': 100,
-                'b': 90
-            }
-        ]
-    elif (index == LAST_MONTH):
-            data = [{
-                'y': '2006',
-                'a': 100,
-                'b': 90
-            },
-            {
-                'y': '2007',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2008',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2009',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2010',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2011',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2012',
-                'a': 100,
-                'b': 90
-            }
-        ]
-    elif (index == LAST_YEAR):
-            data = [{
-                'y': '2006',
-                'a': 100,
-                'b': 90
-            },
-            {
-                'y': '2007',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2008',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2009',
-                'a': 100,
-                'b': 90
-            },
-            {
-                'y': '2010',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2011',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2012',
-                'a': 50,
-                'b': 40
-            }
-        ]
-
-    data = []
-    data_set, options = get_yearly(Invoice, 2021)
-    data = [
-        {
-            'data': data_set, 
-            'options': options
-        }
-    ]
-
-    dump = json.dumps(data)
-    print("dump : ",dump)
     return HttpResponse(dump, content_type='application/json')
 
 def purchase_dataset(request, index, value):
@@ -504,124 +369,6 @@ def sales_dataset(request, index, value):
             'options': options
         }
     ]
-
-    dump = json.dumps(data)
-    return HttpResponse(dump, content_type='application/json')
-
-def overview_dataset(request, index):
-    dataset = {}
-    if(index == LAST_WEEK):
-            data = [{
-                'y': '2006',
-                'a': 100,
-                'b': 90
-            },
-            {
-                'y': '2007',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2008',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2009',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2010',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2011',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2012',
-                'a': 100,
-                'b': 90
-            }
-        ]
-    elif (index == LAST_MONTH):
-            data = [{
-                'y': '2006',
-                'a': 100,
-                'b': 90
-            },
-            {
-                'y': '2007',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2008',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2009',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2010',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2011',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2012',
-                'a': 100,
-                'b': 90
-            }
-        ]
-    elif (index == LAST_YEAR):
-            data = [{
-                'y': '2006',
-                'a': 100,
-                'b': 90
-            },
-            {
-                'y': '2007',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2008',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2009',
-                'a': 100,
-                'b': 90
-            },
-            {
-                'y': '2010',
-                'a': 50,
-                'b': 40
-            },
-            {
-                'y': '2011',
-                'a': 75,
-                'b': 65
-            },
-            {
-                'y': '2012',
-                'a': 50,
-                'b': 40
-            }
-        ]
-
 
     dump = json.dumps(data)
     return HttpResponse(dump, content_type='application/json')
