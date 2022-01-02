@@ -21,26 +21,31 @@ $(document).ready(function() {
                     xkey: 'Label',
                     barSizeRatio: 0.70,
                     barGap: 3,
+                    redraw: true,
                     resize: true,
+                    axes: true,
                     responsive: true,
                     ykeys: ['Quantity', 'Stock Margin'],
                     labels: ['Quantity', 'Stock Margin'],
                     barColors: ["0-#1de9b6-#1dc4e9", "#bd0013"]
                 });
+                chart_stock.redraw();
 
-                chart_stock = Morris.Bar({
+                chart_material = Morris.Bar({
                     element: 'chart-material',
                     data: res[0]['data_material'],
                     parseTime: false,
                     xkey: 'Label',
                     barSizeRatio: 0.70,
                     barGap: 3,
+                    redraw: true,
                     resize: true,
                     responsive: true,
                     ykeys: ['Quantity', 'Stock Margin'],
                     labels: ['Quantity', 'Stock Margin'],
                     barColors: ["0-#1de9b6-#1dc4e9", "#bd0013"]
                 });
+                chart_material.redraw();
             }
         });
     }, 700);
@@ -93,14 +98,17 @@ $(document).ready(function() {
 function invoice_chart(dataset) {
     console.log("json : ", dataset);
     chart_invoice.setData(dataset);
+    chart_invoice.redraw();
 }
 
 function purchase_chart(dataset) {
     console.log("json : ", dataset);
     chart_purchase.setData(dataset);
+    chart_purchase.redraw();
 }
 
 function sales_chart(dataset) {
     console.log("json : ", dataset);
     chart_sales.setData(dataset);
+    cart_sales.redraw();
 }

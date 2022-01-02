@@ -1,114 +1,102 @@
+<nav class="pcoded-navbar">
+    <div class="navbar-wrapper">
+        <div class="navbar-brand header-logo">
 
-    <nav class="pcoded-navbar">
-        <div class="navbar-wrapper">
-            <div class="navbar-brand header-logo">
+            <a target="_blank" href="" class="b-brand">
+                <div class="b-bg ">
+                    <img src="/static/assets/images/icon-tf.png" class="img-fluid" alt="Thilina Fashion">
+                </div>
+                <span class="b-title">Thilina Fashion</span>
+            </a>
+            <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
 
-                <a target="_blank" 
-                   href="" class="b-brand">
-                    {% comment %} <div class="b-bg">
-                        <i class="feather icon-trending-up"></i>
-                    </div> {% endcomment %}
-                    <span class="b-title">Thilina Fashion</span>
-                </a>
-                <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
-                
-            </div>
-            <div class="navbar-content scroll-div">
-                <ul class="nav pcoded-inner-navbar">
-                    <!-- Navigation -->
-                    <li class="nav-item pcoded-menu-caption">
-                        <label>Navigation</label>
-                    </li>
+        </div>
+        <div class="navbar-content scroll-div">
+            <ul class="nav pcoded-inner-navbar">
+                <!-- Navigation -->
+                <li class="nav-item pcoded-menu-caption">
+                    <label>Navigation</label>
+                </li>
 
-                    <!-- DashBoard -->
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" 
-                        class="nav-item {% if 'index' in segment %} active {% endif %}">
-                        <a href="/dashboard/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
-                    </li>
+                <!-- DashBoard -->
+                <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item {% if 'index' in segment %} active {% endif %}">
+                    <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+                </li>
 
-                    <!-- Quatation -->
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" 
-                        class="nav-item {% if 'quatation' in segment %} active {% endif %}">
-                        <a href="/quatation/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-edit"></i></span><span class="pcoded-mtext">Quatation</span></a>
-                    </li>
+                <!-- Quatation -->
+                <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item {% if 'quatation' in segment %} active {% endif %}">
+                    <a href="/quatation/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-edit"></i></span><span class="pcoded-mtext">Quatation</span></a>
+                </li>
 
-                    <!-- Billing -->
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" 
-                        class="nav-item {% if 'billing' in segment %} active {% endif %}">
-                        <a href="/billing/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-plus"></i></span><span class="pcoded-mtext">Billing</span></a>
-                    </li>
+                <!-- Billing -->
+                <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item {% if 'billing' in segment %} active {% endif %}">
+                    <a href="/billing/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-plus"></i></span><span class="pcoded-mtext">Billing</span></a>
+                </li>
 
-                    <!-- Customers -->
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" 
-                        class="nav-item {% if 'customers' in segment %} active {% endif %}">
-                        <a href="/customers/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Customers</span></a>
-                    </li>
+                <!-- Customers -->
+                <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item {% if 'customers' in segment %} active {% endif %}">
+                    <a href="/customers/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Customers</span></a>
+                </li>
 
-                    <!-- Suppliers -->
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" 
-                        class="nav-item {% if 'suppliers' in segment %} active {% endif %}">
-                        <a href="/suppliers/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user-check"></i></span><span class="pcoded-mtext">Suppliers</span></a>
-                    </li>
+                <!-- Suppliers -->
+                <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item {% if 'suppliers' in segment %} active {% endif %}">
+                    <a href="/suppliers/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user-check"></i></span><span class="pcoded-mtext">Suppliers</span></a>
+                </li>
 
-                    <!-- Stocks -->
-                    <li class="nav-item pcoded-menu-caption">
-                        <label>Purchases</label>
-                    </li>
+                <!-- Stocks -->
+                <li class="nav-item pcoded-menu-caption">
+                    <label>Purchases</label>
+                </li>
 
-                    <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" 
-                        class="nav-item {% if 'materials' in segment %} active {% endif %} 
+                <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item {% if 'materials' in segment %} active {% endif %} 
                                         {% if 'purchase-order' in segment %} active {% endif %} 
                                         {% if 'stock-report' in segment %} active {% endif %} pcoded-hasmenu">
-                        <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Inventory</span></a>
-                        <ul class="pcoded-submenu">
-                            <li class="nav-item {% if 'materials' in segment %} active {% endif %}"><a href="/materials/" class="">Materials</a></li>
-                            <li class="nav-item {% if 'shells' in segment %} active {% endif %}"><a href="/shells/" class="">Shells</a></li>
-                            <li class="nav-item {% if 'purchase-order' in segment %} active {% endif %}"><a href="/purchase-order/" class="">Purchase Order</a></li>
-                            {% comment %} <span class="pcoded-badge label label-danger">NEW</span> {% endcomment %}
-                        </ul>
-                    </li>
+                    <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Inventory</span></a>
+                    <ul class="pcoded-submenu">
+                        <li class="nav-item {% if 'materials' in segment %} active {% endif %}"><a href="/materials/" class="">Materials</a></li>
+                        <li class="nav-item {% if 'shells' in segment %} active {% endif %}"><a href="/shells/" class="">Shells</a></li>
+                        <li class="nav-item {% if 'purchase-order' in segment %} active {% endif %}"><a href="/purchase-order/" class="">Purchase Order</a></li>
+                        {% comment %} <span class="pcoded-badge label label-danger">NEW</span> {% endcomment %}
+                    </ul>
+                </li>
 
-                    <!-- Sales -->
-                    <li class="nav-item pcoded-menu-caption">
-                        <label>Sales</label>
-                    </li>
+                <!-- Sales -->
+                <li class="nav-item pcoded-menu-caption">
+                    <label>Sales</label>
+                </li>
 
-                    <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" 
-                        class="nav-item {% if 'items' in segment %} active {% endif %} 
+                <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item {% if 'items' in segment %} active {% endif %} 
                                         {% if 'sales-order' in segment %} active {% endif %} 
                                         {% if 'sales-report' in segment %} active {% endif %} pcoded-hasmenu">
-                        <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-briefcase"></i></span><span class="pcoded-mtext">Stocks</span></a>
-                        <ul class="pcoded-submenu">
-                            <li class="nav-item {% if 'items' in segment %} active {% endif %}"><a href="/items/" class="">Manufacturing Itmes</a></li>
-                            <li class="nav-item {% if 'sales-order' in segment %} active {% endif %}"><a href="/sales-order/" class="">Sales Order</a></li>
-                            <li class="nav-item {% if 'pre-sale-order' in segment %} active {% endif %}"><a href="/pre-sales-order/" class="">Pre Sales Order</a></li>
-                        </ul>
-                    </li>
+                    <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-briefcase"></i></span><span class="pcoded-mtext">Stocks</span></a>
+                    <ul class="pcoded-submenu">
+                        <li class="nav-item {% if 'items' in segment %} active {% endif %}"><a href="/items/" class="">Manufacturing Itmes</a></li>
+                        <li class="nav-item {% if 'sales-order' in segment %} active {% endif %}"><a href="/sales-order/" class="">Sales Order</a></li>
+                        <li class="nav-item {% if 'pre-sale-order' in segment %} active {% endif %}"><a href="/pre-sales-order/" class="">Pre Sales Order</a></li>
+                    </ul>
+                </li>
 
-                    <li class="nav-item pcoded-menu-caption">
-                        <label>App Controls</label>
-                    </li>
-                    <!-- Adding New User -->
-                    {% if user.is_superuser %}
-                        <li data-username="form elements advance componant validation masking wizard picker select" 
-                            class="nav-item {% if 'register' in segment %} active {% endif %}">
-                            <a href="/register/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">User Registration</span></a>
-                        </li>
-                    {% endif %} 
-                    <!-- Logout -->
-                    <li data-username="form elements advance componant validation masking wizard picker select" 
-                        class="nav-item {% if 'settings' in segment %} active {% endif %}">
-                        <a href="/settings/?tab=0" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">settings</span></a>
-                    </li>
+                <li class="nav-item pcoded-menu-caption">
+                    <label>App Controls</label>
+                </li>
+                <!-- Adding New User -->
+                {% if user.is_superuser %}
+                <li data-username="form elements advance componant validation masking wizard picker select" class="nav-item {% if 'register' in segment %} active {% endif %}">
+                    <a href="/register/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">User Registration</span></a>
+                </li>
+                {% endif %}
+                <!-- Logout -->
+                <li data-username="form elements advance componant validation masking wizard picker select" class="nav-item {% if 'settings' in segment %} active {% endif %}">
+                    <a href="/settings/?tab=0" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">settings</span></a>
+                </li>
 
 
-                    <li data-username="Disabled Menu" class="nav-item">
-                        <a href="{% url 'logout' %}" class="nav-link">
-                            <span class="pcoded-micon"><i class="feather icon-power"></i></span><span class="pcoded-mtext">Logout</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+                <li data-username="Disabled Menu" class="nav-item">
+                    <a href="{% url 'logout' %}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-power"></i></span><span class="pcoded-mtext">Logout</span>
+                    </a>
+                </li>
+            </ul>
         </div>
-    </nav>
-
+    </div>
+</nav>

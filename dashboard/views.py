@@ -4,6 +4,7 @@ from graphos.renderers.morris import LineChart, BarChart, DonutChart, AreaChart
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.model import ModelDataSource
 from django.http import HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
@@ -161,12 +162,12 @@ def create_data_source_sm(sample):
     print('data : ', data)
     return data
 
-class MorrisDemo(TemplateView):
+class DashBoardTemplate(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
     renderer = None
 
     def get_context_data(self, **kwargs):
-        context = super(MorrisDemo, self).get_context_data(**kwargs)
+        context = super(DashBoardTemplate, self).get_context_data(**kwargs)
         context['segment'] = 'index' 
 
         # for stock card

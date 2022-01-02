@@ -43,6 +43,8 @@ class SalesOrder(models.Model):
     def save(self, *args, **kwargs):
         
         if self.status == 0:
+            self.sub_total_price = 0
+            self.total_price = 0
             # calculations
             for product in self.product_ids.all():
                 self.sub_total_price += product.total_price
