@@ -158,7 +158,7 @@
                                                         </a>
                                                     </div>
                                                     <div class="col-1">
-                                                        {% if Quotation.status != 3 %}
+                                                        {% if Quotation.status == 0 %}
                                                             <a type="button" class="delete-po bs-modal delete" title="Delete" data-form-url="{% url 'delete-quotation' Quotation.id %}">
                                                                 <span class="material-icons delete">delete</span>
                                                             </a>

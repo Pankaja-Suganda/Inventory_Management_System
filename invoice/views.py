@@ -33,13 +33,13 @@ class InvoiceList(LoginRequiredMixin, generic.ListView):
         context['total'] = Invoice.objects.all().count()
 
         date = datetime.date.today()
-        this_month = PreSalesOrder.objects.filter(issued_date__month=date.month, issued_date__year=date.year)
+        this_month = Invoice.objects.filter(issued_date__month=date.month, issued_date__year=date.year)
         context['this_month'] = "Rs. " + str(this_month.aggregate(Sum('total_price'))['total_price__sum'])
 
         if date.month == 12:
-            last_month = PreSalesOrder.objects.filter(issued_date__month=1, issued_date__year=date.year + 1).aggregate(Sum('total_price'))['total_price__sum']
+            last_month = Invoice.objects.filter(issued_date__month=1, issued_date__year=date.year + 1).aggregate(Sum('total_price'))['total_price__sum']
         else:
-            last_month = PreSalesOrder.objects.filter(issued_date__month=date.month + 1, issued_date__year=date.year).aggregate(Sum('total_price'))['total_price__sum']
+            last_month = Invoice.objects.filter(issued_date__month=date.month + 1, issued_date__year=date.year).aggregate(Sum('total_price'))['total_price__sum']
         
         if str(last_month) != 'None':
             context['last_month'] = "Rs. " +  str(last_month)
@@ -68,6 +68,19 @@ class InvoiceDetails(LoginRequiredMixin, generic.detail.DetailView):
         # context['closed'] = PreSalesOrder.objects.filter(status=4).count()
         context['segment'] = 'billing'
         context['create'] = 0
+        date = datetime.date.today()
+        this_month = Invoice.objects.filter(issued_date__month=date.month, issued_date__year=date.year)
+        context['this_month'] = "Rs. " + str(this_month.aggregate(Sum('total_price'))['total_price__sum'])
+
+        if date.month == 12:
+            last_month = Invoice.objects.filter(issued_date__month=1, issued_date__year=date.year + 1).aggregate(Sum('total_price'))['total_price__sum']
+        else:
+            last_month = Invoice.objects.filter(issued_date__month=date.month + 1, issued_date__year=date.year).aggregate(Sum('total_price'))['total_price__sum']
+        
+        if str(last_month) != 'None':
+            context['last_month'] = "Rs. " +  str(last_month)
+        else:
+            context['last_month'] = "Rs. 0.00"
         return context
 
 # create Invoice view
@@ -127,25 +140,31 @@ class InvoiceDocTemplate(LoginRequiredMixin, generic.CreateView):
             invoice.save()
 
         elif option == 2:
+            product_id = None
             # generating invoice from manual formset
             if formset_form.is_valid():
                 for form_product in formset_form:
                     if form_product.is_valid() and form_product.cleaned_data != {}:
                         if form_product.cleaned_data['product_id'] != None and form_product.cleaned_data['quantity'] != None:
+                            product_id = Product.objects.filter(name=form_product.cleaned_data['product_id']).first()
                             product = Invoice_Product(
                                 invoice_id = invoice,
                                 product_id = Product.objects.filter(name=form_product.cleaned_data['product_id']).first(),
                                 quantity = int(form_product.cleaned_data['quantity'])
                             )
+                            print('product : ', product_id)
+                            product_id.quatity = product_id.quatity - int(form_product.cleaned_data['quantity'])
+                            product_id.save()
                             product.save()
                             invoice.product_ids.add(product)
                             print(form_product.cleaned_data['product_id'], form_product.cleaned_data['quantity'],form_product.is_valid())
                 invoice.status = 0
+                invoice.issued_date = datetime.datetime.now()
                 invoice.save()
 
         return redirect('invoice-doc')
 
-# creating invoicce
+# creating invoice
 def create_invoice(request):
     context = {}
     context['create'] = 0
