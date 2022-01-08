@@ -350,6 +350,9 @@
                                                         </div>
                                                         <script type="text/javascript">
                                                             function print_click(event) {
+                                                                window.frames.document.title = 'new doucmentation';
+                                                                console.log(window.title);
+                                                                console.log(window);
                                                                 window.frames["printf"].focus();
                                                                 window.frames["printf"].print();
                                                             }

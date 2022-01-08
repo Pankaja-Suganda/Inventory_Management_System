@@ -139,7 +139,7 @@ class Materials(models.Model):
     name = models.CharField( max_length=150, blank=False)
     description = models.CharField( max_length=500, blank=False)
     unit_price =models.FloatField(blank=False)
-    quatity = models.PositiveIntegerField( blank=False, default=0)
+    quatity = models.FloatField( blank=False, default=0.0)
     stock_margin = models.IntegerField( blank=False, default=0)
     status = models.IntegerField(choices=STATUS_CHOICES, default=0)
     category_id = models.ForeignKey(Categories, blank=True, null=True, on_delete=models.SET_NULL)
