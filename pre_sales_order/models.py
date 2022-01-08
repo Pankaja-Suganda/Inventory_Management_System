@@ -50,11 +50,22 @@ class PreSalesOrder(models.Model):
                 self.sub_total_price += product.total_price
             self.total_price = self.sub_total_price - (self.sub_total_price*(self.discount_persentage/100))
 
-            # customer po count increment
-            self.customer_id.orders_count += 1
-            # assigning customer last po date
-            self.customer_id.last_order_date = self.issued_date
-            self.customer_id.save()
+            # # customer po count increment
+            # self.customer_id.orders_count += 1
+            # # assigning customer last po date
+            # self.customer_id.last_order_date = self.issued_date
+            # self.customer_id.save()
+                        # material deduction
+            # iterate over CProducts
+            for product in self.product_ids.all():
+                # cProduct (-cProduct object-)
+                print('product ; ', product)
+                for material in product.product_id.material_ids.all():
+                    material.material_id.quatity = material.material_id.quatity - material.quantity 
+                    print('name ; ', material.material_id.name, 'quantity : ', material.material_id.quatity, "required : ", material.quantity)
+                    material.material_id.save()
+                    material.material_id.make_stock_status()
+                    material.material_id.save()
 
         super(PreSalesOrder, self).save(*args, **kwargs)
 

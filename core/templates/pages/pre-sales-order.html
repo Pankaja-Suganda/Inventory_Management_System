@@ -157,6 +157,10 @@
                                                                 <i class="material-icons produced">build_circle</i>
                                                             </a>
                                                         {% elif PreSalesOrder.status == 1 %}
+                                                            <a type="button" class="delete-pso closed" title="Close"  data-form-url="{% url 'update-status-pre-sales' PreSalesOrder.id 0 %}">
+                                                                <i class="material-icons closed">cancel</i>
+                                                            </a>
+                                                        {% comment %} {% elif PreSalesOrder.status == 1 %}
                                                             <a type="button" class="delete-pso sended" title="Sended"  data-form-url="{% url 'update-status-pre-sales' PreSalesOrder.id 0 %}">
                                                                 <i class="material-icons sended">local_shipping</i>
                                                             </a>
@@ -166,8 +170,8 @@
                                                             </a>
                                                             <a type="button" class="delete-pso closed" title="closed"  data-form-url="{% url 'update-status-pre-sales' PreSalesOrder.id 0 %}">
                                                                 <i class="material-icons closed">cancel</i>
-                                                            </a>
-                                                        {% endif %}
+                                                            </a>{% endcomment %}
+                                                        {% endif %} 
                                                     </div>
                                                     <div class="col-1">
                                                         <a type="button" class="view" title="view"  href="{% url 'pre-sales-order' PreSalesOrder.id %}">

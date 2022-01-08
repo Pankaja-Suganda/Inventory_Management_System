@@ -30,6 +30,7 @@ class Invoice(models.Model):
     po_no = models.CharField(max_length=12, blank=True)
     related_so = models.ForeignKey(SalesOrder, blank=True, null=True, on_delete=models.SET_NULL)
     related_pso = models.ForeignKey(PreSalesOrder, blank=True, null=True, on_delete=models.SET_NULL)
+    mode = models.IntegerField(choices=STATUS_CHOICES, default=1) 
     invoice_pdf = models.FileField(null=True, blank=True, upload_to='core/static/assets/documents/invoice/')
     description = models.TextField(blank=True)
 

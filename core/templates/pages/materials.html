@@ -531,9 +531,9 @@
                                                             <td>{{ material.unit_price }}</td>
                                                             <td>{{ material.quatity }}</td>
                                                             {% if material.status == 0 %}
-                                                                <td class="card-title text-success">In Stock</td> 
-                                                            {% else %}
                                                                 <td class="card-title text-danger">Out Stock</td> 
+                                                            {% else %}
+                                                                <td class="card-title text-success">In Stock</td> 
                                                             {% endif %}
 
                                                             <td><a  href="{% if material.supplier_id %}{% url 'detail_supplier' material.supplier_id.id %}{% endif %}">{{ material.supplier_id.company }}</a></td>

@@ -150,10 +150,10 @@ class Materials(models.Model):
     user_id = models.ForeignKey(BaseUser, blank=True, null=True, on_delete=models.SET_NULL)
 
     def make_stock_status(self):
-        if self.quatity > self.stock_margin:
-            self.status = 0
-        else:
+        if self.quatity >= self.stock_margin:
             self.status = 1
+        else:
+            self.status = 0
 
     @staticmethod
     def Material_id():
@@ -167,6 +167,23 @@ class Materials(models.Model):
             check_id = Materials.objects.filter(id=full_id)
 
         return full_id
+
+    def delete(self, *args, **kwargs):
+        # checking whether this material is used in any purchase order
+        from purchase_order.models import PurchaseOrder
+        can_delete = False
+
+        purchase_orders = PurchaseOrder.objects.all()
+        for purchase_order in purchase_orders:
+            for cmaterial in purchase_order.material_ids.all():
+                if self == cmaterial.material_id:
+                    can_delete = True 
+                    break
+        
+        if can_delete:
+            super().delete(*args, **kwargs) 
+        else:
+            print('this material is exists')
 
     def class_name(self):
         return self.__name__

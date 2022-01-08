@@ -17,11 +17,12 @@ class CMaterialForm(forms.ModelForm):
             }
         ))
 
-    quantity = forms.IntegerField(
+    quantity = forms.FloatField(
         label='Enter Quatity of Material',
         help_text='Required',
         widget=forms.NumberInput(
             attrs={
+                "step": '0.01',
                 "placeholder" : "Quantity",                
                 "class": "form-control"
             }
@@ -69,15 +70,15 @@ class PurchaseOrderForm(forms.ModelForm):
                 "class": "form-control"
             }
         ))
-
-    tax_rate = forms.FloatField(
-        label='Enter the Tax Rate',
-        widget=forms.NumberInput(
-            attrs={
-                "placeholder" : " ",                
-                "class": "form-control"
-            }
-        ))
+    # tax rate is removed
+    # tax_rate = forms.FloatField(
+    #     label='Enter the Tax Rate',
+    #     widget=forms.NumberInput(
+    #         attrs={
+    #             "placeholder" : " ",                
+    #             "class": "form-control"
+    #         }
+    #     ))
 
     description = forms.CharField(
         label='Enter Description of Category',
@@ -92,7 +93,7 @@ class PurchaseOrderForm(forms.ModelForm):
 
     class Meta:
         model = PurchaseOrder
-        fields = ('id', 'supplier_id', 'discount_persentage', 'tax_rate', 'description')
+        fields = ('id', 'supplier_id', 'discount_persentage', 'description')
 
 class PurchaseOrderStatusForm(BSModalModelForm):
     id = forms.CharField(

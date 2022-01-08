@@ -150,7 +150,7 @@ class Product_Material(models.Model):
     id = models.AutoField(primary_key=True)
     product_id = models.ForeignKey(Product, blank=True, null=True, on_delete=models.CASCADE)
     material_id = models.ForeignKey(Materials, blank=True, null=True, on_delete=models.SET_NULL)
-    quantity = models.PositiveIntegerField(blank=False, null=False, default=0)
+    quantity = models.FloatField(blank=False, null=False, default=0)
 
     class Meta:
         __name__ = 'Product_Material'

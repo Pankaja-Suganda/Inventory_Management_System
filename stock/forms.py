@@ -19,7 +19,7 @@ class ProductMaterialForm(forms.ModelForm):
             }
         ))
 
-    quantity = forms.IntegerField(
+    quantity = forms.FloatField(
         label='Enter Quatity of Material',
         widget=forms.NumberInput(
             attrs={

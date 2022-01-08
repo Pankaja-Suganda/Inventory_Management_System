@@ -145,35 +145,37 @@ class PreStatusUpdateView(LoginRequiredMixin, BSModalUpdateView):
                 product.save()
 
         elif so_object.status == 1:
-            # Send to customer
-            so_object.status = 2
-            so_object.Sended_date = datetime.datetime.now()
+            # Closing the PSO 
+            so_object.status = 4
+            so_object.closed_date = datetime.datetime.now()
 
-            for cproduct in so_object.product_ids.all():
-                product = cproduct.product_id
-                product.quatity -= cproduct.quantity
-                product.save()
-                product.make_stock_status()
-                product.save()
 
-        elif so_object.status == 2:
-            # return from customer
+            # for cproduct in so_object.product_ids.all():
+            #     product = cproduct.product_id
+            #     product.quatity -= cproduct.quantity
+            #     product.save()
+            #     product.make_stock_status()
+            #     product.save()
 
-            if returned == 1:
-                so_object.status = 3 
-                so_object.Returned_date = datetime.datetime.now()
+        # no retrrn and sending
+        # elif so_object.status == 2:
+        #     # return from customer
 
-                for cproduct in so_object.product_ids.all():
-                    product = cproduct.product_id
-                    product.quatity += cproduct.quantity
-                    product.save()
-                    product.make_stock_status()
-                    product.save()
+        #     if returned == 1:
+        #         so_object.status = 3 
+        #         so_object.Returned_date = datetime.datetime.now()
 
-            else:
-                # closed purchase-order
-                so_object.status = 4
-                so_object.closed_date = datetime.datetime.now()
+        #         for cproduct in so_object.product_ids.all():
+        #             product = cproduct.product_id
+        #             product.quatity += cproduct.quantity
+        #             product.save()
+        #             product.make_stock_status()
+        #             product.save()
+
+        #     else:
+        #         # closed purchase-order
+        #         so_object.status = 4
+        #         so_object.closed_date = datetime.datetime.now()
                 
         so_object.save()
 

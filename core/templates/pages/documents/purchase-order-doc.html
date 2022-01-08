@@ -1,265 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <title>
-            Purchase Order
-        </title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.5, user-scalable=0, minimal-ui">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<head>
+    <title>
+        Purchase Order
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.5, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-        <!-- fontawesome icon -->
-        <link rel="stylesheet" href="/static/assets/fonts/fontawesome/css/fontawesome-all.min.css">
-        <!-- vendor css -->
-        <link rel="stylesheet" href="/static/assets/css/style-doc.css">
-        <!-- Specific CSS goes HERE -->
+    <!-- fontawesome icon -->
+    <link rel="stylesheet" href="/static/assets/fonts/fontawesome/css/fontawesome-all.min.css">
+    <!-- vendor css -->
+    <link rel="stylesheet" href="/static/assets/css/style-doc.css">
+    <!-- Specific CSS goes HERE -->
 
-    </head>
+</head>
 
-    <body>
-        <div class="my-0 {% if create == 1%}page{% endif %}" size="{% if create == 1%}A4{% endif %}">
-            <div class="p-5">
-            
+<body>
+    <div class="my-0 {% if create == 1%}page{% endif %}" size="{% if create == 1%}A4{% endif %}">
+        <div class="p-5">
+
             {% if create == 0%}
-                <form class="" method="POST" action="" hx-post="{% url 'purchase-order-doc'%}">
-                    {% csrf_token %}
-                    {{form_set.management_form}}
-                    {% comment %} 
-                    {{form.non_form_errors}}
-                    {{form}}
-                    {{form_set.non_form_errors}}
-                    {{form_set.management_form}}
+            <form class="" method="POST" action="" hx-post="{% url 'purchase-order-doc'%}">
+                {% csrf_token %} {{form_set.management_form}} {% comment %} {{form.non_form_errors}} {{form}} {{form_set.non_form_errors}} {{form_set.management_form}} {% for form_m in form_set%} {{form_m}} {% endfor %} {% endcomment %} {% endif %}
+                <section class="top-content justify-content-between">
+                    <div class="row">
+                        <div class="col-6 text-dark">
+                            <div class="font-weight-bold purchase-order">PURCHASE ORDER</div>
+                            <div class="po-no">
 
-                    {% for form_m in form_set%}
-                        {{form_m}}
-                    {% endfor %} {% endcomment %}
-            {% endif %}
-                    <section class="top-content justify-content-between">
-                        <div class="row">
-                            <div class="col-6 text-dark">
-                                <div class="font-weight-bold purchase-order">PURCHASE ORDER</div>
-                                <div class="po-no">
-
-                                {% if create == 0 %}
-                                    #[{{po_id}}]
-                                    <div class="input-group">
-                                        <input type="hidden" value="{{po_id}}" name={{form.id.name}} class="form-control" required="" readonly='True' id="{{form.id.id_for_label  }}">
+                                {% if create == 0 %} #[{{po_id}}]
+                                <div class="input-group">
+                                    <input type="hidden" value="{{po_id}}" name={{form.id.name}} class="form-control" required="" readonly='True' id="{{form.id.id_for_label  }}">
+                                </div>
+                                {% else %} #[{{Order.id}}] {% endif %}</div>
+                            <div class="card-title mt-2 font-weight-bold">
+                                {% if create == 0 %} Date : {{date}} {% else %} Issued Date : {{Order.issued_date}} {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-3 p-0 text-right ">
+                            <div class="com-detial-container mt-0 text-dark">
+                                <div class="text">369, Thalangama south,</div>
+                                <div class="text">batapotha battaramulla,</div>
+                                <div class="text"><span class="pcoded-micon"><i class="feather icon-phone"></i></span> 011-2077112/ 071-1795055</div>
+                                <div class="text"><span class="pcoded-micon"><i class="feather icon-mail"></i></span> thilinafashion@gmail.com</div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col ">
+                                    <div class="logo">
+                                        <img src="/static/assets/images/icon-tf.png" alt="" class="img-fluid">
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col">
+                                    <div class="text-center mt-1" style="font-size:12px; font-weight:900;">THILINA FASHION</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <hr class="m-0">
+                <section class="store-content mt-1">
+                    <div class="col-12">
+                        <div class="row bb pt-2">
+                            <div class="col-6">
+                                {% if create == 0 %} {{form.supplier_id.label}} {{form.supplier_id}} {% endif %}
+                                <div class="card-text pl-2 head-detail" style="font-weight:900;">SUPPLIER</div>
+                                {% if create == 1 %}
+                                <!-- <div class=" text-dark pl-2 mt-2" style="font-weight:1000;"><b>{{Order.supplier_id.name}}</b></div> -->
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">{{Order.supplier_id.company}}</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">{{Order.supplier_id.Address_1}},</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">{{Order.supplier_id.Address_2}},</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">{{Order.supplier_id.city}}</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">Mobile : {{Order.supplier_id.mobile_number}}</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">Fax : {{Order.supplier_id.fax_number}}</div>
                                 {% else %}
-                                    #[{{Order.id}}]
-                                {% endif %}</div>
-                                <div class="card-title mt-2 font-weight-bold">
-                                {% if create == 0 %}
-                                    Date : {{date}}
-                                {% else %}
-                                    Issued Date : {{Order.issued_date}}
+                                <!-- <div id="supplier_name" class="card-text pl-2 mt-2" style="font-weight:900;">[Supplier name]</div> -->
+                                <div id="company_name" class="card-text pl-2 mt-0" style="font-weight:900;">[Company Name]</div>
+                                <div id="address_1" class="card-text pl-2 mt-0" style="font-weight:900;">[Address 1]</div>
+                                <div id="address_2" class="card-text pl-2 mt-0" style="font-weight:900;">[Address 2]</div>
+                                <div id="city" class="card-text pl-2 mt-0" style="font-weight:900;">[City]</div>
+                                <div id="phone" class="card-text pl-2 mt-0" style="font-weight:900;">[Phone]</div>
+                                <div id="fax" class="card-text pl-2 mt-0" style="font-weight:900;">[Fax]</div>
                                 {% endif %}
-                                </div>
-                            </div>
-                            <div class="col-3 p-0 text-right ">
-                                <div class="com-detial-container mt-0 text-dark">
-                                    <div class="text">369, Thalangama south,</div>
-                                    <div class="text">batapotha battaramulla,</div>
-                                    <div class="text"><span class="pcoded-micon"><i class="feather icon-phone"></i></span> 011-2077112/ 071-1795055</div>
-                                    <div class="text"><span class="pcoded-micon"><i class="feather icon-mail"></i></span> thilinafashion@gmail.com</div>    
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="row">
-                                    <div class="col ">
-                                        <div class="logo">
-                                            <img src="/static/assets/images/icon-tf.png" alt="" class="img-fluid">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="col">
-                                        <div class="text-center mt-1" style="font-size:12px; font-weight:900;">THILINA FASHION</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section> 
-                    <hr class="m-0">
-                    <section class="store-content mt-1">
-                        <div class="col-12">
-                            <div class="row bb pt-2">
-                                <div class="col-6">
-                                    {% if create == 0 %}
-                                        {{form.supplier_id.label}}
-                                        {{form.supplier_id}}
-                                    {% endif %}
-                                    <div class="card-text pl-2 head-detail" style="font-weight:900;">SUPPLIER</div>
-                                    {% if create == 1 %}
-                                        <div class=" text-dark pl-2 mt-2" style="font-weight:1000;"><b>{{Order.supplier_id.name}}</b></div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">{{Order.supplier_id.company}}</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">{{Order.supplier_id.Address_1}},</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">{{Order.supplier_id.Address_2}},</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">{{Order.supplier_id.city}}</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">Mobile : {{Order.supplier_id.mobile_number}}</div>
-                                        <div class="card-text pl-2 mt-0" style="font-weight:900;">Fax : {{Order.supplier_id.fax_number}}</div>
-                                    {% else %}
-                                        <div id="supplier_name" class="card-text pl-2 mt-2" style="font-weight:900;">[Supplier name]</div>
-                                        <div id="company_name" class="card-text pl-2 mt-0" style="font-weight:900;">[Company Name]</div>
-                                        <div id="address_1" class="card-text pl-2 mt-0" style="font-weight:900;">[Address 1]</div>
-                                        <div id="address_2" class="card-text pl-2 mt-0" style="font-weight:900;">[Address 2]</div>
-                                        <div id="city" class="card-text pl-2 mt-0" style="font-weight:900;">[City]</div>
-                                        <div id="phone" class="card-text pl-2 mt-0" style="font-weight:900;">[Phone]</div>
-                                        <div id="fax" class="card-text pl-2 mt-0" style="font-weight:900;">[Fax]</div>
-                                    {% endif %}
 
-                                </div>
-                                <div class="col-6">
-                                    <div class="card-text pl-2 head-detail" style="font-weight:900;">SHIP TO</div>
-                                    <div class="card-text pl-2 mt-2" style="font-weight:900;">{{user.first_name}} {{user.last_name}}</div>
-                                    <div class="card-text pl-2 mt-0" style="font-weight:900;">{{company.company}}</div>
-                                    <div class="card-text pl-2 mt-0" style="font-weight:900;">{{company.Postal_Address_1}},</div>
-                                    <div class="card-text pl-2 mt-0" style="font-weight:900;">{{company.Postal_Address_2}},</div>
-                                    <div class="card-text pl-2 mt-0" style="font-weight:900;">{{company.Postal_city}}.</div>
-                                    <div class="card-text pl-2 mt-0" style="font-weight:900;">Mobile : {{company.mobile_number}}</div>
-                                    <div class="card-text pl-2 mt-0" style="font-weight:900;">E mail : {{company.email}}</div>
-                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card-text pl-2 head-detail" style="font-weight:900;">SHIP TO</div>
+                                {% comment %}
+                                <div class="card-text pl-2 mt-2" style="font-weight:900;">{{company.first_name}} {{company.last_name}}</div> {% endcomment %}
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;"><b>{{company.company}}</b></div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">{{company.Postal_Address_1}},</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">{{company.Postal_Address_2}},</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">{{company.Postal_city}}.</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">Mobile : {{company.mobile_number}}</div>
+                                <div class="card-text pl-2 mt-0" style="font-weight:900;">E mail : {{company.email}}</div>
                             </div>
                         </div>
-                    </section> 
-                    <section class="product-area mt-3">
-                        <table class="table table-bordered text-dark table-hover">
-                            <thead class="head-detail border">
+                    </div>
+                </section>
+                <section class="product-area mt-3">
+                    <table class="table table-bordered text-dark table-hover">
+                        <thead class="head-detail border">
+                            <tr>
+                                <th style="width: 10%">Item#</th>
+                                {% if create == 0%}
+                                <th style="width: 45%">Material</th>
+                                <th style="width: 15%">Quantity</th>
+                                {% else %}
+                                <th style="width: 45%">Description</th>
+                                <th style="width: 15%">Quantity</th>
+                                <th style="width: 15%">Unit Price</th>
+                                <th style="width: 15%" class="text-right">Total</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody class="table border">
+                            {% if create == 0%} {% for form_m in form_set%}
+                            <tr>
+
+                                <td>{{forloop.counter}}</td>
+                                <td>{{form_m.material_id}}</td>
+                                <td>{{form_m.quantity}}</td>
+                            </tr>
+                            {% endfor %} {% else %} {%for material in Order.material_ids.all%}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{material.material_id.name}}</td>
+                                <td>{{material.quantity|floatformat:1}}</td>
+                                <td>{{material.material_id.unit_price|floatformat:2}}</td>
+                                <td class="text-right">{{material.total_price|floatformat:2}}</td>
+                            </tr>
+                            {% endfor %} {%for i in other_count %}
+                            <tr>
+                                <td>{{i}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            {% endfor %} {% endif %}
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="balance-info mt-2">
+                    <div class="row text-dark">
+                        <div class="col-7 border">
+                            <p class="m-0 font-weight-bold ">Note</p>
+                            {% if create == 0%}
+                            <p>{{form.description}} </p>
+                            {% else %}
+                            <p>{{Order.description}} </p>
+                            {% endif %}
+                        </div>
+                        <div class="col-5">
+                            <table class="table table-bordered table-hover m-0 text-dark">
+                                {% if create == 1%}
                                 <tr>
-                                    <th style="width: 10%">Item#</th>
+                                    <td class="font-weight-bold" style="width: 48%">Sub Total (Rs.):</td>
+                                    <td class="text-right">{{Order.sub_total_price|floatformat:2}}</td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <td class="font-weight-bold">Discount (%) :</td>
                                     {% if create == 0%}
-                                        <th style="width: 45%">Material</th>
-                                        <th style="width: 15%">Quantity</th>
+                                    <td>{{form.discount_persentage}}</td>
                                     {% else %}
-                                        <th style="width: 45%">Description</th>
-                                        <th style="width: 15%">Quantity</th>
-                                        <th style="width: 15%">Unit Price</th>
-                                        <th style="width: 15%" class="text-right">Total</th>
+                                    <td class="text-right">{{Order.discount_persentage|floatformat:2}}</td>
                                     {% endif %}
                                 </tr>
-                            </thead>
-                            <tbody class="table border">
-                                {% if create == 0%}
-                                    {% for form_m in form_set%}
-                                        <tr>
-                                            
-                                            <td>{{forloop.counter}}</td>
-                                            <td>{{form_m.material_id}}</td>
-                                            <td>{{form_m.quantity}}</td>
-                                        </tr>
-                                    {% endfor %} 
-
-                                {% else %}
-                                    {%for material in Order.material_ids.all%}
-                                        <tr>
-                                            <td>{{ forloop.counter }}</td>
-                                            <td>{{material.material_id.name}}</td>
-                                            <td>{{material.quantity|floatformat:1}}</td>
-                                            <td>{{material.material_id.unit_price|floatformat:2}}</td>
-                                            <td class="text-right">{{material.total_price|floatformat:2}}</td>
-                                        </tr>
-                                    {% endfor %}
-                                    {%for i in other_count %}
-                                        <tr>
-                                            <td>{{i}}</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    {% endfor %} 
-                                {% endif %}
-                            </tbody>
-                        </table>
-                    </section> 
-
-                    <section class="balance-info mt-2">
-                        <div class="row text-dark">
-                            <div class="col-7 border">
-                                <p class="m-0 font-weight-bold ">Note</p>
-                                {% if create == 0%}
-                                    <p>{{form.description}} </p>
-                                {% else %}
-                                    <p>{{Order.description}} </p>
-                                {% endif %}
-                            </div>
-                            <div class="col-5">
-                                <table class="table table-bordered table-hover m-0 text-dark">
-                                    {% if create == 1%}
-                                        <tr>
-                                            <td class="font-weight-bold" style="width: 48%">Sub Total (Rs.):</td>
-                                            <td class="text-right">{{Order.sub_total_price|floatformat:2}}</td>
-                                        </tr>
+                                <!-- including tax rate -->
+                                <!-- <tr>
+                                    <td class="font-weight-bold">Tax (%) : </td>
+                                    {% if create == 0%}
+                                    <td>{{form.tax_rate}}</td>
+                                    {% else %}
+                                    <td class="text-right">{{Order.tax_rate|floatformat:2}}</td>
                                     {% endif %}
+                                </tr> -->
+                                <!-- including tax rate -->
+                                {% if create == 1%}
+                                <tfoot>
                                     <tr>
-                                        <td class="font-weight-bold">Discount (%) :</td>
-                                        {% if create == 0%}
-                                            <td>{{form.discount_persentage}}</td>
-                                        {% else %}
-                                            <td class="text-right">{{Order.discount_persentage|floatformat:2}}</td>
-                                        {% endif %}
+                                        <td class="font-weight-bold">Total (Rs.) : </td>
+                                        <td class="text-right">{{Order.total_price|floatformat:2}}</td>
                                     </tr>
-                                    <tr>
-                                        <td class="font-weight-bold">Tax (%) : </td>
-                                        {% if create == 0%}
-                                            <td>{{form.tax_rate}}</td>
-                                        {% else %}
-                                            <td class="text-right">{{Order.tax_rate|floatformat:2}}</td>
-                                        {% endif %}
-                                    </tr>
-                                    {% if create == 1%}
-                                        <tfoot>
-                                            <tr>
-                                                <td class="font-weight-bold">Total (Rs.) : </td>
-                                                <td class="text-right">{{Order.total_price|floatformat:2}}</td>
-                                            </tr>
-                                        </tfoot>
-                                    {% endif %}
-                                </table>
-                            </div>
+                                </tfoot>
+                                {% endif %}
+                            </table>
                         </div>
-                    </section> 
-                    {% if create == 0%}
-                        <button type="submit" class="btn btn-md bg-success float-right text-light"  title="Create new Purchase Order" name="button" >
+                    </div>
+                </section>
+                {% if create == 0%}
+                <button type="submit" class="btn btn-md bg-success float-right text-light" title="Create new Purchase Order" name="button">
                             <span class="material-icons">Issue PO</span>
                         </button>
 
-                        <script src="/static/assets/plugins/jquery/js/jquery.min.js"></script>
-                        <script type="text/javascript">
-                            window.CSRF_TOKEN = "{{ csrf_token }}"; 
-                            $('#id_supplier_id').on('change', function (event) {
-                                $.ajax({                                      
-                                        url: '/detail_supplier_add/' + $('#id_supplier_id').val(),              
-                                        type: "post",
-                                        data: {csrfmiddlewaretoken: window.CSRF_TOKEN},
-                                        success: function (data) {
-                                            $('#supplier_name').html("<b>"+data[0].fields.name+"</b>");
-                                            $("#company_name").html(data[0].fields.company);
-                                            $("#address_1").html(data[0].fields.Address_1);
-                                            $("#address_2").html(data[0].fields.Address_2);
-                                            $("#city").html(data[0].fields.city);
-                                            $("#phone").html("Mobile : " + data[0].fields.mobile_number);
-                                            $("#fax").html("Fax : " + data[0].fields.fax_number);
-                                        }
-                                    })
-                            });
+                <script src="/static/assets/plugins/jquery/js/jquery.min.js"></script>
+                <script type="text/javascript">
+                    window.CSRF_TOKEN = "{{ csrf_token }}";
+                    $('#id_supplier_id').on('change', function(event) {
+                        $.ajax({
+                            url: '/detail_supplier_add/' + $('#id_supplier_id').val(),
+                            type: "post",
+                            data: {
+                                csrfmiddlewaretoken: window.CSRF_TOKEN
+                            },
+                            success: function(data) {
+                                $('#supplier_name').html("<b>" + data[0].fields.name + "</b>");
+                                $("#company_name").html(data[0].fields.company);
+                                $("#address_1").html(data[0].fields.Address_1);
+                                $("#address_2").html(data[0].fields.Address_2);
+                                $("#city").html(data[0].fields.city);
+                                $("#phone").html("Mobile : " + data[0].fields.mobile_number);
+                                $("#fax").html("Fax : " + data[0].fields.fax_number);
+                            }
+                        })
+                    });
+                </script>
+                {% endif %}
 
 
-
-                        </script>
-                    {% endif %}
-
-
-                    <footer>
-                        <p class="m-3 text-center">
-                            view this invoice online At - <a href="#!"></a>
-                        </p>
-                    </footer> 
-            {% if create == 0%}
-                </form>
+                <footer>
+                    <p class="m-3 text-center">
+                        view this invoice online At -
+                        <a href="#!"></a>
+                    </p>
+                </footer>
+                {% if create == 0%}
+            </form>
             {% endif %}
-            </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

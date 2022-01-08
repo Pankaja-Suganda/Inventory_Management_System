@@ -299,7 +299,7 @@
                             });
 
                             $('#id_option').on('change', function (event) {
-
+                                //location.reload(true);
                                 var value = $('#id_option').val();
                                 if (value==0){
                                     $('#id_label').show();
@@ -328,9 +328,6 @@
                                     $('#id_customer_id').show();
                                     $('#customer_label').text("Select Customer");
                                 }
-                                
-                                
-
                             }); 
                         </script>
                     {% endif %}

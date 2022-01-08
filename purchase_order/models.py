@@ -23,7 +23,7 @@ class PurchaseOrder(models.Model):
     total_price = models.FloatField(blank=False, default=0.0)
     sub_total_price = models.FloatField(blank=False, default=0.0)
     discount_persentage = models.FloatField(blank=False, default=0.0)
-    tax_rate = models.FloatField(blank=False, default=0.0)
+    # tax_rate = models.FloatField(blank=False, default=0.0) // Include Tax Rate
     issued_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     paid_date = models.DateTimeField(blank=True, null=True)
     Received_date = models.DateTimeField(blank=True, null=True)
@@ -39,6 +39,7 @@ class PurchaseOrder(models.Model):
         return self.__class__.__name__
     
     def save(self, *args, **kwargs):
+        print('PO saving')
         
         if self.status == 0:
             self.sub_total_price = 0
@@ -48,6 +49,7 @@ class PurchaseOrder(models.Model):
                 self.sub_total_price += material.total_price
             self.total_price = self.sub_total_price - (self.sub_total_price*(self.discount_persentage/100))
 
+        if self.status == 3:
             # supplier po count increment
             self.supplier_id.po_count += 1
             # assigning supplier last po date
@@ -58,8 +60,9 @@ class PurchaseOrder(models.Model):
 
     def delete(self, *args, **kwargs):
         # decrease the po_count of the supplier 
-        self.supplier_id.po_count -= 1
-        self.supplier_id.save()
+        if self.status == 3:
+            self.supplier_id.po_count -= 1
+            self.supplier_id.save()
 
         if self.status == 2:
             for cmaterial in self.material_ids.all():
@@ -88,7 +91,7 @@ class CMaterial(models.Model):
     id = models.AutoField(primary_key=True)
     po_id = models.ForeignKey(PurchaseOrder, blank=True, null=True, on_delete=models.CASCADE)
     material_id = models.ForeignKey(Materials, blank=True, null=True, on_delete=models.SET_NULL)
-    quantity = models.PositiveIntegerField(blank=False, null=False, default=0)
+    quantity = models.FloatField(blank=False, null=False, default=0)
     total_price = models.FloatField(blank=False, default=0.0)
     
     def save(self, *args, **kwargs):

@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
@@ -8,6 +9,7 @@ from .forms import SalesOrderForm,  CProductForm, CProductlFormSet, SalesOrderSt
 from django.contrib.auth.mixins import LoginRequiredMixin
 import datetime
 
+from invoice.models import Invoice
 from django.http import HttpResponse
 from django.core import serializers
 
@@ -17,6 +19,9 @@ from bootstrap_modal_forms.generic import (
   BSModalReadView,
   BSModalDeleteView
 )
+
+SALES_ORDER_MODE = 1
+PRE_SALES_ORDER_MODE = 2
 
 # Create your views here.
 # sales order list
@@ -197,3 +202,15 @@ class SalesOrderDeleteView(LoginRequiredMixin, BSModalDeleteView):
 def SalesOrderDetailsAdd(request, pk):
     customer = SalesOrder.objects.get(pk=pk)
     return HttpResponse(serializers.serialize("json", [customer]), content_type="application/json")
+
+def DropDownOptions(request):
+    invoices = Invoice.objects.filter(mode=SALES_ORDER_MODE)
+    options = []
+
+    for order in SalesOrder.objects.all():
+        for invoice in invoices:
+                if not order.id == invoice.related_so.id:
+                    options.append('Sales Order (' + order.id + ')')
+
+
+    return JsonResponse({ 'options' :  options})

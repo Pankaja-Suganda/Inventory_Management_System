@@ -122,6 +122,8 @@ class InvoiceDocTemplate(LoginRequiredMixin, generic.CreateView):
                 invoice.product_ids.add(product)
             invoice.customer_id = so.customer_id
             invoice.status = 1
+            invoice.mode = 1
+            invoice.issued_date = datetime.datetime.now()
             invoice.save()
 
         elif option == 1:
@@ -137,8 +139,10 @@ class InvoiceDocTemplate(LoginRequiredMixin, generic.CreateView):
                 invoice.product_ids.add(product)
             invoice.customer_id = pso.customer_id
             invoice.status = 2
+            invoice.mode = 2
+            invoice.issued_date = datetime.datetime.now()
             invoice.save()
-
+        # Manually Invoicing is commented
         elif option == 2:
             product_id = None
             # generating invoice from manual formset

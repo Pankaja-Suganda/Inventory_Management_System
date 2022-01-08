@@ -63,6 +63,7 @@ class ShellsList(LoginRequiredMixin, generic.ListView):
             page_number = 1
             
         table = []
+        data = None
         for i in range(4):
             row = []
             for j in range(page_number-1, page_number+4):
