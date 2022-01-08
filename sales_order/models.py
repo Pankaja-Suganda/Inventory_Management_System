@@ -20,7 +20,7 @@ class SalesOrder(models.Model):
     id = models.CharField(max_length=11, primary_key=True, blank=False)
     user_id = models.ForeignKey(BaseUser, blank=True, null=True, on_delete=models.SET_NULL)
     customer_id = models.ForeignKey(Customer, blank=True, null=True, on_delete=models.SET_NULL)
-    product_ids = models.ManyToManyField('CProduct', blank=True, null=True)
+    product_ids = models.ManyToManyField('CProduct', blank=True)
     total_price = models.FloatField(blank=False, default=0.0)
     sub_total_price = models.FloatField(blank=False, default=0.0)
     discount_persentage = models.FloatField(blank=False, default=0.0)

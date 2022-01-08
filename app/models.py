@@ -13,7 +13,7 @@ class Company(models.Model):
     first_name = models.CharField('first name', max_length=150, blank=True)
     last_name = models.CharField('last name', max_length=150,  blank=True)
     email = models.EmailField('email address', blank=True)
-    mobile_number = models.IntegerField(max_length=10, blank=True)
+    mobile_number = models.IntegerField( blank=True)
 
     Postal_Address_1 = models.CharField('postal address 1', max_length=250, blank=False)
     Postal_Address_2 = models.CharField('postal address 2', max_length=250, blank=False)

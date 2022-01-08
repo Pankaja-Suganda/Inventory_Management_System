@@ -100,8 +100,8 @@ class Shell(models.Model):
     )
 
     id = models.CharField(max_length=12, primary_key=True, blank=False)
-    row = models.IntegerField(max_length=12, blank=False)
-    column = models.IntegerField(max_length=12, blank=False)
+    row = models.IntegerField( blank=False)
+    column = models.IntegerField( blank=False)
     description = models.CharField( max_length=350, blank=False, default='')
     last_update = models.DateTimeField(auto_now=True)
     status = models.IntegerField(choices=STATUS_CHOICES, default=0)

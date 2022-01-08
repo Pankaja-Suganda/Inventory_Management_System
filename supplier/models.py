@@ -11,8 +11,8 @@ class Supplier(models.Model):
     supplier_img = models.ImageField(null=True, blank=False, upload_to='core/static/assets/images/supplier', default='core/static/assets/images/supplier/default.png')
 
     email = models.EmailField('email address', blank=True)
-    mobile_number = models.IntegerField(max_length=10, blank=True)
-    fax_number = models.IntegerField(max_length=10, blank=True)
+    mobile_number = models.IntegerField( blank=True)
+    fax_number = models.IntegerField( blank=True)
 
     Address_1 = models.CharField('postal address 1', max_length=250, blank=False)
     Address_2 = models.CharField('postal address 2', max_length=250, blank=False)

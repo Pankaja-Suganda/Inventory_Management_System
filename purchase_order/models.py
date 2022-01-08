@@ -19,7 +19,7 @@ class PurchaseOrder(models.Model):
     id = models.CharField(max_length=11, primary_key=True, blank=False)
     user_id = models.ForeignKey(BaseUser, blank=True, null=True, on_delete=models.SET_NULL)
     supplier_id = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.SET_NULL)
-    material_ids = models.ManyToManyField('CMaterial', blank=True, null=True )
+    material_ids = models.ManyToManyField('CMaterial', blank=True )
     total_price = models.FloatField(blank=False, default=0.0)
     sub_total_price = models.FloatField(blank=False, default=0.0)
     discount_persentage = models.FloatField(blank=False, default=0.0)
