@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
+from django import forms
 from django.views.generic.base import TemplateView
 from .models import PreSalesOrder, PProduct
 from .filters import PreSalesOrderFilter
@@ -82,10 +83,25 @@ class PreSalesOrderDocTemplate(LoginRequiredMixin, generic.CreateView):
             ctx = self.get_context_data()
             form_set = PProductlFormSet(self.request.POST or None)
             pso_id = PreSalesOrderForm(self.request.POST)
-            if pso_id.is_valid():
-                pso_id = pso_id.save()
 
+            # checking whether the product quantity is enough or not
+            checked_status = False
             if form_set.is_valid():
+                for form_product in form_set:
+                    if form_product.is_valid() and not len(form_product.cleaned_data) == 0 :
+                        product = form_product.cleaned_data['product_id']
+                        quantity = form_product.cleaned_data['quantity']
+
+                        for Cmaterial in product.material_ids.all():
+                            required_quantity = Cmaterial.quantity * quantity
+                            if required_quantity >  float(Cmaterial.material_id.quatity):
+                                checked_status = True
+                                raise forms.ValidationError('Available Material ' + Cmaterial.material_id.name + ' quantity is ' + str(Cmaterial.material_id.quatity) +', Required quantity is ' + str(required_quantity) + ', thus, Product Quatity is not enough for Pre sales order')
+            
+            if not checked_status:
+                if pso_id.is_valid():
+                    pso_id = pso_id.save()
+                
                 for form_product in form_set:
                     product = form_product.save(commit=False)
                     if form_product.is_valid() and not product.product_id==None and not product.quantity==0:
@@ -93,8 +109,8 @@ class PreSalesOrderDocTemplate(LoginRequiredMixin, generic.CreateView):
                         product.save()
                         pso_id.product_ids.add(product)
 
-        return super(PreSalesOrderDocTemplate, self).form_valid(form)
-
+                return super(PreSalesOrderDocTemplate, self).form_valid(form)
+                
 # creating so
 def create_pso(request):
     context = {}

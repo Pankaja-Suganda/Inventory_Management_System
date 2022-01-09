@@ -74,7 +74,7 @@ class InvoiceForm(forms.ModelForm):
             }
         ))
 
-    customer_id = forms.ModelChoiceField(
+    customer_id = forms.ModelChoiceField( 
         queryset = Customer.objects.all(),
         label='Select Customer',
         required=False,

@@ -61,7 +61,7 @@ class PreSalesOrder(models.Model):
                 # cProduct (-cProduct object-)
                 print('product ; ', product)
                 for material in product.product_id.material_ids.all():
-                    material.material_id.quatity = material.material_id.quatity - material.quantity 
+                    material.material_id.quatity = material.material_id.quatity - (material.quantity * product.quantity)
                     print('name ; ', material.material_id.name, 'quantity : ', material.material_id.quatity, "required : ", material.quantity)
                     material.material_id.save()
                     material.material_id.make_stock_status()

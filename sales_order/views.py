@@ -2,6 +2,7 @@ from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
+from django import forms
 from django.views.generic.base import TemplateView
 from .models import SalesOrder, CProduct
 from .filters import SalesOrderFilter
@@ -9,6 +10,7 @@ from .forms import SalesOrderForm,  CProductForm, CProductlFormSet, SalesOrderSt
 from django.contrib.auth.mixins import LoginRequiredMixin
 import datetime
 
+from django.contrib import messages 
 from invoice.models import Invoice
 from django.http import HttpResponse
 from django.core import serializers
@@ -87,10 +89,25 @@ class SalesOrderDocTemplate(LoginRequiredMixin, generic.CreateView):
             ctx = self.get_context_data()
             form_set = CProductlFormSet(self.request.POST or None)
             so_id = SalesOrderForm(self.request.POST)
-            if so_id.is_valid():
-                so_id = so_id.save()
 
+            # checking whether the product quantity is enough or not
+            checked_status = False
             if form_set.is_valid():
+                for form_product in form_set:
+                    if form_product.is_valid() and not len(form_product.cleaned_data) == 0 :
+                        product = form_product.cleaned_data['product_id']
+                        quantity = form_product.cleaned_data['quantity']
+
+                        for Cmaterial in product.material_ids.all():
+                            required_quantity = Cmaterial.quantity * quantity
+                            if required_quantity >  float(Cmaterial.material_id.quatity):
+                                checked_status = True
+                                raise forms.ValidationError('Available Material ' + Cmaterial.material_id.name + ' quantity is ' + str(Cmaterial.material_id.quatity) +', Required quantity is ' + str(required_quantity) + ', thus, Product Quatity is not enough for sales order')
+            
+            if not checked_status:
+                if so_id.is_valid():
+                    so_id = so_id.save()
+                
                 for form_product in form_set:
                     product = form_product.save(commit=False)
                     if form_product.is_valid() and not product.product_id==None and not product.quantity==0:
@@ -98,7 +115,7 @@ class SalesOrderDocTemplate(LoginRequiredMixin, generic.CreateView):
                         product.save()
                         so_id.product_ids.add(product)
 
-        return super(SalesOrderDocTemplate, self).form_valid(form)
+                return super(SalesOrderDocTemplate, self).form_valid(form)
 
 # creating so
 def create_so(request):
@@ -211,6 +228,5 @@ def DropDownOptions(request):
         for invoice in invoices:
                 if not order.id == invoice.related_so.id:
                     options.append('Sales Order (' + order.id + ')')
-
 
     return JsonResponse({ 'options' :  options})

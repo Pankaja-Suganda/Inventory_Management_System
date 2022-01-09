@@ -31,6 +31,14 @@ class CProductForm(forms.ModelForm):
         model = CProduct
         fields = ('product_id', 'quantity')
 
+    def cleaned_quantity(self, *args, **kwargs):
+        quantity = self.cleaned_data['quantity']
+        product = self.cleaned_data['product_id']
+
+        if product.quatity < float(quantity):
+            print(product, 'product quantity is not eough')
+            raise forms.ValidationError('validation error')
+
 CProductlFormSet = inlineformset_factory(
                         SalesOrder,
                         CProduct,

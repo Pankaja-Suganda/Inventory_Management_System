@@ -60,9 +60,9 @@ class SalesOrder(models.Model):
             # iterate over CProducts
             for product in self.product_ids.all():
                 # cProduct (-cProduct object-)
-                print('product ; ', product)
+                # print('product ; ', product)
                 for material in product.product_id.material_ids.all():
-                    material.material_id.quatity = material.material_id.quatity - material.quantity 
+                    material.material_id.quatity = material.material_id.quatity - (material.quantity * product.quantity)
                     print('name ; ', material.material_id.name, 'quantity : ', material.material_id.quatity, "required : ", material.quantity)
                     material.material_id.save()
                     material.material_id.make_stock_status()
@@ -83,18 +83,17 @@ class SalesOrder(models.Model):
                 product.make_stock_status()
                 product.save()
 
-        if self.status == 0 :
-            # material deduction
-            # iterate over CProducts
-            for product in self.product_ids.all():
-                # cProduct (-cProduct object-)
-                # print('product ; ', product)
-                for material in product.product_id.material_ids.all():
-                    material.material_id.quatity = material.material_id.quatity + material.quantity 
-                    # print('name ; ', material.material_id.name, 'quantity : ', material.material_id.quatity, "required : ", material.quantity)
-                    material.material_id.save()
-                    material.material_id.make_stock_status()
-                    material.material_id.save()
+        # material deduction
+        # iterate over CProducts
+        for product in self.product_ids.all():
+            # cProduct (-cProduct object-)
+            # print('product ; ', product)
+            for material in product.product_id.material_ids.all():
+                material.material_id.quatity = material.material_id.quatity + material.quantity 
+                # print('name ; ', material.material_id.name, 'quantity : ', material.material_id.quatity, "required : ", material.quantity)
+                material.material_id.save()
+                material.material_id.make_stock_status()
+                material.material_id.save()
 
         super(SalesOrder, self).delete(*args, **kwargs)
     

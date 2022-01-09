@@ -12,7 +12,7 @@ from authentication.models import BaseUser
 from sales_order.models import SalesOrder
 from stock.models import Product
 from pre_sales_order.models import PreSalesOrder
-
+from django import forms
 from django.db.models import Sum
 
 from bootstrap_modal_forms.generic import BSModalDeleteView
@@ -145,26 +145,39 @@ class InvoiceDocTemplate(LoginRequiredMixin, generic.CreateView):
         # Manually Invoicing is commented
         elif option == 2:
             product_id = None
-            # generating invoice from manual formset
+            checked_status = False
+            # checking whether the product quantity is enough or not
             if formset_form.is_valid():
                 for form_product in formset_form:
-                    if form_product.is_valid() and form_product.cleaned_data != {}:
-                        if form_product.cleaned_data['product_id'] != None and form_product.cleaned_data['quantity'] != None:
-                            product_id = Product.objects.filter(name=form_product.cleaned_data['product_id']).first()
-                            product = Invoice_Product(
-                                invoice_id = invoice,
-                                product_id = Product.objects.filter(name=form_product.cleaned_data['product_id']).first(),
-                                quantity = int(form_product.cleaned_data['quantity'])
-                            )
-                            print('product : ', product_id)
-                            product_id.quatity = product_id.quatity - int(form_product.cleaned_data['quantity'])
-                            product_id.save()
-                            product.save()
-                            invoice.product_ids.add(product)
-                            print(form_product.cleaned_data['product_id'], form_product.cleaned_data['quantity'],form_product.is_valid())
-                invoice.status = 0
-                invoice.issued_date = datetime.datetime.now()
-                invoice.save()
+                    if form_product.is_valid() and not len(form_product.cleaned_data) == 0 :
+                        product = form_product.cleaned_data['product_id']
+                        quantity = form_product.cleaned_data['quantity']
+
+                        if quantity >  float(product.quatity):
+                            checked_status = True
+                            raise forms.ValidationError('Available Stock ' + product.name + ' quantity is ' + str(product.quatity) +', Required quantity is ' + str(quantity) + ', thus, Product Quatity is not enough for Invoice')
+
+            if not checked_status:
+                # generating invoice from manual formset
+                if formset_form.is_valid():
+                    for form_product in formset_form:
+                        if form_product.is_valid() and form_product.cleaned_data != {}:
+                            if form_product.cleaned_data['product_id'] != None and form_product.cleaned_data['quantity'] != None:
+                                product_id = Product.objects.filter(name=form_product.cleaned_data['product_id']).first()
+                                product = Invoice_Product(
+                                    invoice_id = invoice,
+                                    product_id = Product.objects.filter(name=form_product.cleaned_data['product_id']).first(),
+                                    quantity = int(form_product.cleaned_data['quantity'])
+                                )
+                                print('product : ', product_id)
+                                product_id.quatity = product_id.quatity - int(form_product.cleaned_data['quantity'])
+                                product_id.save()
+                                product.save()
+                                invoice.product_ids.add(product)
+                                print(form_product.cleaned_data['product_id'], form_product.cleaned_data['quantity'],form_product.is_valid())
+                    invoice.status = 0
+                    invoice.issued_date = datetime.datetime.now()
+                    invoice.save()
 
         return redirect('invoice-doc')
 

@@ -14,7 +14,6 @@
         <!-- vendor css -->
         <link rel="stylesheet" href="/static/assets/css/style-doc.css">
         <!-- Specific CSS goes HERE -->
-
     </head>
 
     <body>
@@ -144,7 +143,7 @@
                                 {% if create == 0%}
                                     {% for form_m in form_set%}
                                         <tr>
-                                            
+                                            {{form_m.errors}}
                                             <td>{{forloop.counter}}</td>
                                             <td>{{form_m.product_id}}</td>
                                             <td>{{form_m.quantity}}</td>
@@ -203,6 +202,7 @@
                                             <td class="text-right">{{Order.discount_persentage|floatformat:2}}</td>
                                         {% endif %}
                                     </tr>
+
                                     {% comment %} <tr>
                                         <td class="font-weight-bold">Tax (%) : </td>
                                         {% if create == 0%}
@@ -211,6 +211,7 @@
                                             <td class="text-right">{{Order.tax_rate|floatformat:2}}</td>
                                         {% endif %}
                                     </tr> {% endcomment %}
+
                                     {% if create == 1%}
                                         <tfoot>
                                             <tr>
@@ -246,9 +247,7 @@
                                             $("#email").html("E-Mail : " + data[0].fields.email);
                                         }
                                     })
-                            });
-
-
+                                });
 
                         </script>
                     {% endif %}
@@ -265,4 +264,5 @@
             </div>
         </div>
     </body>
+    
 </html>
