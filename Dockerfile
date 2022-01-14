@@ -19,7 +19,6 @@ ENV PYTHONUNBUFFERED 1
 # COPY supplier supplier
 COPY . .
 
-
 EXPOSE 8000
 
 RUN pip install virtualenv

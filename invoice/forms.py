@@ -59,8 +59,8 @@ def modeFilter(mode, objects):
                 if order.id == invoice.related_so.id:
                     objects_copy = objects_copy.exclude(id=order.id)
 
-    print('objects : ', objects)
-    print('filtered objects : ', objects_copy)
+    # print('objects : ', objects)
+    # print('filtered objects : ', objects_copy)
 
     return objects_copy
 

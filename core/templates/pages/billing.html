@@ -17,7 +17,7 @@
                             <h5 class="m-b-10">Billing</h5>
                         </div>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/dashboard/"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="javascript:">Billing</a></li>
                         </ul>
                     </div>
@@ -148,11 +148,12 @@
                                                         </a>
                                                     </div>
                                                     <div class="col-1">
-                                                        {% if Invoice_.status != 3 %}
+                                                        
+                                                        {% comment %} {% if Invoice_.status != 3 %}
                                                             <a type="button" class="delete-po bs-modal delete" title="Delete" data-form-url="{% url 'delete-invoice' Invoice_.id %}">
                                                                 <span class="material-icons delete">delete</span>
                                                             </a>
-                                                        {% endif %}
+                                                        {% endif %} {% endcomment %}
                                                     </div>
                                                 </div>
                                             </div>
