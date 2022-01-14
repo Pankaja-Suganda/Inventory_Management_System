@@ -100,7 +100,7 @@ class PreSalesOrderDocTemplate(LoginRequiredMixin, generic.CreateView):
             
             if not checked_status:
                 if pso_id.is_valid():
-                    pso_id = pso_id.s ave()
+                    pso_id = pso_id.save()
                 
                 for form_product in form_set:
                     product = form_product.save(commit=False)
