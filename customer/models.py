@@ -14,10 +14,10 @@ class Customer(models.Model):
     company = models.CharField('company', max_length=150, blank=True)
     first_name = models.CharField('first name', max_length=150, blank=True)
     last_name = models.CharField('last name', max_length=150,  blank=True)
-    customer_img = models.ImageField(null=True, blank=True, upload_to='core/static/assets/images/customer', default='core/static/assets/images/customer/default.png')
+    customer_img = models.ImageField(null=True, blank=False, upload_to='core/static/assets/images/customer', default='core/static/assets/images/customer/default.png')
     status = models.IntegerField(choices=STATUS_CHOICES, default=0)
     email = models.EmailField('email address', blank=True)
-    mobile_number = models.IntegerField(max_length=10, blank=True)
+    mobile_number = models.IntegerField( blank=True)
 
     Postal_Address_1 = models.CharField('postal address 1', max_length=250, blank=False)
     Postal_Address_2 = models.CharField('postal address 2', max_length=250, blank=False)
@@ -33,7 +33,7 @@ class Customer(models.Model):
     last_order_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.id
+        return self.company
 
     def get_last_name(self):
         return self.last_name
@@ -45,9 +45,17 @@ class Customer(models.Model):
         return self.__name__
 
     @staticmethod
-    def customer_id(self):
-        id = shortuuid.ShortUUID(alphabet="0123456789")
-        return 'C'+ str( id.random(length=6))
+    def customer_id():
+        id_no = shortuuid.ShortUUID(alphabet="0123456789")
+        full_id = 'C'+ str( id_no.random(length=6))
+        check_id = Customer.objects.filter(id=full_id)
+        print(full_id)
+        while(check_id.exists()):
+            id = shortuuid.ShortUUID(alphabet="0123456789")
+            full_id = 'C'+ str( id_no.random(length=6))
+            check_id = Customer.objects.filter(id=full_id)
+            print(full_id)
+        return full_id
     
     class Meta:
         __name__ = 'Customer'

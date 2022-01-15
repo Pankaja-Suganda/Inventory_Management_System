@@ -9,6 +9,7 @@ from django.template import loader
 from django.http import HttpResponseRedirect, HttpResponse
 from django import template
 from django.core.serializers import deserialize
+import datetime
 
 # from authentication application
 from authentication.decorator import allowed_users
@@ -25,22 +26,25 @@ from supplier.filters import SupplierFilter
 from supplier.models import Supplier
 from supplier.forms import SupplierRegister
 
-#  for packing the model pass one view to another
-def context_packer(model, name, id):
-    if not model == None:
-        context = {
-                "model" : model.__name__, 
-                "id" : id,
-                "name": name
-            }
-    else:
-        context = {
-                "model" : None, 
-                "id" : id,
-                "name": name
-            }
+# from purchaseorder Application
+from purchase_order.models import PurchaseOrder
 
-    return context
+#  for packing the model pass one view to another
+# def context_packer(model, name, id):
+#     if not model == None:
+#         context = {
+#                 "model" : model.__name__, 
+#                 "id" : id,
+#                 "name": name
+#             }
+#     else:
+#         context = {
+#                 "model" : None, 
+#                 "id" : id,
+#                 "name": name
+#             }
+
+#     return context
 
 # for remaking the model from passed data from previous view
 def context_maker(context_in):
@@ -70,13 +74,11 @@ def index(request):
 def pages(request):
 
     if not request.session.get("context")==None:
-        context = context_maker(request.session.get("context"))
-        print ('context : ', context)
+        # context = context_maker(request.session.get("context"))
+        print ('context : ')
     else:
         context = {}
 
-    context['user'] = request.user
-    context['users'] = BaseUser.objects.all()
     # All resource paths end in .html.
     # Pick out the html file name from the url. And load that template.
 
@@ -84,41 +86,6 @@ def pages(request):
         
         load_template      = request.path.split('/')[-1]
         context['segment'] = load_template.replace('.html','')
-
-        # for settings section
-        if context['segment'] == 'settings':
-            context['form'] = ProfileUpdate(instance=request.user)
-            context['form_reset'] = UserPasswordUpdate()
-            context['select'] = 'account-general'
-            context['form_per'] = UserUpdatePer()
-        
-        # for customer section
-        elif context['segment'] == 'customers':
-            if request.POST:
-                # context['customers'] = Customer.objects.all()
-                context['filter'] = CustomerFilter(request.GET, queryset=Customer.objects.all())
-                context['customer_reg'] = CustomerRegister()
-            else:
-                customers = Customer.objects.all()
-                cus_filter = CustomerFilter(request.GET, queryset=customers)
-                # context['customers'] = cus_filter.qs
-                context['filter'] = cus_filter
-                context['customer_reg'] = CustomerRegister()
-            
-        # for Supplier section
-        elif context['segment'] == 'suppliers':
-            if request.POST:
-                # if request is POST
-                context['suppliers'] = Supplier.objects.all()
-                context['filter'] = SupplierFilter()
-                context['supplier_reg'] = SupplierRegister()
-            else:
-                # if request is POST
-                customers = Supplier.objects.all()
-                cus_filter = SupplierFilter(request.GET, queryset=customers)
-                context['suppliers'] = cus_filter.qs
-                context['filter'] = cus_filter
-                context['supplier_reg'] = SupplierRegister()
 
         print('load : ', load_template)
         html_template = loader.get_template( load_template )
@@ -139,3 +106,82 @@ class CustomerTemplate(TemplateView):
 
 class SupplierTemplate(TemplateView):
     template_name = 'suppliers.html'
+
+class SettingsTemplate(TemplateView):
+    template_name = 'settings.html'
+
+class RegisterTemplate(TemplateView):
+    template_name = 'accounts/register.html'
+
+class MaterialsTemplate(TemplateView):
+    template_name = 'materials.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'materials'
+        return context
+
+class ShellsTemplate(TemplateView):
+    template_name = 'shells.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'shells'
+        return context
+
+class PurchaseOrderTemplate(TemplateView):
+    template_name = 'purchase-order.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'purchase-order'
+        return context
+
+class ItemsTemplate(TemplateView):
+    template_name = 'items.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'items'
+        return context
+
+class SalesOrderTemplate(TemplateView):
+    template_name = 'sales-order.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'sales-order'
+        return context
+
+class PreSalesOrderTemplate(TemplateView):
+    template_name = 'pre-sales-order.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'pre-sale-order'
+        return context
+
+class QuotationTemplate(TemplateView):
+    template_name = 'quatation.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'quatation'
+        return context
+
+class BillingTemplate(TemplateView):
+    template_name = 'billing.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'billing'
+        return context
+    
+class DashboardTemplate(TemplateView):
+    template_name = 'dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'dashboard'
+        return context
+    

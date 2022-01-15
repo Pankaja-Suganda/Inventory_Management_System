@@ -19,8 +19,8 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # # load production server from .env
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1'),'192.168.8.103']
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1'),'192.168.8.102']
+# ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
@@ -30,15 +30,27 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_htmx',
     'phonenumber_field',
     'bootstrap_modal_forms',
+    'bootstrap_datepicker_plus',
     'widget_tweaks',
     'django_filters',
+    'colorfield',
     'app',
     'authentication',
     'customer',
-    'supplier'
-     # Enable the inner app 
+    'supplier',
+    'materials',
+    'purchase_order',
+    'stock',
+    'sales_order',
+    'pre_sales_order',
+    'quotation',
+    'invoice',
+    'dashboard',
+    'graphos'
+    # Enable the inner app 
 ]
 
 MIDDLEWARE = [
@@ -50,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -111,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Colombo'
 
 USE_I18N = True
 
@@ -140,3 +153,13 @@ MEDIA_ROOT = os.path.join(CORE_DIR, '')
 
 #custom User Model
 AUTH_USER_MODEL = 'authentication.BaseUser'
+
+# # HTTPS Settings
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+
+# # HSTS settings
+# SECURE_HSTS_SECONDS = True
+# SECURE_HSTS_PRELOAD = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True

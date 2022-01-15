@@ -1,0 +1,55 @@
+{% load widget_tweaks %}
+
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="modal-header">
+        <h3 class="modal-title">New Category Creation for Materials</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+        <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+        {% for error in form.non_field_errors %}
+            {{ error }}
+        {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    {{form.id.label}} :
+                    <div class="input-group">
+                        <input type="text" value="{{generated_id}}" name={{form.id.name}} class="form-control" required="" readonly='True' id="{{form.id.id_for_label  }}">
+                    </div>
+                    {% if form.id.errors %}
+                    <span role="alert" class="alert alert-danger help-block"
+                        ><strong>Error!</strong>{{ form.id.errors }}</span>
+                    {% endif %}
+                    <br>
+                    {{form.name.label}} :
+                    <div class="input-group">{{ form.name }}</div>
+                    {% if form.name.errors %}
+                    <span role="alert" class="alert alert-danger help-block"
+                        ><strong>Error!</strong>{{ form.name.errors }}</span>
+                    {% endif %}
+                    <br>
+                    {{form.description.label}} :
+                    <div class="input-group">{{ form.description }}</div>
+
+                    {% if form.description.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.description.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" url="{% url 'create_category'  %}"><span class="material-icons"> person_add</span> Add Category</button>
+    </div>
+</form>

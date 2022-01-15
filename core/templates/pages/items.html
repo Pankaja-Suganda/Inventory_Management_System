@@ -17,8 +17,8 @@
                             <h5 class="m-b-10">Manufacturing items</h5>
                         </div>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="javascript:">Sales</a></li>
+                            <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="javascript:">Stocks</a></li>
                             <li class="breadcrumb-item"><a href="javascript:">Manufacturing items</a></li>
                         </ul>
                     </div>
@@ -28,7 +28,682 @@
         <!-- [ breadcrumb ] end -->
         <div class="main-body">
             <!-- Page content -->
+            <style>
+                .update {
+                    color: #2196F3;
+                    cursor: pointer;
+                }
+                .delete {
+                    color: #F44336;
+                    cursor: pointer;
+                }
+                .Scroll {
+                    height:800px;
+                    overflow-y: scroll;
+                }
+                .cat-card{
+                    margin: 10px;
+                    {% comment %} background: #F44336; {% endcomment %}
+                }
+                .list-title {
+                    color: #000;
+                    padding: 16px 30px;
+                    margin: -20px -25px 10px;
+                    margin-left: -10px;
+                    border-radius: 20px;
+                }
+                .table-title h2 {
+                    margin: 5px 0 0;
+                    font-size: 24px;
+                }
+                .search-box {
+                    position: relative;        
+                    float: right;
+                }
+                .search-box .in{
+                    height: 44px;
+                    border-radius: 20px;
+                    padding-left: 30px;
+                    border-color: #ddd;
+                    box-shadow: none;
+                }
+                .search-box .in:focus {
+                    border-color: #3FBAE4;
+                }
+                .search-box i {
+                    color: #a0a5b1;
+                    position: absolute;
+                    font-size: 19px;
+                    top: 15px;
+                    left: 25px;
+                }
 
+                .dot{
+                    height: 15px;
+                    width: 15px;
+                    border-radius: 50%;
+                    display: inline-block;
+                }
+
+            </style>
+            <div class="page-wrapper">
+                <div class = "row">
+                    <div class="col-sm-12 col-md-12 col-xl-3" style="height:100px">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link {% if tab == 0 %} active {% endif %}" id="category-tab" data-toggle="tab" href="#category" role="tab" aria-controls="category" aria-selected="true">Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if tab == 1 %} active {% endif %}" id="size-tab" data-toggle="tab" href="#size" role="tab" aria-controls="size" aria-selected="false">Sizes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if tab == 2 %} active {% endif %}" id="color-tab" data-toggle="tab" href="#color" role="tab" aria-controls="color" aria-selected="false">Colors</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane {% if tab == 0 %} active {% endif %}" id="category" role="tabpanel" aria-labelledby="category-tab">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <form role="form" method="get" action="" class="form-horizontal">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="value" value="0">
+                                            <div class="row">
+                                                <div class="search-box col-8">
+                                                    <i class="material-icons">&#xE8B6;</i>
+                                                    {{ Category_filter.form.name }}
+                                                </div>
+                                                <div class="search-box col-1">
+                                                    <button style="display: none;" type="submit"></button>
+                                                </div> 
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-4">
+                                        <button id ="create-category" class="btn btn-sm bg-success float-right text-light"  title="Add New Category" type="button" name="button" >
+                                            <span class="material-icons" style="font-size:18px">category</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class = "">
+                                    <div class="overflow-auto Scroll">
+                                        {% for category in Categories %}
+                                            <div class = "card cat-card border-left" >
+                                                <div class = "card-header">
+                                                    <div class="row">
+                                                        <div class="col-7">
+                                                            <div class="card-title">Name :  {{ category.name }}</div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <div class="card-title">Id : {{ category.id }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="card-text">  {{category.description}} </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-9"></div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="update-category bs-modal settings" title="Update"  data-form-url="{% url 'update_product_category' category.id %}">
+                                                                <i class="material-icons update">update</i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="delete-category bs-modal delete" title="Delete" data-form-url="{% url 'delete_product_category' category.id %}">
+                                                                <span class="material-icons delete">delete</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane {% if tab == 1 %} active {% endif %}" id="size" role="tabpanel" aria-labelledby="size-tab">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <form role="form" method="get" action=""class="form-horizontal">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="value" value="1">
+                                            <div class="row">
+                                                <div class="search-box col-8">
+                                                    <i class="material-icons">&#xE8B6;</i>
+                                                    {{ Size_filter.form.name }}
+                                                </div>
+                                                <div class="search-box col-1">
+                                                    <button style="display: none;" type="submit"></button>
+                                                </div> 
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-4">
+                                        <button id ="create-size" class="btn btn-sm bg-success float-right text-light"  title="Add New Size" type="button" name="button" >
+                                            <span class="material-icons" style="font-size:18px">photo_size_select_small</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class = "">
+                                    <div class="overflow-auto Scroll">
+                                        {% for size in Sizes %}
+                                            <div class = "card cat-card border-left" >
+                                                <div class = "card-header">
+                                                    <div class="row">
+                                                        <div class="col-7">
+                                                            <div class="card-title">Name :  {{ size.name }}</div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <div class="card-title">Id : {{ size.id }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="card-text">  {{size.description}} </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-9"></div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="update-size bs-modal settings" title="Update"  data-form-url="{% url 'update_size' size.id %}">
+                                                                <i class="material-icons update">update</i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="delete-size bs-modal delete" title="Delete" data-form-url="{% url 'delete_size' size.id %}">
+                                                                <span class="material-icons delete">delete</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane {% if tab == 2 %} active {% endif %}" id="color" role="tabpanel" aria-labelledby="color-tab">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <form role="form" method="get" action="" class="form-horizontal">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="value" value="2">
+                                            <div class="row">
+                                                <div class="search-box col-8">
+                                                    <i class="material-icons">&#xE8B6;</i>
+                                                    {{ Color_filter.form.name }}
+                                                </div>
+                                                <div class="search-box col-1">
+                                                    <button style="display: none;" type="submit"></button>
+                                                </div> 
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-4">
+                                        <button id ="create-color" class="btn btn-sm bg-success float-right text-light"  title="Add New Color" type="button" name="button" >
+                                            <span class="material-icons" style="font-size:18px">palette</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class = "">
+                                    <div class="overflow-auto Scroll">
+                                        {% for color in Colors %}
+                                            <div class = "card cat-card border-left" >
+                                                <div class = "card-header">
+                                                    <div class="row">
+                                                        <div class="col-7">
+                                                            <div class="card-title">Name :  {{ color.name }}</div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <div class="card-title">Id : {{ color.id }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <span class="dot text-center" style="background-color:{{ color.color}}"></span>
+                                                        </div>
+                                                        <div class="col-9">
+                                                            <p class="card-text">  {{color.description}} </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-9"><div class="font-weight-bold">{{ color.color}}</div></div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="update-color bs-modal settings" title="Update"  data-form-url="{% url 'update_color' color.id %}">
+                                                                <i class="material-icons update">update</i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <a type="button" class="delete-color bs-modal delete" title="Delete" data-form-url="{% url 'delete_color' color.id %}">
+                                                                <span class="material-icons delete">delete</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-xl-9">
+                        <div class = "row">
+                            <div class="col-xl-3 col-md-6 col-sm-12">
+                                <div class="card yearly-sales ">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">In Stock Products</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0">
+                                                    <i class="feather icon-trending-up text-c-green f-30 m-r-10"></i>{{In_Stock}}
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <div class=" m-t-30" style="height: 5px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-sm-12">
+                                <div class="card yearly-sales">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">Out Stock Products</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0">
+                                                    <i class="feather icon-trending-down text-c-red f-30 m-r-10"></i>{{Out_Stock}}
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <div class=" m-t-30" style="height: 5px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-sm-12">
+                                <div class="card yearly-sales ">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">Total Categories</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0">
+                                                    <i class="feather icon-grid text-c-yellow f-30 m-r-10"></i>{{Category_count}}
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <div class=" m-t-30" style="height: 5px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-sm-12">
+                                <div class="card yearly-sales ">
+                                    <div class="card-block">
+                                        <h6 class="mb-4">Total Sizes</h6>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-9">
+                                                <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-layers text-c-blue f-30 m-r-10"></i>{{Sizes_count}}</h3>
+                                            </div>
+                                        </div>
+                                        <div class=" m-t-30" style="height: 5px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <style>
+                            .table-wrapper {
+                                min-width: 800px;
+                                background: #fff;
+                                padding: 20px;
+                                box-shadow: 0 1px 1px rgba(0,0,0,.05);
+                            }
+                            .table-title {
+                                padding-bottom: 15px;
+                                color: #000;
+                                padding: 16px 30px;
+                                margin: -50px -15px -5px;
+                                border-radius: 10px;
+                            }
+                            .table-title h2 {
+                                margin: 5px 0 0;
+                                font-size: 24px;
+                            }
+                            .search-box {
+                                position: relative;        
+                                float: right;
+                            }
+                            .search-box .in{
+                                height: 44px;
+                                border-radius: 20px;
+                                padding-left: 30px;
+                                border-color: #ddd;
+                                box-shadow: none;
+                            }
+                            .search-box .in:focus {
+                                border-color: #3FBAE4;
+                            }
+                            .search-box i {
+                                color: #a0a5b1;
+                                position: absolute;
+                                font-size: 19px;
+                                top: 15px;
+                                left: 25px;
+                            }
+                            .table-card{
+                                height: 550px;
+                            }
+                            table.table tr th, table.table tr td {
+                                border-color: #e9e9e9;
+                                vertical-align: middle;
+                                padding: 12px 15px;
+                            }
+                            table.table-striped tbody tr:nth-of-type(odd) {
+                                background-color: #fcfcfc;
+                            }
+                            table.table-striped.table-hover tbody tr:hover {
+                                background: #f5f5f5;
+                            }
+                            table.table th i {
+                                font-size: 13px;
+                                margin: 0 5px;
+                                cursor: pointer;
+                            }
+                            table.table td:last-child {
+                                width: 130px;
+                            }
+                            table.table td a {
+                                color: #a0a5b1;
+                                display: inline-block;
+                                margin: 0 5px;
+                                cursor: pointer;
+                            }
+                            table.table td a.settings {
+                                color: #2196F3;
+                            }
+                            table.table td a.delete {
+                                color: #F44336;
+                            }
+                            table.table td i {
+                                font-size: 19px;
+                            }    
+                            .pagination {
+                                float: right;
+                                margin: 0 0 5px;
+                            }
+                            .pagination li a {
+                                border: none;
+                                font-size: 95%;
+                                width: 30px;
+                                height: 30px;
+                                color: #999;
+                                margin: 0 2px;
+                                line-height: 30px;
+                                border-radius: 30px !important;
+                                text-align: center;
+                                padding: 0;
+                            }
+                            .pagination li a:hover {
+                                color: #666;
+                            }	
+                            .pagination li.active a {
+                                background: #03A9F4;
+                            }
+                            .pagination li.active a:hover {        
+                                background: #0397d6;
+                            }
+                            .pagination li.disabled i {
+                                color: #ccc;
+                            }
+                            .pagination li i {
+                                font-size: 16px;
+                                padding-top: 6px
+                            }
+                            .hint-text {
+                                float: left;
+                                margin-top: 6px;
+                                font-size: 95%;
+                            }
+                        </style>
+
+                        <div class = "row">
+                            <div class="col-12">
+                                <div class="card yearly-sales table-card ">
+                                    <div class="table-responsive ">
+                                        <div class="table-wrapper">
+                                            <div class="table-title">
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <form role="form" method="get" action="" class="form-horizontal mt-4">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="product-filter" value="2">
+                                                            <div class="row">
+                                                                <div class="search-box col-3">
+                                                                    <i class="material-icons">&#xE8B6;</i>
+                                                                    {{ Product_filter.form.name }}
+                                                                </div>
+                                                                <div class="search-box col-3">
+                                                                    <i class="material-icons">&#xE8B6;</i>
+                                                                    {{ Product_filter.form.status }}
+                                                                </div>
+                                                                <div class="search-box col-4">
+                                                                    <button style="display: none;" type="submit"></button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button id ="create-product" class="btn btn-md bg-success float-right text-light search-box mt-3"  title="Add New Product" type="button" name="button" >
+                                                            <span class="material-icons" style="font-size:18px"> control_point_duplicate</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <table class="table table-striped table-hover " style="table-layout:fixed;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Name </th>
+                                                        <th>Unit Price</th>
+                                                        <th>Quatity </th>
+                                                        <th>Status </th>
+                                                        <th>Category </th>
+                                                        <th>Size</th>
+                                                        <th>Color</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for product in Products %}
+                                                        <tr>
+                                                            <td>{{ product.id }}</td>
+                                                            <td>{{ product.name }}</td>
+                                                            <td>{{ product.unit_price }}</td>
+                                                            <td>{{ product.quatity }}</td>
+                                                            {% if product.status == 0 %}
+                                                                <td class="card-title text-success">In Stock</td> 
+                                                            {% else %}
+                                                                <td class="card-title text-danger">Out Stock</td> 
+                                                            {% endif %}
+
+                                                            <td><a>{{ product.category_id.name }}</a></td>
+                                                            <td><b>{{ product.Size_id.name }}</b></td>
+                                                            <td>
+                                                                <div class="row">
+                                                                    <div class="col-3">
+                                                                        <span class="dot text-center" style="background-color:{{ product.color_id.color}}"></span>
+                                                                    </div>
+                                                                    <div class="col-9">
+                                                                        {{ product.color_id.name }} 
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <a type="button" class="update-product bs-modal settings" title="Update"  data-form-url="{% url 'update_product' product.id %}">
+                                                                    <i class="material-icons">update</i>
+                                                                </a>
+                                                                <a type="button" class="delete-product bs-modal delete" title="Delete" data-form-url="{% url 'delete_product' product.id %}">
+                                                                    <span class="material-icons">delete</span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                            <div class="clearfix">
+                                                <div class="hint-text">Showing <b>{{ page_obj.object_list.count }}</b> out of <b>{{num_of_objects}}</b> entries</div>
+                                                <ul class="pagination">
+                                                    
+                                                    <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}"><a href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
+                                                    {% if page_obj.has_previous %} 
+                                                        <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">{{ page_obj.previous_page_number }}</a></li>
+                                                    {% endif %}
+                                                    <li class="page-item active"><a href="#" class="page-link">{{ page_obj.number }}</a></li>
+                                                    {% if page_obj.has_next %}
+                                                        <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}"><a href="?page={{ page_obj.next_page_number }}" class="page-link">{{ page_obj.next_page_number }}</a></li>
+                                                    {% endif %}
+                                                    <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </div> 
+                                <!-- Modal 1 with id="cat-create-modal" -->
+                                <div class="modal fade bd-example-modal-md" id="cat-create-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-md">
+                                        <div class="modal-content">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal 1 with id="create-modal" -->
+                                <div class="modal fade bd-example-modal-lg" id="create-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal 1 with id="update-modal" -->
+                                <div class="modal fade bd-example-modal-lg" id="update-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal 3 with id="delete-modal" -->
+                                <div class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" id="delete-modal">
+                                    <div class="modal-dialog modal-md" role="document">
+                                        <div class="modal-content"></div>
+                                    </div>
+                                </div>
+
+                                <script src="/static/assets/plugins/jquery/js/jquery.min.js" type="text/javascript"></script>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        // Update products
+                                        $(".update-product").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"),
+                                                 modalID: "#update-modal"
+                                                });
+                                        });
+
+                                        // Delete Products
+                                        $(".delete-product").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"), 
+                                                isDeleteForm: true,
+                                                modalID: "#delete-modal"
+                                                });
+                                        });
+                                        
+                                        // Create book button opens form in modal with id="create-modal"
+                                        $("#create-product").modalForm({
+                                            formURL: "{% url 'create_product' %}",
+                                            modalID: "#create-modal"
+                                        });
+
+                                        //for categories functions
+                                        // Category Creation
+                                        $("#create-category").modalForm({
+                                            formURL: "{% url 'create_product_category' %}",
+                                            modalID: "#create-modal"
+                                        });
+
+                                        // Category Updating
+                                        $(".update-category").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"),
+                                                 modalID: "#update-modal"
+                                                });
+                                        });
+                                        // Category Deletion
+                                        $(".delete-category").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"), 
+                                                isDeleteForm: true,
+                                                modalID: "#delete-modal"
+                                                });
+                                        });
+
+                                        // for Size functions
+                                        // Size Creation
+                                        $("#create-size").modalForm({
+                                            formURL: "{% url 'create_size' %}",
+                                            modalID: "#create-modal"
+                                        });
+                                        // Size Updating
+                                        $(".update-size").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"),
+                                                 modalID: "#update-modal"
+                                                });
+                                        });
+                                        // Size Deletion
+                                        $(".delete-size").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"), 
+                                                isDeleteForm: true,
+                                                modalID: "#delete-modal"
+                                                });
+                                        });
+
+                                        // for color functions
+                                        // color Creation
+                                        $("#create-color").modalForm({
+                                            formURL: "{% url 'create_color' %}",
+                                            modalID: "#create-modal"
+                                        });
+                                        // color Updating
+                                        $(".update-color").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"),
+                                                 modalID: "#update-modal"
+                                                });
+                                        });
+                                        // color Deletion
+                                        $(".delete-color").each(function () {
+                                            $(this).modalForm({
+                                                formURL: $(this).data("form-url"), 
+                                                isDeleteForm: true,
+                                                modalID: "#delete-modal"
+                                                });
+                                        });
+                        
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

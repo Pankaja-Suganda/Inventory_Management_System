@@ -7,8 +7,25 @@
     <bold>Update Success</bold> You have successfully Updated your profile!
   </div>
 {% endif %}
+{% comment %} message showing {% endcomment %}
+{% if messages %}
+    {% for msg in messages %}
+        {% if messages.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div role="alert" class="alert alert-info"><strong>Info! </strong>{{ msg  }}</div>
+        {% endif %}
+        {% if messages.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <div role="alert" class="alert alert-success"><strong>Success! </strong>{{ msg  }}</div>
+        {% endif %}
+        {% if messages.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div role="alert" class="alert alert-error"><strong>Error! </strong>{{ msg  }}</div>
+        {% endif %}
+        {% if messages.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+            <div role="alert" class="alert alert-warning"><strong>Warning! </strong>{{ msg  }}</div>
+        {% endif %}
+    {% endfor %} 
+{% endif %}
 
-  <form role="form" method="post" enctype="multipart/form-data">
+  <form role="form" method="post" action="/update/" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group">
       <div class="row">
@@ -124,24 +141,7 @@
         </div>
       </div>
     </div>
+    <button type="submit" class="btn btn-primary text-light float-right" title="Update General Info" >Update</button>
   </form>
-  <button class="btn btn-primary text-light float-right" title="Update General Info" data-toggle="modal" data-target="#model_info_update_pass" >Update</button>
-  <br>
-  <!-- User Profile Update Modal -->
-  <div class="modal hide fade" id="model_info_update_pass" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">User Profile Update Confirmation</h5>
-        </div>
-        <div class="modal-body">
-          <div class='modal-message'> You want really need to update your Profile informations ?</div>
-        </div>
-        <div class="modal-footer">
-          <button href="{% url 'update'%}" class="btn btn-primary">  Confirm Update </button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" > Cancel </button>
-        </div>
-      </div>
-    </div>
-  </div> 
+  <br> 
 </div>

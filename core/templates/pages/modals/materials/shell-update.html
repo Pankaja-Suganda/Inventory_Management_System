@@ -1,0 +1,82 @@
+{% load widget_tweaks %}
+
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="modal-header">
+        <h3 class="modal-title">New Shell Creation</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+        <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+        {% for error in form.non_field_errors %}
+            {{ error }}
+        {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="form-group col-md-6">
+
+                    {{form.id.label}} :
+                    <div class="input-group"> {{ form.id }}</div>
+                    {% if form.id.errors %}
+                    <span role="alert" class="alert alert-danger help-block"
+                        ><strong>Error!</strong>{{ form.id.errors }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-6">
+
+                    {{form.status.label}} :
+                    <div class="input-group"> {{ form.status }}</div>
+
+                    {% if form.status.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.status.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    {{form.description.label}} :
+                    <div class="input-group"> {{ form.description }}</div>
+
+                    {% if form.description.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.description.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="form-group col-md-6 py-0">
+                    {{form.row.label}} :
+                    <div class="input-group">{{ form.row }}</div>
+
+                    {% if form.row.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.row.errors }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-6 py-0">
+
+                    {{form.column.label}} :
+                    <div class="input-group"> {{ form.column }}</div>
+
+                    {% if form.column.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.column.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" url="{% url 'create_shell'  %}"> Update Shell</button>
+    </div>
+</form>

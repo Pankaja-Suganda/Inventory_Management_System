@@ -1,0 +1,139 @@
+{% load widget_tweaks %}
+
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="modal-header">
+        <h3 class="modal-title">Selected Material Updating</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+        <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+        {% for error in form.non_field_errors %}
+            {{ error }}
+        {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+
+                <div class="form-group col-md-6">
+
+                    {{form.name.label}} :
+                    <div class="input-group"> {{ form.name }}</div>
+
+                    {% if form.name.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.name.errors }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-6">
+                    {{form.stock_margin.label}} :
+                    <div class="input-group"> {{ form.stock_margin }}</div>
+
+                    {% if form.stock_margin.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.stock_margin.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    {{form.description.label}} :
+                    <div class="input-group"> {{ form.description }}</div>
+
+                    {% if form.description.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.description.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="form-group col-md-6 py-0">
+                    {{form.unit_price.label}} :
+                    <div class="input-group"><span class="input-group-text">Rs.</span>{{ form.unit_price }}</div>
+
+                    {% if form.unit_price.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.unit_price.errors }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-6 py-0">
+
+                    {{form.supplier_id.label}} :
+                    <div class="input-group"> {{ form.supplier_id }}</div>
+
+                    {% if form.supplier_id.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.supplier_id.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="form-group col-md-6 py-0">
+                    {{form.category_id.label}} :
+                    <div class="input-group">{{ form.category_id }}</div>
+
+                    {% if form.category_id.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.category_id.errors }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-6 py-0">
+                    {{form.shell_id.label}} :
+                    <div class="input-group">{{ form.shell_id }}</div>
+
+                    {% if form.shell_id.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.shell_id.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6 py-0">
+
+                    {{form.supplier_id.label}} :
+                    <div class="input-group"> {{ form.supplier_id }}</div>
+
+                    {% if form.supplier_id.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.supplier_id.errors }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-6 py-0">
+
+                    {{form.color_id.label}} :
+                    <div class="input-group"> {{ form.color_id }}</div>
+
+                    {% if form.color_id.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.color_id.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6 py-0">
+
+                    {{form.Size_id.label}} :
+                    <div class="input-group"> {{ form.Size_id }}</div>
+
+                    {% if form.Size_id.errors %}
+                    <span role="alert" class="alert alert-danger"
+                        ><strong>Error!</strong>{{ form.Size_id.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" > Update Material</button>
+    </div>
+</form>

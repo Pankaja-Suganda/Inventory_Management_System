@@ -1,0 +1,43 @@
+{% load widget_tweaks %}
+
+<form method="post" action="" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div class="modal-header">
+    {% if object.status == 0 %}
+      {% if return == 0 %}
+        <h3 class="modal-title">Quatation Acceptance Confirmation</h3>
+      {% else %}
+        <h3 class="modal-title">Quatation Rejection Confirmation</h3>
+      {% endif %}
+    {% endif %}
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    {% if object.status == 0 %}
+      {% if return == 0 %}
+        <p>Do you want to Accept the Quotation with id <b class="text-success">{{ object.id }} </b>?</p>
+      {% else %}
+        <p>Do you want to Reject the Quotation with id <b class="text-danger">{{ object.id }} </b>?</p>
+      {% endif %}
+    {% endif %}
+  </div>
+  
+  <div class="modal-footer">
+    <form method="post" action="">
+      {% csrf_token %}
+      {{ form.id.as_hidden }}
+      {% if object.status == 0 %}
+        {% if return == 0 %}
+          <button type="submit" class="btn btn-success">Confirm</button>
+        {% else %}
+          <button type="submit" class="btn btn-danger">Confirm</button>
+        {% endif %}
+      {% endif %}
+    </form>
+  </div>
+
+</form>

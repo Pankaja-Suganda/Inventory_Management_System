@@ -1,0 +1,156 @@
+{% load widget_tweaks %}
+
+<form method="post" action="" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div class="modal-header">
+    <h3 class="modal-title">New Supplier Registration</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+
+    <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+      {% for error in form.non_field_errors %}
+        {{ error }}
+      {% endfor %}
+    </div>
+
+  <div class="form-group">
+    <div class="row">
+        <div class="card-body media align-items-center">
+            <img id= 'sup-img-profile-new' src="/static/assets/images/user/default.png" width =250px alt="" class="d-block rounded-circle mx-auto img-responsive">
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="form-group col-md-6">
+
+            {{form.id.label}} :
+            <div class="input-group">
+                <input type="text" value="{{generated_id}}" name={{form.id.name}} class="form-control" required="" readonly="True" id="{{form.id.id_for_label  }}">
+            </div>
+
+            {% if form.id.errors %}
+            <span role="alert" class="alert alert-danger help-block"
+                ><strong>Error!</strong>{{ form.id.errors }}</span>
+            {% endif %}
+        </div>
+        <div class="form-group col-md-6">
+
+            {{form.company.label}} :
+            <div class="input-group"> {{ form.company }}</div>
+
+            {% if form.company.errors %}
+            <span role="alert" class="alert alert-danger"
+                ><strong>Error!</strong>{{ form.company.errors }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6 py-0">
+            {{form.name.label}} :
+            <div class="input-group">{{ form.name }}</div>
+
+            {% if form.name.errors %}
+            <span role="alert" class="alert alert-danger"
+                ><strong>Error!</strong>{{ form.name.errors }}</span>
+            {% endif %}
+        </div>
+        <div class="form-group col-md-6 py-0">
+
+            {{form.supplier_img.label}} :
+            <div class="input-group">{{ form.supplier_img }}</div>
+
+            {% if form.supplier_img.errors %}
+            <span role="alert" class="alert alert-danger"
+                ><strong>Error!</strong>{{ form.supplier_img.errors }}</span>
+            {% endif %}
+        </div>
+        <script>
+            var id_customer_img = document.getElementById("id_supplier_img");
+            id_customer_img.onchange = function (event) {
+                var img_cus_new = document.getElementById("sup-img-profile-new");
+                img_cus_new.src = URL.createObjectURL(event.target.files[0]);
+            };
+            console.log("working");
+        </script>
+    </div>
+    <hr>
+    <h5 class="card-title">Contact Details</h5>
+    <div class="row">
+        <div class="form-group col-md-6 py-0">
+            {{form.fax_number.label}} :
+            <div class="input-group">{{ form.fax_number }}</div>
+
+            {% if form.fax_number.errors %}
+            <span role="alert" class="alert alert-danger"
+                ><strong>Error!</strong>{{ form.fax_number.errors }}</span>
+            {% endif %}
+        </div>
+        <div class="form-group col-md-6 py-0">
+            {{form.mobile_number.label}} :
+            <div class="input-group">{{ form.mobile_number }}</div>
+
+            {% if form.mobile_number.errors %}
+            <span role="alert" class="alert alert-danger"
+                ><strong>Error!</strong>{{ form.mobile_number.errors }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6 py-0">
+            {{form.email.label}} :
+            <div class="input-group"><span class="input-group-text" id="">@</span>{{ form.email }}</div>
+
+            {% if form.email.errors %}
+            <span role="alert" class="alert alert-danger"
+                ><strong>Error!</strong>{{ form.email.errors }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="form-group col-md-6 py-0">
+            <h5 class="card-title">Postal Address</h5>
+
+            {{form.Address_1.label}} :
+            <div class="input-group">{{ form.Address_1 }}</div>
+
+            {% if form.Address_1.errors %}
+            <span role="alert" class="alert alert-danger"
+                ><strong>Error!</strong>{{ form.Address_1.errors }}</span>
+            {% endif %}
+
+            {{form.Address_2.label}} :
+            <div class="input-group">{{ form.Address_2 }}</div>
+
+            {% if form.Address_2.errors %}
+            <span role="alert" class="alert alert-danger"
+                ><strong>Error!</strong>{{ form.Address_2.errors }}</span>
+            {% endif %}   
+
+              {{form.city.label}} :
+            <div class="input-group">{{ form.city }}</div>
+
+            {% if form.city.errors %}
+            <span role="alert" class="alert alert-danger"
+                ><strong>Error!</strong>{{ form.city.errors }}</span>
+            {% endif %}                                                               
+
+        </div>
+        <div class="form-group col-md-6 py-0">
+
+        </div>
+    </div>
+</div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary"><span class="material-icons"> person_add</span> Add Supplier</button>
+  </div>
+
+</form>

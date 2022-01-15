@@ -12,8 +12,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.forms.utils import ErrorList
-from django.http import HttpResponse
+
+from django.urls import reverse_lazy
+from django.views import generic
+
+from bootstrap_modal_forms.generic import (
+  BSModalUpdateView,
+  BSModalDeleteView
+)
+
 from .forms import LoginForm, SignUpForm, ProfileUpdate, UserPasswordUpdate, UserUpdatePer
 from .models import BaseUser
 
@@ -86,16 +93,20 @@ def UpdateAccount(request):
                             instance=request.user)
         form.profile_img = profile_img
         print (form.is_valid(), form.errors)
+        context['from'] = 'update'
         if form.is_valid():
             form.save() 
             context['update_success'] = True
             context['form'] = ProfileUpdate(instance=request.user)
-            return redirect('settings.html', context)
+            messages.success(request, 'User Information is Successfully Updated')
+            
         else:
+            messages.error(request, 'Error occurred while updating profile')
             context['form'] = form
             context['user'] = request.user
 
-    return render(request, 'settings.html', context)
+    return redirect('/settings/?tab=1', context)
+
 
 
 @login_required(login_url="/login/")
@@ -113,52 +124,93 @@ def ResetPassword(request):
                 user.set_password(form.cleaned_data['password1'])
                 user.save()
                 update_session_auth_hash(request, request.user)  # Important!
-                messages.success(request, 'Your password was successfully updated!')
+                messages.info(request, 'Your password was successfully updated!')
                 success = True
+                return redirect('/settings/?tab=1')
+            else:
+                messages.error(request, 'Pass word is invalid')
+                return redirect('/settings/?tab=1')
         else:
             messages.error(request, 'Please correct the error below.')
     else:
         form = UserPasswordUpdate(instance=request.user)
 
-    return render(request, 'settings.html', {
+    return  redirect('/settings/?tab=1',  {
         'form_reset': form,
         'success' : success,
         'form': ProfileUpdate(instance=request.user),
         'select':'account-change-password' 
     })
 
-@login_required(login_url="/login/")
-def SetUserPermissions(request):
-    context = {}
-    pk = request.POST.get("id")
-    _is_active = bool(request.POST.get("is_active"))
-    _is_staff = bool(request.POST.get("is_staff"))
 
-    context['select'] = 'account-permissions'
-    if request.method == 'POST':
-        user = BaseUser.objects.filter(id=pk).update(
-        is_staff = _is_staff,
-        is_active = _is_active)
+# User registraion
+class UserRegistration(generic.CreateView):
+    model = BaseUser
+    form_class = SignUpForm
+    template_name = 'accounts/register.html'
+    success_url = reverse_lazy('register')
 
-    context['form_per'] = UserUpdatePer()
-    context['select'] = 'account-permissions' 
-    
-    return redirect('settings.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'POST':
+            form = SignUpForm(self.request.POST, self.request.FILES)
+            if form.is_valid():
+                form.save()
+                messages.success(self.request, ' User in Successfully Added to the System!')
+                username = form.cleaned_data.get("username")
+                raw_password = form.cleaned_data.get("password1")
+                user = authenticate(username=username, password=raw_password)
+            else:
+                messages.error(self.request, 'You Entered Data To the Form is Invail, Please Try Again!')
+        return context
 
-@login_required(login_url="/login/")
-def deleteUser(request):    
-    pk = request.POST.get("id")
-    print ('delete id ', pk)
-    try:
-        user = BaseUser.objects.get(id = pk)
-        user.delete()
-        messages.success(request, "The user is deleted")            
 
-    except User.DoesNotExist:
-        messages.error(request, "User does not exist")    
-        return render(request, 'settings.html')
+# user list wth pagination
+class UserList(generic.ListView):
+    model = BaseUser
+    paginate_by = 7
+    context_object_name = "users"
+    template_name = 'pages/settings.html'
 
-    except Exception as e: 
-        return render(request, 'settings.html',{'error':e.message})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    return redirect('settings.html')
+        if not self.request.GET.get('from') == 'update':
+            context['form'] = ProfileUpdate(instance=self.request.user)
+
+        context['form_reset'] = UserPasswordUpdate()
+        context['segment'] = 'settings'
+        context['num_of_objects'] = BaseUser.objects.count()
+        tab = self.request.GET.get('tab')
+        context['select'] = 'account-general'
+        if not tab == None:
+            if int(tab) == 0:context['select'] = 'account-general'
+            if int(tab) == 1:context['select'] = 'account-update'
+            if int(tab) == 2:context['select'] = 'account-change-password'
+            if int(tab) == 3:context['select'] = 'account-permissions'
+        else:
+            context['select'] = 'account-permissions'
+        print ('list view : ', context)
+        return context
+
+# user permission Update
+class UserUpdateView(BSModalUpdateView):
+    model = BaseUser
+    template_name = 'pages/modals/user/user-permission-update.html'
+    form_class = UserUpdatePer
+    success_message = 'Success: Selected User was updated.'
+    success_url = reverse_lazy('settings_user')
+    failure_url = reverse_lazy('settings_user')
+
+# user Delete
+class UserDeleteView(BSModalDeleteView):
+    model = BaseUser
+    template_name = 'pages/modals/user/user-delete.html'
+    success_message = 'Success: Selected user was deleted.'
+    success_url = reverse_lazy('settings_user')
+    failure_url = reverse_lazy('settings_user')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['select'] = 'account-permissions'
+        return context

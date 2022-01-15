@@ -1,18 +1,17 @@
 {% load widget_tweaks %}
 
-<form method="post" action="">
+<form method="post" action="" enctype="multipart/form-data">
   {% csrf_token %}
 
   <div class="modal-header">
-    <h3 class="modal-title">Delete Selected Customer</h3>
+    <h3 class="modal-title">Delete Selected Sales Order</h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 
   <div class="modal-body">
-    <p>Are you sure you want to delete book with title
-      <strong>{{ customer.id }} </strong>?</p>
+    <p>Are you sure, you want to delete Sales Order with id <b class="text-danger">{{ object.id }} </b>?</p>
   </div>
 
   <div class="modal-footer">

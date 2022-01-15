@@ -25,13 +25,24 @@
                             <hr/>
                             <h5 class=" text-muted">Personal Details</h5>
 
-                            {% if form.errors %}
-                                <div role="alert" class="alert alert-danger"><strong>Error! </strong>{{ msg }}</div>
-                            {% else %}
-                                {% if msg %}
-                                    <div role="alert" class="alert alert-success"><strong>Success! </strong>{{ msg }}</div>
-                                {% endif %}
+                            {% comment %} message showing {% endcomment %}
+                            {% if messages %}
+                                {% for msg in messages %}
+                                    {% if messages.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                                        <div role="alert" class="alert alert-info"><strong>Info! </strong>{{ msg  }}</div>
+                                    {% endif %}
+                                    {% if messages.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                        <div role="alert" class="alert alert-success"><strong>Success! </strong>{{ msg  }}</div>
+                                    {% endif %}
+                                    {% if messages.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                        <div role="alert" class="alert alert-error"><strong>Error! </strong>{{ msg  }}</div>
+                                    {% endif %}
+                                    {% if messages.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                                        <div role="alert" class="alert alert-warning"><strong>Warning! </strong>{{ msg  }}</div>
+                                    {% endif %}
+                                {% endfor %} 
                             {% endif %}
+
 
                             <form role="form" method="post" action="" enctype="multipart/form-data">
                                 {% csrf_token %}        
@@ -45,6 +56,7 @@
                                             {% if form.user_name.errors %}
                                                 <div role="alert" class="alert alert-danger"><strong>Error!</strong>{{ form.user_name.errors }}</div>
                                             {% endif %}
+                                            {{ form.user_name.messages }}
                                         </div>
                                         <div class="form-group col-md-6">
                                             {{form.email.label}} : 
@@ -208,7 +220,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" name="register" class=" btn-lg float-right btn-primary">Register</button>
+                                <button type="submit" name="register" class=" btn-lg float-right btn-primary">Register</button> 
+                                {% comment %} url="{% url 'create_customer'  %}" {% endcomment %}
                             </form>
                             
                         </div>
