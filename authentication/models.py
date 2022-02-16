@@ -64,7 +64,7 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField('last name', max_length=150, default='male')
     gender = models.IntegerField(choices=GENDER_CHOICES, default=0)
     profile_img = models.ImageField(null=True, blank=True, upload_to='core/static/assets/images/user', default='core/static/assets/images/user/default.png')
-    mobile_number = models.IntegerField( blank=True)
+    mobile_number = models.CharField(max_length=10, blank=True)
     Address_1 = models.CharField('address 1', max_length=250, blank=True)
     Address_2 = models.CharField('address 2', max_length=250, blank=True)
     city = models.CharField('city', max_length=250, blank=True)

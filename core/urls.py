@@ -5,9 +5,11 @@ Copyright (c) 2019 - present AppSeed.us
 
 from django.contrib import admin
 from django.urls import path, include  # add this
+from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),          # Django admin route
+    path('docs/', include('django_mkdocs.urls', namespace='docmentation')), # Django
     path("", include("authentication.urls")), # Auth routes - login / register
     path("", include("customer.urls")),        # customer url
     path("", include("supplier.urls")),        # supplier url
@@ -20,5 +22,6 @@ urlpatterns = [
     path("", include("dashboard.urls")),     # Dashboard url
     path("", include("stock.urls")),             # stock urls
     
-    path("", include("app.urls")),          # UI Kits Html files  
+    path("", include("app.urls")),          # UI Kits Html files 
+    
 ]

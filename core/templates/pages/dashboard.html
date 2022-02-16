@@ -190,26 +190,28 @@
                                                         </select>
                                                         <!-- <script src="/static/assets/js/pages/custom-chart.js"></script> -->
                                                         <script type="text/javascript">
-                                                            $('#invoice-select').change(function() {
-                                                                const value = $('#invoice-select').val();
-                                                                $.ajax({
-                                                                    url: "/invoice_dataset/" + $('#invoice-select').val() + "/none",
-                                                                    type: 'GET',
-                                                                    dataType: "json",
-                                                                    success: function(res) {
-                                                                        var options = "";
-                                                                        var res_options = res[0]['options'];
-                                                                        for (var i = 0; i < res_options.length; i++) {
-                                                                            options += "<option value= " + res_options[i]['index'] + ">" + res_options[i]['option'] + " </option>";
-                                                                            console.log("options : ", res_options[i]['index']);
+                                                            $(document).ready(function() {
+                                                                $('#invoice-select').change(function() {
+                                                                    const value = $('#invoice-select').val();
+                                                                    $.ajax({
+                                                                        url: "/invoice_dataset/" + $('#invoice-select').val() + "/none",
+                                                                        type: 'GET',
+                                                                        dataType: "json",
+                                                                        success: function(res) {
+                                                                            var options = "";
+                                                                            var res_options = res[0]['options'];
+                                                                            for (var i = 0; i < res_options.length; i++) {
+                                                                                options += "<option value= " + res_options[i]['index'] + ">" + res_options[i]['option'] + " </option>";
+                                                                                console.log("options : ", res_options[i]['index']);
+                                                                            }
+                                                                            $('#invoice-option-select').html(options);
+                                                                            console.log("res : ", res);
+                                                                            // console.log("res[0] : ", res[0]);
+                                                                            // console.log("data : ", res[0]['data']);
+                                                                            // console.log("options : ", res_options[i]['index']);
+                                                                            invoice_chart(res[0]['data']);
                                                                         }
-                                                                        $('#invoice-option-select').html(options);
-                                                                        console.log("res : ", res);
-                                                                        // console.log("res[0] : ", res[0]);
-                                                                        // console.log("data : ", res[0]['data']);
-                                                                        // console.log("options : ", res_options[i]['index']);
-                                                                        invoice_chart(res[0]['data']);
-                                                                    }
+                                                                    });
                                                                 });
                                                             });
                                                         </script>
@@ -217,18 +219,20 @@
                                                     <div class="col-2">
                                                         <select class="form-control input-group" name="select" id="invoice-option-select"></select>
                                                         <script type="text/javascript">
-                                                            $('#invoice-option-select').change(function() {
-                                                                $.ajax({
-                                                                    url: "/invoice_dataset/" + $('#invoice-select').val() + "/" + $('#invoice-option-select').val(),
-                                                                    type: 'GET',
-                                                                    dataType: "json",
-                                                                    success: function(res) {
-                                                                        // console.log("res : ", res);
-                                                                        // console.log("res[0] : ", res[0]);
-                                                                        // console.log("data : ", res[0]['data']);
-                                                                        // console.log("options : ", res[0]['options']);
-                                                                        invoice_chart(res[0]['data']);
-                                                                    }
+                                                            $(document).ready(function() {
+                                                                $('#invoice-option-select').change(function() {
+                                                                    $.ajax({
+                                                                        url: "/invoice_dataset/" + $('#invoice-select').val() + "/" + $('#invoice-option-select').val(),
+                                                                        type: 'GET',
+                                                                        dataType: "json",
+                                                                        success: function(res) {
+                                                                            // console.log("res : ", res);
+                                                                            // console.log("res[0] : ", res[0]);
+                                                                            // console.log("data : ", res[0]['data']);
+                                                                            // console.log("options : ", res[0]['options']);
+                                                                            invoice_chart(res[0]['data']);
+                                                                        }
+                                                                    });
                                                                 });
                                                             });
                                                         </script>
@@ -284,24 +288,26 @@
                                                         </select>
                                                         <!-- <script src="/static/assets/js/pages/custom-chart.js"></script> -->
                                                         <script type="text/javascript">
-                                                            $('#purchase-select').change(function() {
-                                                                const value = $('#purchase-select').val();
-                                                                $.ajax({
-                                                                    url: "/purchase_dataset/" + $('#purchase-select').val() + "/none",
-                                                                    type: 'GET',
-                                                                    dataType: "json",
-                                                                    success: function(res) {
-                                                                        var options = "";
-                                                                        var res_options = res[0]['options'];
-                                                                        for (var i = 0; i < res_options.length; i++) {
-                                                                            options += "<option value= " + res_options[i]['index'] + ">" + res_options[i]['option'] + " </option>";
-                                                                            console.log("options : ", res_options[i]['index']);
+                                                            $(document).ready(function() {
+                                                                $('#purchase-select').change(function() {
+                                                                    const value = $('#purchase-select').val();
+                                                                    $.ajax({
+                                                                        url: "/purchase_dataset/" + $('#purchase-select').val() + "/none",
+                                                                        type: 'GET',
+                                                                        dataType: "json",
+                                                                        success: function(res) {
+                                                                            var options = "";
+                                                                            var res_options = res[0]['options'];
+                                                                            for (var i = 0; i < res_options.length; i++) {
+                                                                                options += "<option value= " + res_options[i]['index'] + ">" + res_options[i]['option'] + " </option>";
+                                                                                console.log("options : ", res_options[i]['index']);
+                                                                            }
+                                                                            $('#purchase-option-select').html(options);
+                                                                            console.log("res : ", res);
+                                                                            purchase_chart(res[0]['data']);
+                                                                            console.log("res ok : ", res);
                                                                         }
-                                                                        $('#purchase-option-select').html(options);
-                                                                        console.log("res : ", res);
-                                                                        purchase_chart(res[0]['data']);
-                                                                        console.log("res ok : ", res);
-                                                                    }
+                                                                    });
                                                                 });
                                                             });
                                                         </script>
@@ -312,20 +318,22 @@
                                                 </div>
                                             </div>
                                             <div class="card-block">
-                                                <div id="chart-purchase" class="ChartShadow" style="height:350px;"></div>
+                                                <div id="chart-purchase" class="ChartShadow" style="height:350px; width:100%;"></div>
                                                 <script type="text/javascript">
-                                                    $('#purchase-option-select').change(function() {
-                                                        $.ajax({
-                                                            url: "/purchase_dataset/" + $('#purchase-select').val() + "/" + $('#purchase-option-select').val(),
-                                                            type: 'GET',
-                                                            dataType: "json",
-                                                            success: function(res) {
-                                                                console.log("res : ", res);
-                                                                // console.log("res[0] : ", res[0]);
-                                                                // console.log("data : ", res[0]['data']);
-                                                                // console.log("options : ", res[0]['options']);
-                                                                purchase_chart(res[0]['data']);
-                                                            }
+                                                    $(document).ready(function() {
+                                                        $('#purchase-option-select').change(function() {
+                                                            $.ajax({
+                                                                url: "/purchase_dataset/" + $('#purchase-select').val() + "/" + $('#purchase-option-select').val(),
+                                                                type: 'GET',
+                                                                dataType: "json",
+                                                                success: function(res) {
+                                                                    console.log("res : ", res);
+                                                                    // console.log("res[0] : ", res[0]);
+                                                                    // console.log("data : ", res[0]['data']);
+                                                                    // console.log("options : ", res[0]['options']);
+                                                                    purchase_chart(res[0]['data']);
+                                                                }
+                                                            });
                                                         });
                                                     });
                                                 </script>
@@ -348,23 +356,25 @@
                                                         </select>
                                                         <!-- <script src="/static/assets/js/pages/custom-chart.js"></script> -->
                                                         <script type="text/javascript">
-                                                            $('#sales-select').change(function() {
-                                                                const value = $('#sales-select').val();
-                                                                $.ajax({
-                                                                    url: "/sales_dataset/" + $('#sales-select').val() + "/none",
-                                                                    type: 'GET',
-                                                                    dataType: "json",
-                                                                    success: function(res) {
-                                                                        var options = "";
-                                                                        var res_options = res[0]['options'];
-                                                                        for (var i = 0; i < res_options.length; i++) {
-                                                                            options += "<option value= " + res_options[i]['index'] + ">" + res_options[i]['option'] + " </option>";
-                                                                            console.log("options : ", res_options[i]['index']);
+                                                            $(document).ready(function() {
+                                                                $('#sales-select').change(function() {
+                                                                    const value = $('#sales-select').val();
+                                                                    $.ajax({
+                                                                        url: "/sales_dataset/" + $('#sales-select').val() + "/none",
+                                                                        type: 'GET',
+                                                                        dataType: "json",
+                                                                        success: function(res) {
+                                                                            var options = "";
+                                                                            var res_options = res[0]['options'];
+                                                                            for (var i = 0; i < res_options.length; i++) {
+                                                                                options += "<option value= " + res_options[i]['index'] + ">" + res_options[i]['option'] + " </option>";
+                                                                                console.log("options : ", res_options[i]['index']);
+                                                                            }
+                                                                            $('#sales-option-select').html(options);
+                                                                            console.log("res : ", res);
+                                                                            sales_chart(res[0]['data']);
                                                                         }
-                                                                        $('#sales-option-select').html(options);
-                                                                        console.log("res : ", res);
-                                                                        sales_chart(res[0]['data']);
-                                                                    }
+                                                                    });
                                                                 });
                                                             });
                                                         </script>
@@ -377,18 +387,20 @@
                                             <div class="card-block">
                                                 <div id="chart-sales" class="ChartShadow" style="height:350px;"></div>
                                                 <script type="text/javascript">
-                                                    $('#sales-option-select').change(function() {
-                                                        $.ajax({
-                                                            url: "/sales_dataset/" + $('#sales-select').val() + "/" + $('#sales-option-select').val(),
-                                                            type: 'GET',
-                                                            dataType: "json",
-                                                            success: function(res) {
-                                                                console.log("res : ", res);
-                                                                // console.log("res[0] : ", res[0]);
-                                                                // console.log("data : ", res[0]['data']);
-                                                                // console.log("options : ", res[0]['options']);
-                                                                sales_chart(res[0]['data']);
-                                                            }
+                                                    $(document).ready(function() {
+                                                        $('#sales-option-select').change(function() {
+                                                            $.ajax({
+                                                                url: "/sales_dataset/" + $('#sales-select').val() + "/" + $('#sales-option-select').val(),
+                                                                type: 'GET',
+                                                                dataType: "json",
+                                                                success: function(res) {
+                                                                    console.log("res : ", res);
+                                                                    // console.log("res[0] : ", res[0]);
+                                                                    // console.log("data : ", res[0]['data']);
+                                                                    // console.log("options : ", res[0]['options']);
+                                                                    sales_chart(res[0]['data']);
+                                                                }
+                                                            });
                                                         });
                                                     });
                                                 </script>
