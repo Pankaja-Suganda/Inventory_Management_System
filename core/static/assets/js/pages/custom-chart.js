@@ -105,6 +105,7 @@ function purchase_chart(dataset) {
     console.log("json : ", dataset);
     chart_purchase.setData(dataset);
     chart_purchase.redraw();
+    chart_purchase.render();
 }
 
 function sales_chart(dataset) {
