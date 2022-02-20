@@ -7,5 +7,4 @@ urlpatterns = [
     path('stock_material_dataset/', stock_material_dataset, name='stock_material_dataset'),
     path('purchase_dataset/<int:index>/<str:value>', purchase_dataset, name='purchase_dataset'),
     path('sales_dataset/<int:index>/<str:value>', sales_dataset, name='sales_dataset'),
-
 ]
