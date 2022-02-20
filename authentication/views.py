@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
+
 
 from django.shortcuts import render
 from django.contrib import messages
@@ -25,6 +23,15 @@ from .forms import LoginForm, SignUpForm, ProfileUpdate, UserPasswordUpdate, Use
 from .models import BaseUser
 
 def login_view(request):
+    """
+    The user login authnenticating function view
+
+    Args:
+        request (httprequest): The http request with LoginForm
+
+    Returns:
+        render: httpresponse rendering with errors or success message
+    """
     form = LoginForm(request.POST or None)
     msg = None
 
@@ -47,7 +54,15 @@ def login_view(request):
 
 @login_required(login_url="/login/")
 def register_user(request):
+    """
+    The new user registration function view request handler
 
+    Args:
+        request (httprequest): The httprequest with User Registration Form
+
+    Returns:
+        render: httpresponse rendering with errors or success message
+    """
     msg     = None
     success = False
     context = {}
@@ -76,11 +91,29 @@ def register_user(request):
 
 @login_required(login_url="/login/")
 def logout_user(request):
+    """
+    The user logout function view
+
+    Args:
+        request (httprequest): the request with user to be logged out
+
+    Returns:
+        redirect: tdirect to the login view
+    """
     logout(request)
     return redirect('/')
 
 @login_required(login_url="/login/")
 def UpdateAccount(request):
+    """
+    The user account updating function view
+
+    Args:
+        request (httprequest): The http request with Profle Update Form
+
+    Returns:
+        redirect: Redirect to '/settings/?tab=1' url
+    """
     context = {}
     context['select'] = 'account-update'
     context['form_reset'] = UserPasswordUpdate(instance=request.user)
@@ -111,6 +144,15 @@ def UpdateAccount(request):
 
 @login_required(login_url="/login/")
 def ResetPassword(request):
+    """
+    The user password resetting function view
+
+    Args:
+        request (httprequest): The httprequest with User Password Update form
+
+    Returns:
+        redirect: Redirect to '/settings/?tab=1' url with validated results
+    """
     success = False
 
     if request.method == 'POST':
@@ -145,12 +187,25 @@ def ResetPassword(request):
 
 # User registraion
 class UserRegistration(generic.CreateView):
+    """
+    The user registration creating class view
+
+    Args:
+        generic (CreateView): The Django generic view of CreateView
+
+    """
     model = BaseUser
     form_class = SignUpForm
     template_name = 'accounts/register.html'
     success_url = reverse_lazy('register')
 
     def get_context_data(self, **kwargs):
+        """
+        The get_context_data method is overwritting to create and valid the new user infomation
+
+        Returns:
+            context: The updated context data 
+        """
         context = super().get_context_data(**kwargs)
         if self.request.method == 'POST':
             form = SignUpForm(self.request.POST, self.request.FILES)
@@ -167,12 +222,25 @@ class UserRegistration(generic.CreateView):
 
 # user list wth pagination
 class UserList(generic.ListView):
+    """
+    The user list handling class view
+
+    Args:
+        generic (ListView): The django generic ListView for handle user list
+
+    """
     model = BaseUser
     paginate_by = 7
     context_object_name = "users"
     template_name = 'pages/settings.html'
 
     def get_context_data(self, **kwargs):
+        """
+        The list view tab handling, Profile and Use Password Updating function
+
+        Returns:
+            context: The updated context data 
+        """
         context = super().get_context_data(**kwargs)
 
         if not self.request.GET.get('from') == 'update':
@@ -195,6 +263,12 @@ class UserList(generic.ListView):
 
 # user permission Update
 class UserUpdateView(BSModalUpdateView):
+    """
+    The User information updating Modal class view
+
+    Args:
+        BSModalUpdateView (BSModalUpdateView): The generic view of BSModalUpdateView
+    """
     model = BaseUser
     template_name = 'pages/modals/user/user-permission-update.html'
     form_class = UserUpdatePer
@@ -204,6 +278,13 @@ class UserUpdateView(BSModalUpdateView):
 
 # user Delete
 class UserDeleteView(BSModalDeleteView):
+    """
+    The User information deleting Modal class view
+
+
+    Args:
+        BSModalDeleteView (BSModalDeleteView): The generic view of BSModalDeleteView
+    """
     model = BaseUser
     template_name = 'pages/modals/user/user-delete.html'
     success_message = 'Success: Selected user was deleted.'
@@ -211,6 +292,12 @@ class UserDeleteView(BSModalDeleteView):
     failure_url = reverse_lazy('settings_user')
 
     def get_context_data(self, **kwargs):
+        """
+        The account permission handling function
+
+        Returns:
+            context: The updated context data 
+        """
         context = super().get_context_data(**kwargs)
         context['select'] = 'account-permissions'
         return context

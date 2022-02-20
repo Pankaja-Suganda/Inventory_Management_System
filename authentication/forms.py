@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
+
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
@@ -14,6 +12,12 @@ from bootstrap_modal_forms.forms import BSModalModelForm
 
 
 class LoginForm(forms.Form):
+    """
+    User login form
+
+    Args:
+        forms (forms.Form): The generic form class of Django
+    """
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -30,6 +34,12 @@ class LoginForm(forms.Form):
         ))
 
 class SignUpForm(UserCreationForm):
+    """
+    The new user sign up form
+
+    Args:
+        UserCreationForm (UserCreationForm): The generic function of UserCreationForm
+    """
     user_name = forms.CharField(
         label='Enter Username',
         help_text='Required',
@@ -185,6 +195,9 @@ class SignUpForm(UserCreationForm):
         ))
 
     class Meta:
+        """
+        The Meta data of Sign Up form
+        """
         model = BaseUser
         fields = ('user_name', 'email', 'password1', 'gender', 'profile_img',
                   'password2', 'first_name', 'last_name', 'gender',
@@ -192,6 +205,12 @@ class SignUpForm(UserCreationForm):
                   'is_staff', 'is_active')
 
 class ProfileUpdate(forms.ModelForm):
+    """
+    The user Profile updating model form
+
+    Args:
+        forms (ModelForm): The generic class of Django ModelFormS
+    """
     user_name = forms.CharField(
         label='Enter Username',
         help_text='Required',
@@ -286,12 +305,21 @@ class ProfileUpdate(forms.ModelForm):
         error_messages = {'invalid': "Image files only"})
 
     class Meta:
+        """
+        The meta data of user profile update class
+        """
         model = BaseUser
         fields = ('user_name', 'email', 'first_name', 'last_name', 'gender',
                   'mobile_number', 'Address_1', 'Address_2', 'city', 'profile_img')
 
 class UserPasswordUpdate(forms.ModelForm):
-    
+    """
+    The User password update form
+
+    Args:
+        forms (ModelForm): The generic class of Django ModelFormS
+
+    """
     old_password  = forms.CharField(
         label='Enter Old Password',
         help_text='Required',
@@ -322,6 +350,15 @@ class UserPasswordUpdate(forms.ModelForm):
         ))
 
     def check_password(self, user):
+        """
+        The user passward validation function
+
+        Args:
+            user (user): The logging user of the systems
+
+        Returns:
+            Bool: The state of the password
+        """
         state = False
         if not user.check_password(self.cleaned_data['old_password']):
             self.add_error('old_password', 'User current Authentication is failed - check it out')
@@ -346,10 +383,19 @@ class UserPasswordUpdate(forms.ModelForm):
         
 
     class Meta:
+        """
+        The meta data of user password update class
+        """
         model = BaseUser
         fields = ['old_password', 'password1', 'password2']
 
 class UserUpdatePer(BSModalModelForm):
+    """
+    The user perssion update form
+
+    Args:
+        BSModalModelForm (BSModalModelForm): The model form for user permission updating
+    """
 
     is_active = forms.BooleanField(
         label='Change User Activation',
@@ -372,6 +418,9 @@ class UserUpdatePer(BSModalModelForm):
         ))
 
     class Meta:
+        """
+        the meta data of User permission update class
+        """
         model = BaseUser
         fields = ['is_staff', 'is_active']
     

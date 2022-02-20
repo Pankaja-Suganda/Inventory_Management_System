@@ -6,6 +6,9 @@
 Welcome to Inventory Management System's documentation!
 =======================================================
 
+The Inventory Management System can be used to manage and improve your production organization to mitigate finished goods and raw material stock handling, automatic quatations generation, billing, purchase order generation and sales order generation stuffs.
+further, your Customers and Suppliers management, and you can monitor growth of the organization. 
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

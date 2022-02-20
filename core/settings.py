@@ -1,7 +1,4 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
 
 import os
 from tkinter.tix import Tree
@@ -38,6 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'docs',
+    'sphinxdoc',
     'django_mkdocs',
     'django_htmx',
     'phonenumber_field',
@@ -59,6 +58,7 @@ INSTALLED_APPS = [
     'invoice',
     'dashboard',
     'graphos',
+    
     
     # Enable the inner app 
 ]
@@ -164,8 +164,8 @@ MEDIA_ROOT = os.path.join(CORE_DIR, '')
 #custom User Model
 AUTH_USER_MODEL = 'authentication.BaseUser'
 
-
-
+DOCS_ROOT = os.path.join(BASE_DIR, '../docs/_build/html')
+DOCS_ACCESS = 'staff'
 # # HTTPS Settings
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True

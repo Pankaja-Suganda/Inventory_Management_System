@@ -1,4 +1,4 @@
 # -*- encoding: utf-8 -*-
 """
-Copyright (c) 2019 - present AppSeed.us
+This module is used to handle user authentication, login, registering and user access enabling functionalities
 """
