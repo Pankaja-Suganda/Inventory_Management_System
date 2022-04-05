@@ -16,6 +16,16 @@ class QProductForm(forms.ModelForm):
                 "class": "form-control"
             }
         ))
+    
+    unit_price = forms.FloatField(
+        label='Enter Unit Price of Material',
+        help_text='Required',
+        widget=forms.NumberInput(
+            attrs={
+                "placeholder" : "Unit Price",                
+                "class": "form-control"
+            }
+        ))
 
     quantity = forms.IntegerField(
         label='Enter Quatity of the Product',
@@ -29,7 +39,7 @@ class QProductForm(forms.ModelForm):
 
     class Meta:
         model = QProduct
-        fields = ('product_id', 'quantity')
+        fields = ('product_id', 'quantity', 'unit_price')
 
 QProductlFormSet = inlineformset_factory(
                         Quotation,

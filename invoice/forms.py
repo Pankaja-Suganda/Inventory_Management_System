@@ -23,6 +23,16 @@ class Invoice_ProductForm(forms.ModelForm):
             }
         ))
 
+    unit_price = forms.FloatField(
+        label='Enter Unit Price of Material',
+        help_text='Required',
+        widget=forms.NumberInput(
+            attrs={
+                "placeholder" : "Unit Price",                
+                "class": "form-control"
+            }
+        ))
+
     quantity = forms.IntegerField(
         label='Enter Quatity of the Product',
         help_text='Required',
@@ -35,7 +45,7 @@ class Invoice_ProductForm(forms.ModelForm):
 
     class Meta:
         model = Invoice_Product
-        fields = ('product_id', 'quantity')
+        fields = ('product_id', 'quantity', 'unit_price')
 
 InvoicProductFormSet = inlineformset_factory(
                         Invoice,

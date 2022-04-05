@@ -139,6 +139,7 @@
                                     {% if create == 0%}
                                         <th style="width: 45%">Product</th>
                                         <th style="width: 15%">Quantity</th>
+                                        <th style="width: 15%">Unit Price</th>
                                     {% else %}
                                         <th style="width: 45%">Description</th>
                                         <th style="width: 15%">Quantity</th>
@@ -155,6 +156,7 @@
                                             <td>{{forloop.counter}}</td>
                                             <td>{{form_m.product_id}}</td>
                                             <td>{{form_m.quantity}}</td>
+                                            <td>{{form_m.unit_price}}</td>
                                         </tr>
                                     {% endfor %} 
 
@@ -164,7 +166,7 @@
                                             <td>{{ forloop.counter }}</td>
                                             <td>{{product.product_id.name}}</td>
                                             <td>{{product.quantity|floatformat:1}}</td>
-                                            <td>{{product.product_id.unit_price|floatformat:2}}</td>
+                                            <td>{{product.unit_price|floatformat:2}}</td>
                                             <td class="text-right">{{product.total_price|floatformat:2}}</td>
                                         </tr>
                                     {% endfor %}

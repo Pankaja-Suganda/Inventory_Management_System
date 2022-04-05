@@ -152,22 +152,25 @@ class InvoiceDocTemplate(LoginRequiredMixin, generic.CreateView):
                     if form_product.is_valid() and not len(form_product.cleaned_data) == 0 :
                         product = form_product.cleaned_data['product_id']
                         quantity = form_product.cleaned_data['quantity']
-
-                        if quantity >  float(product.quatity):
-                            checked_status = True
-                            raise forms.ValidationError('Available Stock ' + product.name + ' quantity is ' + str(product.quatity) +', Required quantity is ' + str(quantity) + ', thus, Product Quatity is not enough for Invoice')
+                        unit_price = form_product.cleaned_data['unit_price']
+                        
+                        #removing validating part
+                        # if quantity >  float(product.quatity):
+                        #     checked_status = True
+                        #     raise forms.ValidationError('Available Stock ' + product.name + ' quantity is ' + str(product.quatity) +', Required quantity is ' + str(quantity) + ', thus, Product Quatity is not enough for Invoice')
 
             if not checked_status:
                 # generating invoice from manual formset
                 if formset_form.is_valid():
                     for form_product in formset_form:
                         if form_product.is_valid() and form_product.cleaned_data != {}:
-                            if form_product.cleaned_data['product_id'] != None and form_product.cleaned_data['quantity'] != None:
+                            if form_product.cleaned_data['product_id'] != None and form_product.cleaned_data['quantity'] != None and form_product.cleaned_data['unit_price'] != None:
                                 product_id = Product.objects.filter(name=form_product.cleaned_data['product_id']).first()
                                 product = Invoice_Product(
                                     invoice_id = invoice,
                                     product_id = Product.objects.filter(name=form_product.cleaned_data['product_id']).first(),
-                                    quantity = int(form_product.cleaned_data['quantity'])
+                                    quantity = int(form_product.cleaned_data['quantity']),
+                                    unit_price = float(form_product.cleaned_data['unit_price'])
                                 )
                                 print('product : ', product_id)
                                 product_id.quatity = product_id.quatity - int(form_product.cleaned_data['quantity'])
