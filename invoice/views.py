@@ -157,7 +157,7 @@ class InvoiceDocTemplate(LoginRequiredMixin, generic.CreateView):
                         #removing validating part
                         # if quantity >  float(product.quatity):
                         #     checked_status = True
-                        #     raise forms.ValidationError('Available Stock ' + product.name + ' quantity is ' + str(product.quatity) +', Required quantity is ' + str(quantity) + ', thus, Product Quatity is not enough for Invoice')
+                        #    raise forms.ValidationError('Available Stock ' + product.name + ' quantity is ' + str(product.quatity) +', Required quantity is ' + str(quantity) + ', thus, Product Quatity is not enough for Invoice')
 
             if not checked_status:
                 # generating invoice from manual formset
@@ -173,8 +173,9 @@ class InvoiceDocTemplate(LoginRequiredMixin, generic.CreateView):
                                     unit_price = float(form_product.cleaned_data['unit_price'])
                                 )
                                 print('product : ', product_id)
-                                product_id.quatity = product_id.quatity - int(form_product.cleaned_data['quantity'])
-                                product_id.save()
+                                # product reducing commited
+                                # product_id.quatity = product_id.quatity - int(form_product.cleaned_data['quantity'])
+                                # product_id.save()
                                 product.save()
                                 invoice.product_ids.add(product)
                                 print(form_product.cleaned_data['product_id'], form_product.cleaned_data['quantity'],form_product.is_valid())
