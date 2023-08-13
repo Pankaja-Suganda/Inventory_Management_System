@@ -1,0 +1,6 @@
+site_name: Inventory Management System
+pages:
+    - Home: index.md
+use_directory_urls: false
+docs_dir: project_docs/docs
+site_dir: project_docs/site

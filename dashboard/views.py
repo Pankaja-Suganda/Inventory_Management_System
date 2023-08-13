@@ -41,8 +41,14 @@ def get_test(sample):
 
 def get_weekly(object, range_, field, x_field):
     options = []
-    data = []
     year = datetime.now().year
+    data = {
+        'labels': [],
+        'total_price_sum': [],
+        'object_count': [],
+        'frequency': "Years"
+    }
+
 
     str_year = year
     for i in range(1, 4):
@@ -66,21 +72,26 @@ def get_weekly(object, range_, field, x_field):
                 total_price_sum = data_[field+'__sum']
                 object_count = data_[field+'__count']
 
-        data.append({
-            'y' : str(year),
-            'a': total_price_sum,
-            'b': object_count,
-        })
+        data['labels'].append(str(year))
+        data['total_price_sum'].append(total_price_sum)
+        data['object_count'].append(object_count)
+
         year = year - 1
 
     return data, options
 
 def get_monthly(object, month_selected, field, x_field):
     options = []
-    data = []
     year = datetime.now().year
     months = list(month_abbr)
     _, days = monthrange(year, months.index(month_selected))
+    data = {
+        'labels': [],
+        'total_price_sum': [],
+        'object_count': [],
+        'frequency': "Days"
+    }
+
 
     for i in months[1:]:
         options.append({'option': i, 'index': i})
@@ -101,19 +112,23 @@ def get_monthly(object, month_selected, field, x_field):
                 total_price_sum = data_[field+'__sum']
                 object_count = data_[field+'__count']
 
-        data.append({
-            'y': monthly,
-            'a': total_price_sum,
-            'b': object_count,
-        })
+        data['labels'].append(monthly)
+        data['total_price_sum'].append(total_price_sum)
+        data['object_count'].append(object_count)
 
     return data, options
 
 def get_yearly(object, year_selected, field, x_field):
     options = []
-    data = []
     year = datetime.now().year
     months = list(month_abbr)
+    data = {
+        'labels': [],
+        'total_price_sum': [],
+        'object_count': [],
+        'frequency': "Months"
+    }
+
 
     for i in range(0, YEAR_PAST):
         options.append({'option': year, 'index': year})
@@ -132,11 +147,10 @@ def get_yearly(object, year_selected, field, x_field):
             if monthly == month:
                 total_price_sum = data_[field+'__sum']
                 object_count = data_[field+'__count']
-        data.append({
-            'y' : months[monthly],
-            'a': total_price_sum,
-            'b': object_count,
-        })
+
+        data['labels'].append(months[monthly])
+        data['total_price_sum'].append(total_price_sum)
+        data['object_count'].append(object_count)
 
     return data, options
 
@@ -151,13 +165,15 @@ def create_data_source(sample):
     return data
 
 def create_data_source_sm(sample):
-    data = []
+    data = {
+        'Label' : [],
+        'Stock Margin' : [],
+        'Quantity' : []
+    }
     for _sample in sample.objects.all():
-        data.append({
-            'Label' : _sample.name, 
-            'Stock Margin' : _sample.stock_margin, 
-            'Quantity' : _sample.quatity, 
-        })
+        data['Label'].append(_sample.name)
+        data['Stock Margin'].append(_sample.stock_margin)
+        data['Quantity'].append(_sample.quatity)
 
     print('data : ', data)
     return data

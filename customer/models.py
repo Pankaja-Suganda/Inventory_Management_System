@@ -16,8 +16,8 @@ class Customer(models.Model):
     last_name = models.CharField('last name', max_length=150,  blank=True)
     customer_img = models.ImageField(null=True, blank=False, upload_to='core/static/assets/images/customer', default='core/static/assets/images/customer/default.png')
     status = models.IntegerField(choices=STATUS_CHOICES, default=0)
-    email = models.EmailField('email address', blank=True)
-    mobile_number = models.IntegerField( blank=True)
+    email = models.CharField('email address', max_length=100, blank=True)
+    mobile_number = models.CharField( max_length=10,blank=True)
 
     Postal_Address_1 = models.CharField('postal address 1', max_length=250, blank=False)
     Postal_Address_2 = models.CharField('postal address 2', max_length=250, blank=False)

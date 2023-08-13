@@ -1,3 +1,5 @@
+IMS-DEV-2.0v
+Inventory Management System
 # Inventory Management System
 
 The **Inventory Management System** is a web application developed by Pankaja Suganda. The repository can be found at [https://github.com/Pankaja-Suganda/Inventory_Management_System](https://github.com/Pankaja-Suganda/Inventory_Management_System).

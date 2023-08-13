@@ -66,9 +66,10 @@ class QProduct(models.Model):
     quote_id = models.ForeignKey(Quotation, blank=True, null=True, on_delete=models.CASCADE)
     product_id = models.ForeignKey(Product, blank=True, null=True, on_delete=models.SET_NULL)
     quantity = models.PositiveIntegerField(blank=False, null=False, default=0)
+    unit_price = models.FloatField(blank=False, default=0.0)
     total_price = models.FloatField(blank=False, default=0.0)
     
     def save(self, *args, **kwargs):
-        self.total_price = abs(self.quantity) * abs(self.product_id.unit_price)
+        self.total_price = abs(self.quantity) * abs(self.unit_price)
         super(QProduct, self).save(*args, **kwargs)
 

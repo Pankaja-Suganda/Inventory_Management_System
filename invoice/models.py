@@ -69,9 +69,10 @@ class Invoice_Product(models.Model):
     invoice_id = models.ForeignKey(Invoice, blank=True, null=True, on_delete=models.CASCADE)
     product_id = models.ForeignKey(Product, blank=True, null=True, on_delete=models.SET_NULL)
     quantity = models.PositiveIntegerField(blank=False, null=False, default=0)
+    unit_price = models.FloatField(blank=False, default=0.0)
     total_price = models.FloatField(blank=False, default=0.0)
     
     def save(self, *args, **kwargs):
-        self.total_price = abs(self.quantity) * abs(self.product_id.unit_price)
+        self.total_price = abs(self.quantity) * abs(self.unit_price)
         super(Invoice_Product, self).save(*args, **kwargs)
 

@@ -1,16 +1,21 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
 
 import os
+from tkinter.tix import Tree
 from decouple import config
 from unipath import Path
 import dj_database_url
+import app_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).parent
 CORE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+PROJECT_DIR = os.path.dirname(os.path.dirname(__file__))
+DOCUMENTATION_ROOT = PROJECT_DIR + '/project_docs'
+app_settings.DOCUMENTATION_HTML_ROOT = DOCUMENTATION_ROOT + '/site'
+app_settings.DOCUMENTATION_ACCESS_FUNCTION = lambda user: user.is_staff
+app_settings.DOCUMENTATION_XSENDFILE = False
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
@@ -30,6 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'docs',
+    'sphinxdoc',
+    'django_mkdocs',
     'django_htmx',
     'phonenumber_field',
     'bootstrap_modal_forms',
@@ -49,7 +57,9 @@ INSTALLED_APPS = [
     'quotation',
     'invoice',
     'dashboard',
-    'graphos'
+    'graphos',
+    
+    
     # Enable the inner app 
 ]
 
@@ -154,6 +164,8 @@ MEDIA_ROOT = os.path.join(CORE_DIR, '')
 #custom User Model
 AUTH_USER_MODEL = 'authentication.BaseUser'
 
+DOCS_ROOT = os.path.join(BASE_DIR, '../docs/_build/html')
+DOCS_ACCESS = 'staff'
 # # HTTPS Settings
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
